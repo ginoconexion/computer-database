@@ -15,7 +15,7 @@ import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 
 
 public class DAOFactory {
-	private static final String FICHIER_PROPERTIES       = "/com/formation/computerdatabase/service/dao.properties";
+	private static final String FICHIER_PROPERTIES       = "dao.properties";
     private static final String PROPERTY_URL             = "url";
     private static final String PROPERTY_DRIVER          = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "utilisateur";
@@ -28,21 +28,25 @@ public class DAOFactory {
     private String password;
     
 	
-	// méthode déclarée statique car sinon nous devons l'appeler depuis une instance alors que ce n'sst pas le but
-	// permet d'éviter la création d'un nouvel objet à chaque appel
+	// mÃ©thode dÃ©clarÃ©e statique car sinon nous devons l'appeler depuis une instance alors que ce n'sst pas le but
+	// permet d'Ã©viter la crÃ©ation d'un nouvel objet Ã  chaque appel
 	public DAOFactory() {
 		properties = new Properties();
 		
 		try {
+			System.out.println(FICHIER_PROPERTIES);
+			System.out.println(DAOFactory.class.getClassLoader().toString());
 			properties.load(DAOFactory.class.getClassLoader().getResourceAsStream(FICHIER_PROPERTIES));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
 		// chargement du driver jdbc
 		try {
-			Class.forName(PROPERTY_DRIVER);
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,18 +55,19 @@ public class DAOFactory {
 	
 	public Connection getConnection() throws SQLException{
 		return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
+		//return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
 	}
     
-	
-	
+	/*
 	public CompanyDaoImpl getCompanyDaoImpl(){
 		return new CompanyDaoImpl();
 	}
 	public ComputerDaoImpl getComputerDaoImpl(){
 		return new ComputerDaoImpl();
 	}
+	*/
     
-	public void close(Connection conn, ResultSet rs, Statement stmt, PreparedStatement pstmt ){
+	public static void close(Connection conn, ResultSet rs, Statement stmt, PreparedStatement pstmt ){
 		try {
 			if (conn != null){
 				conn.close();

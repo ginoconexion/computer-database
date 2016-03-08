@@ -11,6 +11,7 @@ import java.util.List;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.DAOFactory;
+import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
 public class ComputerDaoImpl implements ComputerDao {
 
@@ -30,7 +31,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		
 		try {
 			connexion = daoFactory.getConnection();
-			String sql = "SELECT * FROM computers";
+			String sql = "SELECT * FROM computer";
 			stmt = connexion.createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -42,31 +43,98 @@ public class ComputerDaoImpl implements ComputerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		DAOFactory.close(connexion, rs, stmt, null);
 		return list;
 	}
 
 	@Override
-	public Computer getComputerById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Computer getComputerById(long id) {
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Computer computer = null;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "SELECT * FROM computer WHERE id = ?";
+			pstmt = connexion.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			// si l'entrée existe
+			if (rs.next()){
+				computer = ComputerMapper.map(rs);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return computer;
 	}
 
 	@Override
-	public void createComputer(Computer computer) {
-		// TODO Auto-generated method stub
+	public int createComputer(Computer computer) {
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		int nbRow = 0;
 		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
+			pstmt = connexion.prepareStatement(sql);
+			pstmt.setString(1, computer.getName());
+			pstmt.setTimestamp(2, computer.getIntroduced());
+			pstmt.setTimestamp(3, computer.getDiscontinued());
+			pstmt.setLong(4, computer.getCompanyId());
+			nbRow = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DAOFactory.close(connexion, null, null, pstmt);
+		}
+		return nbRow;
 	}
 
 	@Override
 	public void updateComputer(Computer computer) {
-		// TODO Auto-generated method stub
 		
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
+			pstmt =  connexion.prepareStatement(sql);
+			pstmt.setString(1, computer.getName());
+			pstmt.setTimestamp(2, computer.getIntroduced());
+			pstmt.setTimestamp(3, computer.getDiscontinued());
+			pstmt.setLong(4, computer.getCompanyId());
+			pstmt.setLong(5, computer.getId());
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void deleteComputer(Computer computer) {
-		// TODO Auto-generated method stub
+	public void deleteComputer(long id) {
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
 		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "DELETE FROM computer WHERE id = ?";
+			pstmt = connexion.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
