@@ -5,14 +5,14 @@ import com.formation.computerdatabase.service.impl.ComputerDatabaseServiceImpl;
 public enum ServiceFactory {
 	INSTANCE;
 	
-	ComputerDatabaseService computerDatabaseService;
+	ComputerDatabaseServiceImpl computerDatabaseServiceImpl;
 	
 	private ServiceFactory() {
-		computerDatabaseService = ComputerDatabaseServiceImpl.INSTANCE;
+		computerDatabaseServiceImpl = ComputerDatabaseServiceImpl.INSTANCE;
 	}
 	
 	public ComputerDatabaseService getService() {
-		return computerDatabaseService;
+		return computerDatabaseServiceImpl;
 	}
 
 }

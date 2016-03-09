@@ -23,10 +23,15 @@ import com.formation.computerdatabase.service.impl.ComputerDatabaseServiceImpl;
 public class ConsoleClient {
 
 	private ComputerDatabaseServiceImpl computerDatabaseServiceImpl;
+	private final static String REGEXP_LONG = "^[0-9]+$";
+	private final static String REGEXP_DATE = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
+	private final static String REGEXP_CHOIX = "^[a|b|c|d|e|f]$";
+	
+	
 
-	public ConsoleClient(ComputerDatabaseServiceImpl computerDatabaseServiceImpl) {
+	public ConsoleClient(ComputerDatabaseServiceImpl computerDatabaseService) {
 		super();
-		this.computerDatabaseServiceImpl = computerDatabaseServiceImpl;
+		this.computerDatabaseServiceImpl = computerDatabaseService;
 	}
 
 	public void printMenu() {
@@ -45,7 +50,7 @@ public class ConsoleClient {
 		System.out.println("Entrez votre choix : ");
 
 		// instanciation d'un pattern avec la regexp du choix
-		Pattern patternChoix = Pattern.compile("^[a|b|c|d|e|f]$");
+		Pattern patternChoix = Pattern.compile(REGEXP_CHOIX);
 		String choix = null;
 
 		// utilisation d'un do .. while car instructions effectuées au moins une
@@ -73,7 +78,7 @@ public class ConsoleClient {
 			createComputer();
 			break;
 		case "e":
-			updateComputer(null);
+			updateComputer();
 			break;
 		case "f":
 			deleteComputer(1);
@@ -124,7 +129,7 @@ public class ConsoleClient {
 		System.out.println("Entrer l'id du computer :");
 		Scanner scanner = new Scanner(System.in);
 		String choix = null;
-		Pattern patternId = Pattern.compile("^[0-9]+$");
+		Pattern patternId = Pattern.compile(REGEXP_LONG);
 
 		do {
 			choix = scanner.next();
@@ -137,18 +142,15 @@ public class ConsoleClient {
 			}
 		} while (patternId.matcher(choix).find());
 	}
-
-	public void createComputer() {
-		System.out.println("Creation d'un nouvel ordinateur");
-		Pattern pattern = null;
-		Computer computer = new Computer();
-
+	
+	private void hydrateComputer(Computer computer){
 		System.out.println("Entrer le nom du computer :");
+		Pattern pattern = null;
 		Scanner scanner = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
 		computer.setName(scanner.nextLine());
 
-		pattern = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+		pattern = Pattern.compile(REGEXP_DATE);
 		String introduced = null;
 
 		System.out.println("Entrez la date introduced au format dd-mm-YYYY");
@@ -167,7 +169,7 @@ public class ConsoleClient {
 		computer.setDiscontinued(continued);
 
 		System.out.println("Entrez l'id de la company");
-		pattern = Pattern.compile("^[0-9]+$");
+		pattern = Pattern.compile(REGEXP_LONG);
 		String companyIdString = null;
 		long companyId;
 
@@ -178,12 +180,27 @@ public class ConsoleClient {
 		computer.setCompanyId(companyId);
 
 		System.out.println(computer);
+	}
+	
+	public void createComputer() {
+		System.out.println("Creation d'un nouvel ordinateur");
+		Computer computer = new Computer();
+		hydrateComputer(computer);
 		computerDatabaseServiceImpl.createComputer(computer);
 		System.out.println("Création réussie");
 	}
 
-	public void updateComputer(Computer computer) {
+	public void updateComputer() {
 		System.out.println("Mis à jour d'un ordinateur");
+		Pattern pattern = Pattern.compile(REGEXP_LONG);
+		Scanner scanner = new Scanner(System.in);
+		String computerIdString = null;
+		do {
+			computerIdString = scanner.next().trim();
+		} while (!pattern.matcher(computerIdString).find());
+		long computerId = Long.parseLong(computerIdString);
+		Computer computer = computerDatabaseServiceImpl.getComputerById(computerId);
+		hydrateComputer(computer);
 		computerDatabaseServiceImpl.updateComputer(computer);
 		System.out.println("Ordinateur mis à jour");
 	}
@@ -200,7 +217,6 @@ public class ConsoleClient {
 			int nbEntries = computerDatabaseServiceImpl.getNbCompanies();
 			int nbParPage = 10;
 			paginator = new Paginator(nbEntries, nbParPage);
-
 		}
 
 		List<Company> liste = computerDatabaseServiceImpl.getCompaniesFromTo(
