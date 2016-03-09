@@ -22,6 +22,67 @@ public class ComputerDaoImpl implements ComputerDao {
 		super();
 		this.daoFactory = daoFactory;
 	}
+	
+	@Override
+	public List<Computer> getFromTo(int from, int to) {
+		// TODO Auto-generated method stub
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Computer> liste = new ArrayList<Computer>();
+		System.out.println("to " + to);
+		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "SELECT * FROM computer LIMIT ?, ?";
+			pstmt = connexion.prepareStatement(sql);
+			pstmt.setInt(1, from);
+			pstmt.setInt(2, to);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()){
+				Computer computer = ComputerMapper.map(rs);
+				liste.add(computer);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, rs, null, pstmt);
+		}
+		return liste;
+	}
+
+
+
+	@Override
+	public int getNbEntries() {
+		// TODO Auto-generated method stub
+		Connection connexion = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		int nbEntries = 0;
+		
+		try {
+			connexion = daoFactory.getConnection();
+			String sql = "SELECT COUNT(*) as nb_computers FROM computer";
+			stmt = connexion.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			if (rs.next()){
+				nbEntries = rs.getInt("nb_computers");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, rs, stmt, null);
+		}
+		return nbEntries;
+	}
+
+
 
 	@Override
 	public List<Computer> getAll() {

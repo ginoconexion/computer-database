@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import com.formation.computedatabase.pagination.Paginator;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.DAOFactory;
@@ -60,7 +61,7 @@ public class ConsoleClient {
 		
 		switch (choix) {
 		case "a":
-			printAllComputers();
+			printAllComputers(null);
 			break;
 		case "b":
 			printAllCompanies();
@@ -80,13 +81,40 @@ public class ConsoleClient {
 		}
 	}
 	
-	public void printAllComputers() {
-		System.out.println("Affichage de la liste de tous les ordinateurs : ");
+	public void printAllComputers(Paginator paginator) {
 		
-		List<Computer> liste = computerDaoImpl.getAll();
+		
+		if (paginator == null){
+			//List<Computer> liste = computerDaoImpl.getAll();
+			int nbEntries = computerDaoImpl.getNbEntries();
+			int nbParPage = 10;
+			paginator = new Paginator(nbEntries, nbParPage);
+			
+		}
+		
+		List<Computer> liste = computerDaoImpl.getFromTo((paginator.getPageActuelle() - 1)*paginator.getNbParPage(), paginator.getNbParPage());
+		
+		System.out.println(paginator.getPageActuelle()*paginator.getNbParPage());
+		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries() + " (page : " + paginator.getPageActuelle() + ")");
 		for (Computer computer : liste) {
 			System.out.println("------------ " + computer.toString());
 		}
+		System.out.println("Page suivante : n | Page précédence : p Quitter : q ");
+		Scanner scanner = new Scanner(System.in);
+		String choix = null;
+		
+		Pattern pattern1 = Pattern.compile("^[q]+$");
+		//Pattern pattern2 = Pattern.compile("^[n|p]+$");
+		do {
+			choix = scanner.next().trim();
+			if (choix.equals("n")) {
+				paginator.next();
+			}
+			else if (choix.equals("p")) {
+				paginator.prev();
+			}
+			printAllComputers(paginator);
+		} while (!pattern1.matcher(choix).find());
 	}
 	
 	public void printComputerById() {
@@ -191,6 +219,8 @@ public class ConsoleClient {
 		CompanyDaoImpl companyDaoImpl = new CompanyDaoImpl(daoFactory);
 		ConsoleClient consoleClient = new ConsoleClient(computerDaoImpl, companyDaoImpl);
 		consoleClient.printMenu();
+		
+		//System.out.println(computerDaoImpl.getFromTo(0, 10));
 		
 		//computerDaoImpl.updateComputer(computer);
 		
