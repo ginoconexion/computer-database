@@ -131,36 +131,22 @@ public class ConsoleClient {
 		
 		pattern = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
 		String introduced = null;
-		Date dateIntroduced = null;
 		
 		System.out.println("Entrez la date introduced au format dd-mm-YYYY");
-		DateFormat formatter = new SimpleDateFormat("dd-mm-YYYY");
 		do {
 			introduced = scanner.nextLine();
-			try {
-				dateIntroduced = formatter.parse(introduced);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} while (!pattern.matcher(introduced).find());
 		//TODO : utiliser la méthode utilisant un String
-		computer.setIntroduced(new Timestamp(dateIntroduced.getTime()));
+		computer.setIntroduced(introduced);
 		
 		System.out.println("Entrez la date discontinued au format dd-mm-YYYY");
 		String continued = null;
-		Date dateContinued = null;
 		
 		do {
 			continued = scanner.next().trim();
-			try {
-				dateContinued = formatter.parse(continued);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} while (!pattern.matcher(continued).find());
-		computer.setDiscontinued(new Timestamp(dateContinued.getTime()));
+		computer.setDiscontinued(continued);
+		
 		
 		System.out.println("Entrez l'id de la company");
 		pattern = Pattern.compile("^[0-9]+$");
@@ -172,6 +158,7 @@ public class ConsoleClient {
 			companyId = Long.parseLong(companyIdString);
 		} while (!pattern.matcher(companyIdString).find());
 		computer.setCompanyId(companyId);
+		
 		System.out.println(computer);
 		computerDaoImpl.createComputer(computer);
 		System.out.println("Création réussie");
@@ -205,7 +192,7 @@ public class ConsoleClient {
 		ConsoleClient consoleClient = new ConsoleClient(computerDaoImpl, companyDaoImpl);
 		consoleClient.printMenu();
 		
-		
+		//computerDaoImpl.updateComputer(computer);
 		
 		/*
 		DAOFactory daoFactory = new DAOFactory();

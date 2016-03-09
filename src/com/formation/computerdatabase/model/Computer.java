@@ -1,12 +1,12 @@
 package com.formation.computerdatabase.model;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Computer {
 	
@@ -46,11 +46,12 @@ public class Computer {
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
+	
 	private Timestamp formatTimestampFromString(String s){
 		DateFormat formatter = new SimpleDateFormat("dd-mm-YYYY");
 		Date date = null;
 		try {
-			date = (Date) formatter.parse(s);
+			date = formatter.parse(s);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

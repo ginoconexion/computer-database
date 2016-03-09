@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.DAOFactory;
@@ -36,14 +37,16 @@ public class CompanyDaoImpl implements CompanyDao {
 			String sql = "SELECT * FROM company";
 			rs = stmt.executeQuery(sql);
 			
-			while (rs.next()){
+			while (rs.next()) {
 				Company company = CompanyMapper.map(rs);
 				liste.add(company);
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, rs, stmt, null);
 		}
 		return liste;
 	}

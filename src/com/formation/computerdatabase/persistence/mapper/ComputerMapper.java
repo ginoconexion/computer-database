@@ -13,6 +13,7 @@ public class ComputerMapper {
 		computer.setName(rs.getString("name"));
 		computer.setIntroduced(rs.getTimestamp("introduced"));
 		computer.setDiscontinued(rs.getTimestamp("discontinued"));
+		computer.setCompanyId(rs.getLong("company_id"));
 		return computer;
 	}
 }

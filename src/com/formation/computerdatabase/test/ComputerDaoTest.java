@@ -32,7 +32,6 @@ public class ComputerDaoTest {
 	}
 	
 	
-	//@Ignore
 	@Test
 	public void testCreation() {
 		Computer computer = new Computer();
@@ -46,18 +45,15 @@ public class ComputerDaoTest {
 		int nbRow = computerDaoImpl.createComputer(computer);
 		assertEquals(1, nbRow);
 	}
-	/*
 	@Test
 	public void testGetAll() {
 		List<Computer> liste = computerDaoImpl.getAll();
 		assertTrue(liste.size() > 0);
 	}
-	
 	@Test
 	public void testGetById(){
 		Computer computer = computerDaoImpl.getComputerById(1);
 		assertEquals(1, computer.getId());
-		//assertEquals("MacBook Pro 15.4 inch", computer.getName());
 	}
 	
 	@Test
@@ -66,9 +62,9 @@ public class ComputerDaoTest {
 		computer.setName("MacBook Pro 15.6");
 		computerDaoImpl.updateComputer(computer);
 		computer = computerDaoImpl.getComputerById(1);
+		System.out.println(computer.getName());
 		assertEquals("MacBook Pro 15.6", computer.getName());
 	}
-	*/
 	
 	
 	

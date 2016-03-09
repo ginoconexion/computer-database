@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.DAOFactory;
@@ -41,9 +42,10 @@ public class ComputerDaoImpl implements ComputerDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, rs, stmt, null);
 		}
-		DAOFactory.close(connexion, rs, stmt, null);
 		return list;
 	}
 
@@ -66,9 +68,10 @@ public class ComputerDaoImpl implements ComputerDao {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, rs, null, pstmt);
 		}
-		
 		return computer;
 	}
 
@@ -90,7 +93,7 @@ public class ComputerDaoImpl implements ComputerDao {
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
 		} finally {
 			DAOFactory.close(connexion, null, null, pstmt);
 		}
@@ -115,8 +118,10 @@ public class ComputerDaoImpl implements ComputerDao {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		}
+		finally {
+			DAOFactory.close(connexion, null, null, pstmt);
 		}
 	}
 
@@ -133,7 +138,9 @@ public class ComputerDaoImpl implements ComputerDao {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		} finally {
+			DAOFactory.close(connexion, null, null, pstmt);
 		}
 	}
 
