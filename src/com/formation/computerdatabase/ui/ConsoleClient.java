@@ -10,27 +10,26 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.formation.computedatabase.pagination.Paginator;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.pagination.Paginator;
+import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.DAOFactory;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
+import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.service.impl.ComputerDatabaseServiceImpl;
 
 public class ConsoleClient {
 
-	
-	private ComputerDaoImpl computerDaoImpl;
-	private CompanyDaoImpl companyDaoImpl;
-	
-	public ConsoleClient(ComputerDaoImpl computerDaoImpl, CompanyDaoImpl companyDaoImpl) {
+	private ComputerDatabaseServiceImpl computerDatabaseServiceImpl;
+
+	public ConsoleClient(ComputerDatabaseServiceImpl computerDatabaseServiceImpl) {
 		super();
-		this.computerDaoImpl = computerDaoImpl;
-		this.companyDaoImpl = companyDaoImpl;
+		this.computerDatabaseServiceImpl = computerDatabaseServiceImpl;
 	}
-	
-	
-	public void printMenu(){
+
+	public void printMenu() {
 		System.out.println("------ Menu");
 		System.out.println("Sélectioner une option :");
 		System.out.println("a : afficher tous les computers");
@@ -40,31 +39,32 @@ public class ConsoleClient {
 		System.out.println("e : mettre à jour un computer via son id");
 		System.out.println("f : supprimer un computer via son id");
 		System.out.println("---- Fin Menu");
-		
+
 		// creation d'un scanner pour lire les entrée en ligne de commande
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Entrez votre choix : ");
-		
+
 		// instanciation d'un pattern avec la regexp du choix
 		Pattern patternChoix = Pattern.compile("^[a|b|c|d|e|f]$");
 		String choix = null;
-		
-		// utilisation d'un do .. while car instructions effectuées au moins une fois
+
+		// utilisation d'un do .. while car instructions effectuées au moins une
+		// fois
 		do {
 			// lecture de l'entrée
 			choix = scanner.next();
 		}
-		// tant que 
+		// tant que
 		while (!patternChoix.matcher(choix).find());
-		
+
 		// si on arrive ici, le choix est correct
-		
+
 		switch (choix) {
 		case "a":
 			printAllComputers(null);
 			break;
 		case "b":
-			printAllCompanies();
+			printAllCompanies(null);
 			break;
 		case "c":
 			printComputerById();
@@ -80,171 +80,160 @@ public class ConsoleClient {
 			break;
 		}
 	}
-	
+
 	public void printAllComputers(Paginator paginator) {
-		
-		
-		if (paginator == null){
-			//List<Computer> liste = computerDaoImpl.getAll();
-			int nbEntries = computerDaoImpl.getNbEntries();
+
+		if (paginator == null) {
+			// List<Computer> liste = computerDaoImpl.getAll();
+			int nbEntries = computerDatabaseServiceImpl.getNbComputers();
 			int nbParPage = 10;
 			paginator = new Paginator(nbEntries, nbParPage);
-			
+
 		}
-		
-		List<Computer> liste = computerDaoImpl.getFromTo((paginator.getPageActuelle() - 1)*paginator.getNbParPage(), paginator.getNbParPage());
-		
-		System.out.println(paginator.getPageActuelle()*paginator.getNbParPage());
-		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries() + " (page : " + paginator.getPageActuelle() + ")");
+
+		List<Computer> liste = computerDatabaseServiceImpl.getComputersFromTo(
+				(paginator.getPageActuelle() - 1) * paginator.getNbParPage(), paginator.getNbParPage());
+
+		System.out.println(paginator.getPageActuelle() * paginator.getNbParPage());
+		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries()
+				+ " (page : " + paginator.getPageActuelle() + ")");
 		for (Computer computer : liste) {
 			System.out.println("------------ " + computer.toString());
 		}
-		System.out.println("Page suivante : n | Page précédence : p Quitter : q ");
+		System.out.println("Page suivante : n | Page précédente : p Quitter : q ");
 		Scanner scanner = new Scanner(System.in);
 		String choix = null;
-		
-		Pattern pattern1 = Pattern.compile("^[q]+$");
-		//Pattern pattern2 = Pattern.compile("^[n|p]+$");
-		do {
-			choix = scanner.next().trim();
-			if (choix.equals("n")) {
-				paginator.next();
-			}
-			else if (choix.equals("p")) {
-				paginator.prev();
-			}
+
+		choix = scanner.next().trim();
+		if (choix.equals("n")) {
+			paginator.next();
 			printAllComputers(paginator);
-		} while (!pattern1.matcher(choix).find());
+		} else if (choix.equals("p")) {
+			paginator.prev();
+			printAllComputers(paginator);
+		} else if (choix.equals("q")) {
+			printMenu();
+		}
+		else {
+			printAllComputers(paginator);
+		}
 	}
-	
+
 	public void printComputerById() {
 		System.out.println("Affichage d'un computer : ");
 		System.out.println("Entrer l'id du computer :");
 		Scanner scanner = new Scanner(System.in);
 		String choix = null;
 		Pattern patternId = Pattern.compile("^[0-9]+$");
-		
+
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			Computer computer = computerDaoImpl.getComputerById(id);
+			Computer computer = computerDatabaseServiceImpl.getComputerById(id);
 			try {
 				System.out.println("----------- " + computer.toString());
-			}
-			catch (NullPointerException e){
+			} catch (NullPointerException e) {
 				System.out.println("Le computer choisi n'existe pas");
 			}
 		} while (patternId.matcher(choix).find());
 	}
-	
+
 	public void createComputer() {
 		System.out.println("Creation d'un nouvel ordinateur");
 		Pattern pattern = null;
 		Computer computer = new Computer();
-		
-		
+
 		System.out.println("Entrer le nom du computer :");
 		Scanner scanner = new Scanner(System.in);
 		StringBuilder sb = new StringBuilder();
-		/*
-		while (scanner.hasNext()) {
-			System.out.println(scanner.next());
-			sb.append(scanner.next());
-			if (scanner.hasNext()){
-				sb.append(" ");
-			}
-		}
-		*/
 		computer.setName(scanner.nextLine());
-		
+
 		pattern = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
 		String introduced = null;
-		
+
 		System.out.println("Entrez la date introduced au format dd-mm-YYYY");
 		do {
 			introduced = scanner.nextLine();
 		} while (!pattern.matcher(introduced).find());
-		//TODO : utiliser la méthode utilisant un String
+		// TODO : utiliser la méthode utilisant un String
 		computer.setIntroduced(introduced);
-		
+
 		System.out.println("Entrez la date discontinued au format dd-mm-YYYY");
 		String continued = null;
-		
+
 		do {
 			continued = scanner.next().trim();
 		} while (!pattern.matcher(continued).find());
 		computer.setDiscontinued(continued);
-		
-		
+
 		System.out.println("Entrez l'id de la company");
 		pattern = Pattern.compile("^[0-9]+$");
 		String companyIdString = null;
 		long companyId;
-		
+
 		do {
 			companyIdString = scanner.next();
 			companyId = Long.parseLong(companyIdString);
 		} while (!pattern.matcher(companyIdString).find());
 		computer.setCompanyId(companyId);
-		
+
 		System.out.println(computer);
-		computerDaoImpl.createComputer(computer);
+		computerDatabaseServiceImpl.createComputer(computer);
 		System.out.println("Création réussie");
 	}
-	
+
 	public void updateComputer(Computer computer) {
 		System.out.println("Mis à jour d'un ordinateur");
-		computerDaoImpl.updateComputer(computer);
+		computerDatabaseServiceImpl.updateComputer(computer);
 		System.out.println("Ordinateur mis à jour");
 	}
-	
-	public void deleteComputer(long id){
+
+	public void deleteComputer(long id) {
 		System.out.println("Supression de l'ordinateur d'id " + id);
-		computerDaoImpl.deleteComputer(id);
+		computerDatabaseServiceImpl.deleteComputer(id);
 		System.out.println("Ordinateur supprimé");
 	}
-	
-	public void printAllCompanies() {
-		System.out.println("Affichage de la liste des company");
-		List<Company> liste = companyDaoImpl.getAll();
+
+	public void printAllCompanies(Paginator paginator) {
+
+		if (paginator == null) {
+			int nbEntries = computerDatabaseServiceImpl.getNbCompanies();
+			int nbParPage = 10;
+			paginator = new Paginator(nbEntries, nbParPage);
+
+		}
+
+		List<Company> liste = computerDatabaseServiceImpl.getCompaniesFromTo(
+				(paginator.getPageActuelle() - 1) * paginator.getNbParPage(), paginator.getNbParPage());
+
+		System.out.println(paginator.getPageActuelle() * paginator.getNbParPage());
+		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries()
+				+ " (page : " + paginator.getPageActuelle() + ")");
 		for (Company company : liste) {
-			System.out.println("--------- " + company.toString());
+			System.out.println("------------ " + company.toString());
+		}
+		System.out.println("Page suivante : n | Page précédente : p Quitter : q ");
+		Scanner scanner = new Scanner(System.in);
+		String choix = null;
+
+		choix = scanner.next().trim();
+		if (choix.equals("n")) {
+			paginator.next();
+			printAllCompanies(paginator);
+		} else if (choix.equals("p")) {
+			paginator.prev();
+			printAllCompanies(paginator);
+		} else if (choix.equals("q")) {
+			printMenu();
+		}
+		else {
+			printAllCompanies(paginator);
 		}
 	}
 
 	public static void main(String[] args) {
-		
-		DAOFactory daoFactory = new DAOFactory();
-		ComputerDaoImpl computerDaoImpl = new ComputerDaoImpl(daoFactory);
-		CompanyDaoImpl companyDaoImpl = new CompanyDaoImpl(daoFactory);
-		ConsoleClient consoleClient = new ConsoleClient(computerDaoImpl, companyDaoImpl);
+		ConsoleClient consoleClient = new ConsoleClient((ComputerDatabaseServiceImpl) ServiceFactory.INSTANCE.getService());
 		consoleClient.printMenu();
-		
-		//System.out.println(computerDaoImpl.getFromTo(0, 10));
-		
-		//computerDaoImpl.updateComputer(computer);
-		
-		/*
-		DAOFactory daoFactory = new DAOFactory();
-		ComputerDaoImpl computerDaoImpl = new ComputerDaoImpl(daoFactory);
-		CompanyDaoImpl companyDaoImpl = new CompanyDaoImpl(daoFactory);
-		ConsoleClient consoleClient = new ConsoleClient(computerDaoImpl, companyDaoImpl);
-		
-		consoleClient.printAllComputers();
-		consoleClient.printComputerById();
-		
-		Computer computer = new Computer();
-		computer.setId(1);
-		computer.setCompanyId(1);
-		Timestamp introduced = new Timestamp(10000000);
-		computer.setDiscontinued(introduced);
-		Timestamp discontinued = new Timestamp(20000000);
-		computer.setDiscontinued(discontinued);
-		computer.setName("MacBook Pro 15.4 inch");
-		consoleClient.createComputer(computer);
-		//consoleClient.updateComputer(computer);
-		//consoleClient.deleteComputer(575);
-		 */
 	}
 
 }

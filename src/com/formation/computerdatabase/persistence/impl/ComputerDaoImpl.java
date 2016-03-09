@@ -30,7 +30,6 @@ public class ComputerDaoImpl implements ComputerDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Computer> liste = new ArrayList<Computer>();
-		System.out.println("to " + to);
 		
 		try {
 			connexion = daoFactory.getConnection();

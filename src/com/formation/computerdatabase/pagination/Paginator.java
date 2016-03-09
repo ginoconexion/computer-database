@@ -1,4 +1,4 @@
-package com.formation.computedatabase.pagination;
+package com.formation.computerdatabase.pagination;
 
 public class Paginator {
 	
@@ -48,4 +48,12 @@ public class Paginator {
 			pageActuelle  -= 1;
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Paginator [nbEntries=" + nbEntries + ", nbParPage=" + nbParPage + ", nbPages=" + nbPages
+				+ ", pageActuelle=" + pageActuelle + "]";
+	}
+	
+	
 }

@@ -46,7 +46,7 @@ public class DAOFactory {
 		
 		// chargement du driver jdbc
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(properties.getProperty(PROPERTY_DRIVER));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,17 +55,7 @@ public class DAOFactory {
 	
 	public Connection getConnection() throws SQLException{
 		return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
-		//return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
 	}
-    
-	/*
-	public CompanyDaoImpl getCompanyDaoImpl(){
-		return new CompanyDaoImpl();
-	}
-	public ComputerDaoImpl getComputerDaoImpl(){
-		return new ComputerDaoImpl();
-	}
-	*/
     
 	public static void close(Connection conn, ResultSet rs, Statement stmt, PreparedStatement pstmt ){
 		try {

@@ -6,5 +6,7 @@ import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 
 public interface CompanyDao {
-	public List<Company> getAll();
+	List<Company> getAll();
+	List<Company> getFromTo(int from, int nb);
+	int getNbEntries();
 }
