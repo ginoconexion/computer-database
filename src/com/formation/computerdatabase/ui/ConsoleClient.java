@@ -56,7 +56,6 @@ public class ConsoleClient {
 		}
 		// tant que
 		while (!patternChoix.matcher(choix).find());
-		scanner.close();
 		// si on arrive ici, le choix est correct
 
 		switch (choix) {
@@ -111,7 +110,6 @@ public class ConsoleClient {
 		else {
 			printAllComputers(paginator);
 		}
-		scanner.close();
 	}
 
 	public void printComputerById() {
@@ -131,7 +129,6 @@ public class ConsoleClient {
 				System.out.println("Le computer choisi n'existe pas");
 			}
 		} while (patternId.matcher(choix).find());
-		scanner.close();
 	}
 	
 	private void hydrateComputer(Computer computer){
@@ -168,7 +165,6 @@ public class ConsoleClient {
 			companyId = Long.parseLong(companyIdString);
 		} while (!pattern.matcher(companyIdString).find());
 		computer.setCompanyId(companyId);
-		scanner.close();
 	}
 	
 	public void createComputer() {
@@ -192,7 +188,6 @@ public class ConsoleClient {
 		hydrateComputer(computer);
 		computerDatabaseServiceImpl.updateComputer(computer);
 		logger.info("Mise à jour computer : " + computer.toString());
-		scanner.close();
 	}
 
 	public void deleteComputer(long id) {
@@ -233,7 +228,6 @@ public class ConsoleClient {
 		else {
 			printAllCompanies(paginator);
 		}
-		scanner.close();
 	}
 
 	public static void main(String[] args) {
