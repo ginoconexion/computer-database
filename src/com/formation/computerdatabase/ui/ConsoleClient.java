@@ -1,11 +1,5 @@
 package com.formation.computerdatabase.ui;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,10 +10,6 @@ import org.apache.logging.log4j.Logger;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Paginator;
-import com.formation.computerdatabase.persistence.CompanyDao;
-import com.formation.computerdatabase.persistence.DAOFactory;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.ComputerDatabaseServiceImpl;
 
@@ -30,6 +20,7 @@ public class ConsoleClient {
 	private final static String REGEXP_LONG = "^[0-9]+$";
 	private final static String REGEXP_DATE = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
 	private final static String REGEXP_CHOIX = "^[a|b|c|d|e|f]$";
+	private final static int nbParPage = 10;
 	
 	
 
@@ -65,7 +56,7 @@ public class ConsoleClient {
 		}
 		// tant que
 		while (!patternChoix.matcher(choix).find());
-
+		scanner.close();
 		// si on arrive ici, le choix est correct
 
 		switch (choix) {
@@ -93,19 +84,13 @@ public class ConsoleClient {
 	public void printAllComputers(Paginator paginator) {
 
 		if (paginator == null) {
-			// List<Computer> liste = computerDaoImpl.getAll();
 			int nbEntries = computerDatabaseServiceImpl.getNbComputers();
-			int nbParPage = 10;
 			paginator = new Paginator(nbEntries, nbParPage);
-
 		}
 
-		List<Computer> liste = computerDatabaseServiceImpl.getComputersFromTo(
-				(paginator.getPageActuelle() - 1) * paginator.getNbParPage(), paginator.getNbParPage());
+		List<Computer> liste = computerDatabaseServiceImpl.getComputersFromTo((paginator.getPageActuelle() - 1) * paginator.getNbParPage(), paginator.getNbParPage());
 
-		System.out.println(paginator.getPageActuelle() * paginator.getNbParPage());
-		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries()
-				+ " (page : " + paginator.getPageActuelle() + ")");
+		System.out.println("Affichage de " + paginator.getNbParPage() + " computers sur " + paginator.getNbEntries() + " (page : " + paginator.getPageActuelle() + ")");
 		for (Computer computer : liste) {
 			System.out.println("------------ " + computer.toString());
 		}
@@ -126,6 +111,7 @@ public class ConsoleClient {
 		else {
 			printAllComputers(paginator);
 		}
+		scanner.close();
 	}
 
 	public void printComputerById() {
@@ -145,13 +131,13 @@ public class ConsoleClient {
 				System.out.println("Le computer choisi n'existe pas");
 			}
 		} while (patternId.matcher(choix).find());
+		scanner.close();
 	}
 	
 	private void hydrateComputer(Computer computer){
 		System.out.println("Entrer le nom du computer :");
 		Pattern pattern = null;
 		Scanner scanner = new Scanner(System.in);
-		StringBuilder sb = new StringBuilder();
 		computer.setName(scanner.nextLine());
 
 		pattern = Pattern.compile(REGEXP_DATE);
@@ -182,6 +168,7 @@ public class ConsoleClient {
 			companyId = Long.parseLong(companyIdString);
 		} while (!pattern.matcher(companyIdString).find());
 		computer.setCompanyId(companyId);
+		scanner.close();
 	}
 	
 	public void createComputer() {
@@ -205,6 +192,7 @@ public class ConsoleClient {
 		hydrateComputer(computer);
 		computerDatabaseServiceImpl.updateComputer(computer);
 		logger.info("Mise à jour computer : " + computer.toString());
+		scanner.close();
 	}
 
 	public void deleteComputer(long id) {
@@ -214,10 +202,8 @@ public class ConsoleClient {
 	}
 
 	public void printAllCompanies(Paginator paginator) {
-
 		if (paginator == null) {
 			int nbEntries = computerDatabaseServiceImpl.getNbCompanies();
-			int nbParPage = 10;
 			paginator = new Paginator(nbEntries, nbParPage);
 		}
 
@@ -247,11 +233,11 @@ public class ConsoleClient {
 		else {
 			printAllCompanies(paginator);
 		}
+		scanner.close();
 	}
 
 	public static void main(String[] args) {
 		ConsoleClient consoleClient = new ConsoleClient((ComputerDatabaseServiceImpl) ServiceFactory.INSTANCE.getService());
 		consoleClient.printMenu();
 	}
-
 }

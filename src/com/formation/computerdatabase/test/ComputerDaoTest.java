@@ -1,19 +1,16 @@
 package com.formation.computerdatabase.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.DAOFactory;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 
 public class ComputerDaoTest {
@@ -27,8 +24,6 @@ public class ComputerDaoTest {
 	public static void init(){
 		daoFactory = new DAOFactory();
 		computerDaoImpl = new ComputerDaoImpl(daoFactory);
-		List<Computer> liste = computerDaoImpl.getAll();
-		//computer = liste.get(liste.size()-1);
 	}
 	
 	

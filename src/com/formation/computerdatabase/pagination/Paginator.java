@@ -39,7 +39,7 @@ public class Paginator {
 	}
 	
 	public void next(){
-		if (pageActuelle < nbParPage){
+		if (pageActuelle < nbPages){
 			pageActuelle  += 1;
 		}
 	}

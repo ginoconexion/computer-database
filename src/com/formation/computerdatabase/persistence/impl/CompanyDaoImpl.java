@@ -8,16 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.DAOFactory;
 import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
-import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
 public class CompanyDaoImpl implements CompanyDao {
 

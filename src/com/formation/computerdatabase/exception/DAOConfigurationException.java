@@ -1,9 +1,7 @@
 package com.formation.computerdatabase.exception;
 
 public class DAOConfigurationException extends RuntimeException {
-	/*
-	 * Constructeurs
-	 */
+
 	public DAOConfigurationException(String message) {
 		super(message);
 	}

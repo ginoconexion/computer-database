@@ -7,11 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.Properties;
-
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 
 
 public class DAOFactory {
@@ -20,13 +16,7 @@ public class DAOFactory {
     private static final String PROPERTY_DRIVER          = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "utilisateur";
     private static final String PROPERTY_MOT_DE_PASSE    = "password";
-    
     private Properties properties;
-    
-    private String url;
-    private String utilisateur;
-    private String password;
-    
 	
 	// méthode déclarée statique car sinon nous devons l'appeler depuis une instance alors que ce n'sst pas le but
 	// permet d'éviter la création d'un nouvel objet à chaque appel

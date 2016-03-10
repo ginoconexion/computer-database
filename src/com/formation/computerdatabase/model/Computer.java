@@ -1,7 +1,5 @@
 package com.formation.computerdatabase.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,7 +13,6 @@ public class Computer {
 	private Timestamp introduced;
 	private Timestamp discontinued;
 	private long companyId;
-	
 	public long getId() {
 		return id;
 	}
