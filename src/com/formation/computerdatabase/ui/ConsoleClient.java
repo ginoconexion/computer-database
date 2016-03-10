@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Paginator;
@@ -22,6 +25,7 @@ import com.formation.computerdatabase.service.impl.ComputerDatabaseServiceImpl;
 
 public class ConsoleClient {
 
+	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private ComputerDatabaseServiceImpl computerDatabaseServiceImpl;
 	private final static String REGEXP_LONG = "^[0-9]+$";
 	private final static String REGEXP_DATE = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
@@ -178,8 +182,6 @@ public class ConsoleClient {
 			companyId = Long.parseLong(companyIdString);
 		} while (!pattern.matcher(companyIdString).find());
 		computer.setCompanyId(companyId);
-
-		System.out.println(computer);
 	}
 	
 	public void createComputer() {
@@ -187,11 +189,11 @@ public class ConsoleClient {
 		Computer computer = new Computer();
 		hydrateComputer(computer);
 		computerDatabaseServiceImpl.createComputer(computer);
-		System.out.println("Création réussie");
+		logger.info("Création ordinateur : " + computer.toString());
 	}
 
 	public void updateComputer() {
-		System.out.println("Mis à jour d'un ordinateur");
+		System.out.println("Mise à jour d'un ordinateur, entrez l'id de l'ordinateur que vous souhaitez modifier : ");
 		Pattern pattern = Pattern.compile(REGEXP_LONG);
 		Scanner scanner = new Scanner(System.in);
 		String computerIdString = null;
@@ -202,13 +204,13 @@ public class ConsoleClient {
 		Computer computer = computerDatabaseServiceImpl.getComputerById(computerId);
 		hydrateComputer(computer);
 		computerDatabaseServiceImpl.updateComputer(computer);
-		System.out.println("Ordinateur mis à jour");
+		logger.info("Mise à jour computer : " + computer.toString());
 	}
 
 	public void deleteComputer(long id) {
 		System.out.println("Supression de l'ordinateur d'id " + id);
 		computerDatabaseServiceImpl.deleteComputer(id);
-		System.out.println("Ordinateur supprimé");
+		logger.info("Suppression du computer d'id : " + id);
 	}
 
 	public void printAllCompanies(Paginator paginator) {

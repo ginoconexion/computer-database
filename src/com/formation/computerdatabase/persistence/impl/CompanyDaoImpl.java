@@ -22,7 +22,6 @@ import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 public class CompanyDaoImpl implements CompanyDao {
 
 	private DAOFactory daoFactory;
-	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	
 	public CompanyDaoImpl(DAOFactory daoFactory) {
 		super();
@@ -88,7 +87,6 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Override
 	public List<Company> getFromTo(int from, int nb) {
 		// TODO Auto-generated method stub
-		logger.info("Affichage de la liste des computers");
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

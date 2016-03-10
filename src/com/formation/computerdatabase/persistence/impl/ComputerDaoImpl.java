@@ -81,8 +81,6 @@ public class ComputerDaoImpl implements ComputerDao {
 		return nbEntries;
 	}
 
-
-
 	@Override
 	public List<Computer> getAll() {
 		Connection connexion = null;

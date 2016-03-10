@@ -34,8 +34,6 @@ public class DAOFactory {
 		properties = new Properties();
 		
 		try {
-			System.out.println(FICHIER_PROPERTIES);
-			System.out.println(DAOFactory.class.getClassLoader().toString());
 			properties.load(DAOFactory.class.getClassLoader().getResourceAsStream(FICHIER_PROPERTIES));
 			
 		} catch (IOException e) {
