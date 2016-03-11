@@ -15,11 +15,11 @@ public class Pager<T> {
 	private Dao<T> dao;
 	
 
-	public Pager(int nbEntries, int nbParPage, Dao<T> dao) {
-		this.nbEntries = nbEntries;
+	public Pager(int nbParPage, int page, Dao<T> dao) {
+		this.nbEntries = dao.getNbEntries();
 		this.nbParPage = nbParPage;
 		this.nbPages = (int) Math.ceil(nbEntries/nbParPage);
-		this.pageActuelle = 1;
+		setPageActuelle(page);
 		this.dao = dao;
 		updateListe();
 	}
@@ -72,6 +72,7 @@ public class Pager<T> {
 	}
 	public void setPageActuelle(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
+		updateListe();
 	}
 
 	public List<T> getListe() {
