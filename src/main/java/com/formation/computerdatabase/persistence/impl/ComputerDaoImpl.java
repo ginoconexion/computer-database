@@ -74,7 +74,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
 	
 	@Override
-	public Computer getComputerById(long id) {
+	public Computer getById(long id) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -187,4 +187,5 @@ public enum ComputerDaoImpl implements ComputerDao {
 		}
 		return computer;
 	}
+
 }

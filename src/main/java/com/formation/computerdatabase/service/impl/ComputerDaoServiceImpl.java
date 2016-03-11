@@ -39,11 +39,6 @@ public enum ComputerDaoServiceImpl implements ComputerDao {
 	}
 
 	@Override
-	public Computer getComputerById(long id) {
-		return computerDaoImpl.getComputerById(id);
-	}
-
-	@Override
 	public void deleteComputer(long id) {
 		computerDaoImpl.deleteComputer(id);
 		
@@ -56,7 +51,7 @@ public enum ComputerDaoServiceImpl implements ComputerDao {
 
 	@Override
 	public Computer getById(long id) {
-		return null;
+		return computerDaoImpl.getById(id);
 	}
 
 }

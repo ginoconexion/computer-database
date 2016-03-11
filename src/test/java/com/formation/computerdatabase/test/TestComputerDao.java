@@ -30,30 +30,30 @@ public class TestComputerDao {
 	
 	@Test
 	public void testGetById(){
-		Computer computer = ComputerDaoImpl.INSTANCE.getComputerById(1);
+		Computer computer = ComputerDaoImpl.INSTANCE.getById(1);
 		assertEquals(1, computer.getId());
 	}
 	
 	@Test
 	public void testGetByIdNull(){
-		Computer computer = ComputerDaoImpl.INSTANCE.getComputerById(600);
+		Computer computer = ComputerDaoImpl.INSTANCE.getById(600);
 		assertEquals(null, computer);
 	}
 	
 	@Test
 	public void testUpdate(){
-		Computer computer = computerDaoImpl.getComputerById(1);
+		Computer computer = computerDaoImpl.getById(1);
 		System.out.println(computer);
 		computer.setName("MacBook Pro 15.6");
 		computerDaoImpl.updateComputer(computer);
-		computer = computerDaoImpl.getComputerById(1);
+		computer = computerDaoImpl.getById(1);
 		System.out.println(computer.getName());
 		assertEquals("MacBook Pro 15.6", computer.getName());
 	}
 	
 	@Test(expected = DAOException.class)
 	public void testUpdateUnknownCompany(){
-		Computer computer = computerDaoImpl.getComputerById(1);
+		Computer computer = computerDaoImpl.getById(1);
 		computer.getCompany().setId(600);
 		computerDaoImpl.updateComputer(computer);
 	}
@@ -72,7 +72,7 @@ public class TestComputerDao {
 		computer.setCompany(CompanyDaoImpl.INSTANCE.getById(1));
 		String name = "Test";
 		computer.setName(name);
-		computerDaoImpl.createComputer(computergit);
+		computerDaoImpl.createComputer(computer);
 		
 		/** on vérifie qu'on récupère bien le bon ordinateur */
 		computer = computerDaoImpl.getComputerByName(name);
@@ -95,6 +95,4 @@ public class TestComputerDao {
 	public void testFromTo(){
 		assertTrue(computerDaoImpl.getFromTo(0, 10).size() == 10);
 	}
-	
-
 }

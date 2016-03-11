@@ -112,7 +112,7 @@ public class ConsoleClient {
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			Computer computer = computerDaoServiceImpl.getComputerById(id);
+			Computer computer = computerDaoServiceImpl.getById(id);
 			if (computer == null) {
 				String message = "Le computer choisi n'existe pas";
 				System.err.println(message);
@@ -174,7 +174,7 @@ public class ConsoleClient {
 			computerIdString = scanner.next().trim();
 		} while (!pattern.matcher(computerIdString).find());
 		long computerId = Long.parseLong(computerIdString);
-		Computer computer = computerDaoServiceImpl.getComputerById(computerId);
+		Computer computer = computerDaoServiceImpl.getById(computerId);
 		hydrateComputer(computer);
 		computerDaoServiceImpl.updateComputer(computer);
 		logger.info("Mise à jour computer : " + computer);

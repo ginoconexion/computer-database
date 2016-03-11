@@ -9,38 +9,15 @@ import javax.servlet.ServletContextListener;
 
 import com.formation.computerdatabase.service.ServiceFactory;
 
-public class Initialization implements ServletContextListener, ServletConfig {
+public class Initialization implements ServletContextListener {
 
 	private ServiceFactory service;
 	
-	@Override
-	public String getInitParameter(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Enumeration<String> getInitParameterNames() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ServletContext getServletContext() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getServletName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -49,5 +26,4 @@ public class Initialization implements ServletContextListener, ServletConfig {
 		this.service = ServiceFactory.INSTANCE;
 		servletContext.setAttribute("service", service);
 	}
-
 }
