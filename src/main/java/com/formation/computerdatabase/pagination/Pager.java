@@ -21,6 +21,8 @@ public class Pager<T> {
 		this.nbPages = (int) Math.ceil(nbEntries/nbParPage);
 		setPageActuelle(page);
 		this.dao = dao;
+		//this.liste = dao.getFromTo(0, 10);
+		//System.out.println("liste " + liste);
 		updateListe();
 	}
 	
@@ -44,9 +46,8 @@ public class Pager<T> {
 		}
 	}
 	
-	public void updateListe(){
-		System.out.println();
-		this.liste = dao.getFromTo((pageActuelle - 1)*nbParPage, nbParPage);
+	public void updateListe() {
+		this.liste = this.dao.getFromTo((pageActuelle - 1)*nbParPage, nbParPage);
 	}
 	
 	public int getNbEntries() {
@@ -72,7 +73,6 @@ public class Pager<T> {
 	}
 	public void setPageActuelle(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
-		updateListe();
 	}
 
 	public List<T> getListe() {

@@ -2,6 +2,7 @@ package com.formation.computerdatabase.service.impl;
 
 import java.util.List;
 
+import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.CompanyDao;
@@ -50,7 +51,7 @@ public enum ComputerDaoServiceImpl implements ComputerDao {
 	}
 
 	@Override
-	public Computer getById(long id) {
+	public Computer getById(long id) throws DAONotFoundException {
 		return computerDaoImpl.getById(id);
 	}
 

@@ -40,17 +40,19 @@ public class ServletDashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("page"));
-		
 		int page = 1;
 		if (request.getParameter("page") != null){
 			try {
 				page = Integer.parseInt(request.getParameter("page"));
 				
-			} catch (NumberFormatException e){
+			} catch (NumberFormatException e) {
 				// traitement
 			}
 		}
+		
+		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
+		this.computerService = service.getComputerDaoServiceImpl();
+		System.out.println(computerService);
 		
 		Pager pager = new Pager<>(10, page, computerService);
 		request.setAttribute("pager", pager);

@@ -53,14 +53,15 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 	
+	/*
 	public void setIntroduced(String introduced) {
-		this.introduced = LocalDate.parse(introduced, Formatter.dateTimeFormatter);
+		this.introduced = (introduced == null) ? null : LocalDate.parse(introduced, Formatter.dateTimeFormatter);
 	}
 	
 	public void setDiscontinued(String discontinued) {
-		this.discontinued = LocalDate.parse(discontinued, Formatter.dateTimeFormatter);
+		this.discontinued = (discontinued == null) ? null : LocalDate.parse(discontinued, Formatter.dateTimeFormatter);
 	}
-	
+	*/
 	
 	@Override
 	public String toString() {

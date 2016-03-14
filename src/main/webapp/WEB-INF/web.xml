@@ -10,8 +10,8 @@
   <listener>
     <listener-class>com.formation.computerdatabase.initialization.Initialization</listener-class>
   </listener>
-   <welcome-file-list>
-    <welcome-file>login</welcome-file>
+  <welcome-file-list>
+    <welcome-file>Dashboard</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>ServletAdd</servlet-name>
@@ -19,7 +19,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ServletAdd</servlet-name>
-    <url-pattern>/computer/add/</url-pattern>
+    <url-pattern>/addComputer</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>ServletDashboard</servlet-name>
@@ -27,6 +27,14 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ServletDashboard</servlet-name>
-    <url-pattern>/accueil</url-pattern>
+    <url-pattern>/Dashboard</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ServletEdit</servlet-name>
+    <servlet-class>com.formation.computerdatabase.servlets.computer.ServletEdit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletEdit</servlet-name>
+    <url-pattern>/editComputer</url-pattern>
   </servlet-mapping>
 </web-app>

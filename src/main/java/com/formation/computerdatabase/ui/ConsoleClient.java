@@ -3,10 +3,9 @@ package com.formation.computerdatabase.ui;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Pager;
@@ -18,7 +17,7 @@ import com.formation.computerdatabase.util.Regexp;
 
 public class ConsoleClient {
 
-	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
+	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private final static int nbParPage = 10;
 	private final static Pattern patternChoix = Pattern.compile(Regexp.REGEXP_CHOIX);
 	
@@ -112,7 +111,13 @@ public class ConsoleClient {
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			Computer computer = computerDaoServiceImpl.getById(id);
+			Computer computer;
+			try {
+				computer = computerDaoServiceImpl.getById(id);
+			} catch (DAONotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (computer == null) {
 				String message = "Le computer choisi n'existe pas";
 				System.err.println(message);

@@ -29,4 +29,9 @@ public enum CompanyDaoServiceImpl implements CompanyDao {
 	public int getNbEntries() {
 		return companyDaoImpl.getNbEntries();
 	}
+
+	@Override
+	public List<Company> getAll() {
+		return companyDaoImpl.getAll();
+	}
 }

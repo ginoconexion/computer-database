@@ -73,6 +73,34 @@ public enum CompanyDaoImpl implements CompanyDao {
 		}
 		return liste;
 	}
+	
+private final static String SELECT_ALL = "SELECT * FROM company";
+	
+	@Override
+	public List<Company> getAll() {
+		
+		Connection connexion = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		List<Company> liste = new ArrayList<Company>();
+		
+		try {
+			connexion = ConnexionFactory.INSTANCE.getConnection();
+			String sql = SELECT_ALL;
+			stmt = connexion.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while (rs.next()){
+				Company company = CompanyMapper.map(rs);
+				liste.add(company);
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		} finally {
+			ConnexionFactory.close(connexion, rs, stmt, null);
+		}
+		return liste;
+	}
 
 	private final static String SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
 	

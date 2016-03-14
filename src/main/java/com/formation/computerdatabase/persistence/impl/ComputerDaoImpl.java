@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
@@ -74,7 +75,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
 	
 	@Override
-	public Computer getById(long id) {
+	public Computer getById(long id) throws DAONotFoundException {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -85,8 +86,11 @@ public enum ComputerDaoImpl implements ComputerDao {
 			pstmt = connexion.prepareStatement(SELECT_BY_ID);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
-			if (rs.next()){
+			if (rs.next()) {
 				computer = ComputerMapper.map(rs);
+			}
+			else {
+				throw new DAONotFoundException("Le computer demandé n'existe pas");
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -107,8 +111,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
 			pstmt = connexion.prepareStatement(INSERT);
 			pstmt.setString(1, computer.getName());
-			pstmt.setTimestamp(2, (computer.getIntroduced() == null) ? null : Timestamp.valueOf(computer.getIntroduced().toString()));
-			pstmt.setTimestamp(3, (computer.getIntroduced() == null) ? null : Timestamp.valueOf(computer.getIntroduced().toString()));
+			pstmt.setString(2, (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
+			pstmt.setString(3, (computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString());
 			pstmt.setLong(4, (computer.getCompany() == null) ? 0 : computer.getCompany().getId() );
 			pstmt.executeUpdate();
 			
@@ -130,8 +134,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
 			pstmt =  connexion.prepareStatement(UPDATE);
 			pstmt.setString(1, computer.getName());
-			pstmt.setTimestamp(2, (computer.getIntroduced() == null) ? null : Timestamp.valueOf(computer.getIntroduced().toString()));
-			pstmt.setTimestamp(3, (computer.getIntroduced() == null) ? null : Timestamp.valueOf(computer.getIntroduced().toString()));
+			pstmt.setString(2, (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
+			pstmt.setString(3, (computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString());
 			pstmt.setLong(4, computer.getCompany().getId());
 			pstmt.setLong(5, computer.getId());
 			pstmt.executeUpdate();
