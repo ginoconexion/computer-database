@@ -1,3 +1,6 @@
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<header class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<a class="navbar-brand" href="Dashboard"> Application -
+			Computer Database </a>
+	</div>
+</header>
