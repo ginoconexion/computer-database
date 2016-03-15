@@ -1,5 +1,4 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,15 +14,13 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                121 Computers found
+                ${ pager.nbEntries } Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
-
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
-                        <input type="submit" id="searchsubmit" value="Filter by name"
-                        class="btn btn-primary" />
+                        <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
@@ -101,7 +98,7 @@
         </div>
     </section>
 
-	<c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}"></c:set>
+	<c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}?nb=${ pager.nbParPage }"></c:set>
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
         	<c:set var="pagePrecedente" value="${ pager.pageActuelle -1 }"></c:set>
@@ -111,12 +108,12 @@
             	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="prev" pageActuelle="${ pager.pageActuelle }"></mylib:link>
             	<mylib:pagination nbPages="${ pager.nbPages }" url="${ url }" pageActuelle="${ pager.pageActuelle }"></mylib:pagination>
             	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="next" pageActuelle="${ pager.pageActuelle }"></mylib:link>
-        </ul>
+        	</ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+            <a href="Dashboard?nb=10" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
+            <a href="Dashboard?nb=50" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>"">50</a>
+            <a href="Dashboard?nb=100" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>"">100</a>
         </div>
         
 		</div>

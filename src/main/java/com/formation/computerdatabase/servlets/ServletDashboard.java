@@ -40,8 +40,10 @@ public class ServletDashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int page = 1;
-		if (request.getParameter("page") != null){
+		int nb = 10;
+		if (request.getParameter("page") != null) {
 			try {
 				page = Integer.parseInt(request.getParameter("page"));
 				
@@ -49,12 +51,18 @@ public class ServletDashboard extends HttpServlet {
 				// traitement
 			}
 		}
-		
+		if (request.getParameter("nb") != null) {
+			try {
+				nb = Integer.parseInt(request.getParameter("nb"));
+				
+			} catch (NumberFormatException e) {
+				// traitement
+			}
+		}
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
 		this.computerService = service.getComputerDaoServiceImpl();
-		System.out.println(computerService);
 		
-		Pager pager = new Pager<>(10, page, computerService);
+		Pager pager = new Pager<>(nb, page, computerService);
 		request.setAttribute("pager", pager);
 		request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	}

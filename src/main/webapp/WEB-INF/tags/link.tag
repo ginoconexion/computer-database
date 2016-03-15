@@ -10,7 +10,7 @@
 		<c:set var="pagePrecedente" value="${ pageActuelle - 1 }"></c:set>
 		<c:if test="${ pagePrecedente > 0 }">
 			<li>
-            	<a href="${ url }?page=${ pagePrecedente }" aria-label="Previous">
+            	<a href="${ url }&page=${ pagePrecedente }" aria-label="Previous">
                 	<span aria-hidden="true">&laquo;</span>
                </a>
            </li>
@@ -20,7 +20,7 @@
 		<c:set var="pageSuivante" value="${ pageActuelle + 1 }"></c:set>
 		<c:if test="${ pageSuivante < nbPages }">
 			<li>
-	            <a href="${ url }?page=${ pageSuivante }" aria-label="Next">
+	            <a href="${ url }&page=${ pageSuivante }" aria-label="Next">
 	                <span aria-hidden="true">&raquo;</span>
 	            </a>
 	        </li>
