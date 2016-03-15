@@ -8,8 +8,19 @@ import java.util.List;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComputerMapper.
+ */
 public class ComputerMapper {
 
+	/**
+	 * Map.
+	 *
+	 * @param rs the rs
+	 * @return the computer
+	 * @throws SQLException the SQL exception
+	 */
 	public static Computer map(ResultSet rs) throws SQLException{
 		Computer computer = new Computer();
 		computer.setId(rs.getInt("id"));
@@ -20,6 +31,12 @@ public class ComputerMapper {
 		return computer;
 	}
 	
+	/**
+	 * Map list.
+	 *
+	 * @param rs the rs
+	 * @return the list
+	 */
 	public static List<Computer> mapList(ResultSet rs) {
 		List<Computer> liste = new ArrayList<>();
 

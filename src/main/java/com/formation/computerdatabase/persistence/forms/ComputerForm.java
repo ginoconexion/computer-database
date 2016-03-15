@@ -18,38 +18,87 @@ import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Formatter;
 import com.formation.computerdatabase.util.Regexp;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComputerForm.
+ */
 public class ComputerForm {
 	
+	/** The Constant CHAMP_NAME. */
 	private final static String CHAMP_NAME = "computerName";
+	
+	/** The Constant CHAMP_INTRODUCED. */
 	private final static String CHAMP_INTRODUCED = "introduced";
+	
+	/** The Constant CHAMP_DISCONTINUED. */
 	private final static String CHAMP_DISCONTINUED = "discontinued";
+	
+	/** The Constant CHAMP_COMPANY_ID. */
 	private final static String CHAMP_COMPANY_ID = "companyId";
 	
+	/** The resultat. */
 	private String resultat;
+	
+	/** The erreurs. */
 	private Map<String, String> erreurs = new HashMap<>();
+	
+	/** The computer service. */
 	private ComputerDaoServiceImpl computerService;
+	
+	/** The company service. */
 	private CompanyDaoServiceImpl companyService;
+	
+	/** The pattern date. */
 	private Pattern patternDate = Pattern.compile(Regexp.REGEXP_DATE);
+	
+	/** The pattern long. */
 	private Pattern patternLong = Pattern.compile(Regexp.REGEXP_LONG);
 	
-	/** constructeur */
+	/**
+	 *  constructeur.
+	 *
+	 * @param computerService the computer service
+	 * @param companyService the company service
+	 */
 	public ComputerForm(ComputerDaoServiceImpl computerService, CompanyDaoServiceImpl companyService) {
 		this.computerService = computerService;
 		this.companyService = companyService;
 	}
 
-	/** getters */
+	/**
+	 *  getters.
+	 *
+	 * @return the resultat
+	 */
 	public String getResultat() {
 		return resultat;
 	}
 
+	/**
+	 * Gets the erreurs.
+	 *
+	 * @return the erreurs
+	 */
 	public Map<String, String> getErreurs() {
 		return erreurs;
 	}
+	
+	/**
+	 * Sets the erreur.
+	 *
+	 * @param champ the champ
+	 * @param erreur the erreur
+	 */
 	public void setErreur(String champ, String erreur) {
 		this.erreurs.put(champ, erreur);
 	}
 
+	/**
+	 * Hydrate.
+	 *
+	 * @param request the request
+	 * @param computer the computer
+	 */
 	public void hydrate(HttpServletRequest request, Computer computer) {
 		String name = getValeurChamp(request, CHAMP_NAME);
 		String introduced = getValeurChamp(request, CHAMP_INTRODUCED);
@@ -63,6 +112,13 @@ public class ComputerForm {
 	}
 	
 	
+	/**
+	 * Update computer.
+	 *
+	 * @param request the request
+	 * @param computer the computer
+	 * @return the computer
+	 */
 	public Computer updateComputer(HttpServletRequest request, Computer computer) {
 		hydrate(request, computer);
 		try {
@@ -82,6 +138,12 @@ public class ComputerForm {
 	
 	
 	
+	/**
+	 * Adds the computer.
+	 *
+	 * @param request the request
+	 * @return the computer
+	 */
 	public Computer addComputer(HttpServletRequest request) {
 		Computer computer = new Computer();
 		hydrate(request, computer);
@@ -101,6 +163,12 @@ public class ComputerForm {
 		return computer;
 	}
 	
+	/**
+	 * Process name.
+	 *
+	 * @param name the name
+	 * @param computer the computer
+	 */
 	private void processName(String name, Computer computer) {
 		try {
 			validateName(name);
@@ -110,6 +178,12 @@ public class ComputerForm {
 		computer.setName(name);
 	}
 	
+	/**
+	 * Process introduced.
+	 *
+	 * @param introduced the introduced
+	 * @param computer the computer
+	 */
 	private void processIntroduced(String introduced, Computer computer) {
 		try {
 			computer.setIntroduced(validateDate(introduced));
@@ -118,6 +192,12 @@ public class ComputerForm {
 		}
 	}
 	
+	/**
+	 * Process discontinued.
+	 *
+	 * @param discontinued the discontinued
+	 * @param computer the computer
+	 */
 	private void processDiscontinued(String discontinued, Computer computer) {
 		try {
 			computer.setDiscontinued(validateDate(discontinued));
@@ -126,6 +206,12 @@ public class ComputerForm {
 		}
 	}
 	
+	/**
+	 * Process company id.
+	 *
+	 * @param companyId the company id
+	 * @param computer the computer
+	 */
 	private void processCompanyId(String companyId, Computer computer) {
 		try {
 			computer.setCompany(validateCompanyId(companyId));
@@ -135,6 +221,12 @@ public class ComputerForm {
 		}
 	}
 	
+	/**
+	 * Validate name.
+	 *
+	 * @param name the name
+	 * @throws FormValidationException the form validation exception
+	 */
 	private void validateName(String name) throws FormValidationException {
 		if (name != null) {
 			if (name.length() < 2 ){
@@ -149,6 +241,13 @@ public class ComputerForm {
 		}
 	}
 	
+	/**
+	 * Validate date.
+	 *
+	 * @param date the date
+	 * @return the local date
+	 * @throws FormValidationException the form validation exception
+	 */
 	private LocalDate validateDate(String date) throws FormValidationException{
 		LocalDate ld = null;
 		System.out.println("date : " + date);
@@ -167,6 +266,13 @@ public class ComputerForm {
 		return ld;
 	}
 	
+	/**
+	 * Validate company id.
+	 *
+	 * @param id the id
+	 * @return the company
+	 * @throws FormValidationException the form validation exception
+	 */
 	private Company validateCompanyId(String id) throws FormValidationException {
 		Company company =  null;
 		if (id == null) {
@@ -185,6 +291,13 @@ public class ComputerForm {
 	}
 	
 	
+	/**
+	 * Gets the valeur champ.
+	 *
+	 * @param request the request
+	 * @param nomChamp the nom champ
+	 * @return the valeur champ
+	 */
 	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
 		String valeur = request.getParameter( nomChamp );
 		if (valeur == null || valeur.trim().length() == 0){

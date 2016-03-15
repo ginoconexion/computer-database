@@ -25,16 +25,16 @@ import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 @WebServlet("/ServletEdit")
 public class ServletEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	 private CompanyDaoServiceImpl companyService;
-     private ComputerDaoServiceImpl computerService;
-     private List<Company> liste;
+	private CompanyDaoServiceImpl companyService;
+	private ComputerDaoServiceImpl computerService;
+	private List<Company> liste;
 	
-     public void init() {
- 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
- 		this.companyService = service.getCompanyDaoServiceImpl();
- 		this.computerService = service.getComputerDaoServiceImpl();
- 		this.liste = companyService.getAll();
- 	}
+	public void init() {
+		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
+		this.companyService = service.getCompanyDaoServiceImpl();
+		this.computerService = service.getComputerDaoServiceImpl();
+		this.liste = companyService.getAll();
+	}
      
     /**
      * @see HttpServlet#HttpServlet()

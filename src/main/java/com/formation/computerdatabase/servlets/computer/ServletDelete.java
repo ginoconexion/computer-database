@@ -1,41 +1,42 @@
-package com.formation.computerdatabase.servlets;
+package com.formation.computerdatabase.servlets.computer;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.pagination.Pager;
+import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 /**
- * Servlet implementation class ServletDashboard
+ * Servlet implementation class ServletDelete
  */
-public class ServletDashboard extends HttpServlet {
+@WebServlet("/ServletDelete")
+public class ServletDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    private ComputerDaoServiceImpl computerService;
-    private Pager<Computer> pager;
-	
+	private CompanyDaoServiceImpl companyService;
+	private ComputerDaoServiceImpl computerService;
+	private List<Company> liste;
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
+		this.companyService = service.getCompanyDaoServiceImpl();
 		this.computerService = service.getComputerDaoServiceImpl();
-		this.pager = new Pager<>(10, 1, computerService);
+		this.liste = companyService.getAll();
 	}
 	
     /**
-     * Instantiates a new servlet dashboard.
-     *
      * @see HttpServlet#HttpServlet()
      */
-    public ServletDashboard() {
+    public ServletDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,33 +45,12 @@ public class ServletDashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		int page = 1;
-		int nb = 10;
-		if (request.getParameter("page") != null) {
-			try {
-				pager.setPageActuelle(Integer.parseInt(request.getParameter("page")));
-				//page = Integer.parseInt(request.getParameter("page"));
-				
-			} catch (NumberFormatException e) {
-				// traitement
-			}
+		try {
+			computerService.deleteComputer(Long.parseLong(request.getParameter("id")));
+			
+		} catch (Exception e) {
+			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
 		}
-		if (request.getParameter("nb") != null) {
-			try {
-				pager.setNbParPage(Integer.parseInt(request.getParameter("nb")));
-				//nb = Integer.parseInt(request.getParameter("nb"));
-				
-			} catch (NumberFormatException e) {
-				// traitement
-			}
-		}
-		pager.updateListe();
-		
-		//ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
-		//this.computerService = service.getComputerDaoServiceImpl();
-		
-		request.setAttribute("pager", pager);
 		request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	}
 
