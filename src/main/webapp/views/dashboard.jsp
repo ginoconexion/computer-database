@@ -1,3 +1,5 @@
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +12,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+            <a class="navbar-brand" href="Dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -110,40 +112,9 @@
         	<c:set var="pageSuivante" value="${ pager.pageActuelle + 1 }"></c:set>
         	
             <ul class="pagination">
-                <c:if test="${ pagePrecedente > 0 }">
-                <li>
-                    <a href="${ url }?page=${ pagePrecedente }" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                  </a>
-              </li>
-              
-              <c:if test="${ pager.pageActuelle != 1 }">
-              	<li ><a href="${ url }?page=1">1</a></li>
-              	<li><a>...</a></li>
-              </c:if>
-              
-              </c:if>
-              <c:forEach begin="1" end="${ pager.nbPages }" var="p">
-              	<c:if test="${ p == pager.pageActuelle }">
-              	<li  class="active">
-              		<a href="${url}?page=${ p }">${ p }</a>
-              	</li>
-              	</c:if> 
-              </c:forEach>
-                
-              <c:if test="${ pager.pageActuelle != pager.nbPages }">
-              	<li><a>...</a></li>
-              	<li ><a href="${ url }?page=${ pager.nbPages }">${ pager.nbPages }</a></li>
-              </c:if>
-              
-              <li>
-              	<c:if test="${ pageSuivante < pager.nbPages }">
-                <a href="${ url }?page=${ pageSuivante }" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-                </c:if>
-            </li>
-           
+            	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="prev" pageActuelle="${ pager.pageActuelle }"></mylib:link>
+            	<mylib:pagination nbPages="${ pager.nbPages }" url="${ url }" pageActuelle="${ pager.pageActuelle }"></mylib:pagination>
+            	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="next" pageActuelle="${ pager.pageActuelle }"></mylib:link>
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
