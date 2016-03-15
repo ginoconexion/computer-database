@@ -8,7 +8,6 @@
 </head>
 <body>
     <c:import url="/views/templates/header.jsp"></c:import>
-
     <section id="main">
         <div class="container">
             <div class="row">
@@ -29,7 +28,7 @@
                             
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" name="introduced" id="introduced" placeholder="Introduced date" value="${ computer.introduced }">
+                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd" type="date" class="form-control" name="introduced" id="introduced" placeholder="Introduced date" value="${ computer.introduced }">
                             </div>
                             <c:if test="${ form.erreurs.containsKey('introduced') }">
                             <div class="alert alert-danger">
@@ -39,7 +38,7 @@
                             
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" name="discontinued" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }">
+                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd"  data-validation-error-msg="Le format de la date n'est pas valide" type="date" class="form-control" name="discontinued" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }">
                             </div>
                             <c:if test="${ form.erreurs.containsKey('discontinued') }">
                             <div class="alert alert-danger">
@@ -74,4 +73,7 @@
         </div>
     </section>
 </body>
+<c:import url="/views/templates/script.jsp"></c:import>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
+<script> $.validate(); </script>
 </html>

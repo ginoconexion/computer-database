@@ -1,16 +1,36 @@
 package com.formation.computerdatabase.exception;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAONotFoundException.
+ */
 public class DAONotFoundException extends Exception {
 	
-	  public DAONotFoundException( String message ) {
+	  /**
+  	 * Instantiates a new DAO not found exception.
+  	 *
+  	 * @param message the message
+  	 */
+  	public DAONotFoundException( String message ) {
 	        super( message );
 	    }
 
-	    public DAONotFoundException( String message, Throwable cause ) {
+	    /**
+    	 * Instantiates a new DAO not found exception.
+    	 *
+    	 * @param message the message
+    	 * @param cause the cause
+    	 */
+    	public DAONotFoundException( String message, Throwable cause ) {
 	        super( message, cause );
 	    }
 
-	    public DAONotFoundException( Throwable cause ) {
+	    /**
+    	 * Instantiates a new DAO not found exception.
+    	 *
+    	 * @param cause the cause
+    	 */
+    	public DAONotFoundException( Throwable cause ) {
 	        super( cause );
 	    }
 }

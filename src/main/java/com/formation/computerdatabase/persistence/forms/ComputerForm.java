@@ -109,6 +109,7 @@ public class ComputerForm {
 		processIntroduced(introduced, computer);
 		processDiscontinued(discontinued, computer);
 		processCompanyId(companyId, computer);
+		processIntroducedAndDiscontinued(computer);
 	}
 	
 	
@@ -206,6 +207,12 @@ public class ComputerForm {
 		}
 	}
 	
+	private void processIntroducedAndDiscontinued(Computer computer) {
+		if (computer.getIntroduced() != null && computer.getDiscontinued() != null && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+			setErreur(CHAMP_DISCONTINUED, "Le champ discontinued ne peut être antérieur à introduced");
+		}
+	}
+	
 	/**
 	 * Process company id.
 	 *
@@ -259,6 +266,9 @@ public class ComputerForm {
 		else if (date != null) {
 			try {
 				ld = LocalDate.parse(date);
+				if (ld.isBefore(LocalDate.parse("1970-01-01"))) {
+					throw new FormValidationException("La date ne peut être antérieure au 1970-01-01");
+				}
 			} catch (DateTimeException e) {
 				throw new FormValidationException("La date n'est pas valide");
 			}

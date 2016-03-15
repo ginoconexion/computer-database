@@ -34,8 +34,6 @@
             <input type="hidden" name="selection" value="">
         </form>
         
-        
-        
         <div class="container" style="margin-top: 10px;">
             <table class="table table-striped table-bordered">
                 <thead>
@@ -65,32 +63,22 @@
                         <th>
                             Company
                         </th>
-                        <th>
-							Actions
-                        </th>
-
                     </tr>
                 </thead>
                 
-                     
-				
                 <!-- Browse attribute computers -->
                 <tbody id="results">
                     <c:forEach var="computer" items="${ pager.liste }">
                     <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
-                            <a href="editComputer.html" onclick="">${ computer.name }</a>
+                            <a href="editComputer?id=${ computer.id }" onclick="">${ computer.name }</a>
                         </td>
                         <td>${ computer.introduced }</td>
                         <td>${ computer.discontinued }</td>
                         <td>${ computer.company.name }</td>
-                        <td>
-                        	<a class="btn btn-default align" href="DeleteComputer"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></a>
-							<a class="btn btn-default align" href="editComputer?id=${ computer.id }"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></a>
-						</td>
                     </tr>
                     </c:forEach>
                 </tbody>
@@ -110,18 +98,17 @@
             	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="next" pageActuelle="${ pager.pageActuelle }"></mylib:link>
         	</ul>
 
-        <div class="btn-group btn-group-sm pull-right" role="group" >
-            <a href="Dashboard?nb=10" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
-            <a href="Dashboard?nb=50" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>"">50</a>
-            <a href="Dashboard?nb=100" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>"">100</a>
-        </div>
-        
+	        <div class="btn-group btn-group-sm pull-right" role="group" >
+	            <a href="Dashboard?nb=10" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
+	            <a href="Dashboard?nb=50" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>"">50</a>
+	            <a href="Dashboard?nb=100" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>"">100</a>
+	        </div>
+	        
 		</div>
     </footer>
-    
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/dashboard.js"></script>
+       <input type="checkbox" id="selectall" /> 
+		<c:import url="/views/templates/script.jsp"></c:import>
+		<script src="js/dashboard.js"></script>
 
 </body>
 </html>

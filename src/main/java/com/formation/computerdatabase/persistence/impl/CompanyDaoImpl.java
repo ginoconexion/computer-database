@@ -16,9 +16,18 @@ import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
 import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum CompanyDaoImpl.
+ */
 public enum CompanyDaoImpl implements CompanyDao {
+	
+	/** The instance. */
 	INSTANCE;
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.CompanyDao#getNbEntries()
+	 */
 	@Override
 	public int getNbEntries() {
 		Connection connexion = null;
@@ -44,8 +53,12 @@ public enum CompanyDaoImpl implements CompanyDao {
 		return nbEntries;
 	}
 
+	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT_LIMIT = "SELECT * FROM company LIMIT ?, ?";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.CompanyDao#getFromTo(int, int)
+	 */
 	@Override
 	public List<Company> getFromTo(int from, int nb) {
 		
@@ -74,8 +87,12 @@ public enum CompanyDaoImpl implements CompanyDao {
 		return liste;
 	}
 	
+/** The Constant SELECT_ALL. */
 private final static String SELECT_ALL = "SELECT * FROM company";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.CompanyDao#getAll()
+	 */
 	@Override
 	public List<Company> getAll() {
 		
@@ -102,8 +119,12 @@ private final static String SELECT_ALL = "SELECT * FROM company";
 		return liste;
 	}
 
+	/** The Constant SELECT_BY_ID. */
 	private final static String SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.CompanyDao#getById(long)
+	 */
 	@Override
 	public Company getById(long id) {
 		

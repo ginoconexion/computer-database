@@ -67,9 +67,6 @@ public class ServletDashboard extends HttpServlet {
 		}
 		pager.updateListe();
 		
-		//ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
-		//this.computerService = service.getComputerDaoServiceImpl();
-		
 		request.setAttribute("pager", pager);
 		request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	}
@@ -78,8 +75,21 @@ public class ServletDashboard extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		if (request.getParameter("selection") !=  null) {
+			try {
+				String[] idArray = request.getParameter("selection").split(",");
+				for (int i = 0; i < idArray.length; i++) {
+					computerService.deleteComputer(Long.parseLong(idArray[i]));
+				}
+				doGet(request, response);
+			} catch (NumberFormatException e) {
+				request.getRequestDispatcher("/views/500.jsp").forward( request, response );
+			}
+		}
+		else {
+			doGet(request, response);
+		}
 	}
 
 }

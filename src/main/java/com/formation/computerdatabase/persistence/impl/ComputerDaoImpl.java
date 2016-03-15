@@ -16,12 +16,22 @@ import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum ComputerDaoImpl.
+ */
 public enum ComputerDaoImpl implements ComputerDao {
+	
+	/** The instance. */
 	INSTANCE;
 	
+	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT_LIMIT = "SELECT * FROM computer LIMIT ?, ?";
 	
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.Dao#getFromTo(int, int)
+	 */
 	@Override
 	public List<Computer> getFromTo(int from, int nb) {
 		Connection connexion = null;
@@ -47,6 +57,9 @@ public enum ComputerDaoImpl implements ComputerDao {
 		return liste;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.Dao#getNbEntries()
+	 */
 	@Override
 	public int getNbEntries() {
 		Connection connexion = null;
@@ -72,8 +85,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		return nbEntries;
 	}
 
+	/** The Constant SELECT_BY_ID. */
 	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.Dao#getById(long)
+	 */
 	@Override
 	public Computer getById(long id) throws DAONotFoundException {
 		Connection connexion = null;
@@ -100,8 +117,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		return computer;
 	}
 
+	/** The Constant INSERT. */
 	private final static String INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.ComputerDao#createComputer(com.formation.computerdatabase.model.Computer)
+	 */
 	@Override
 	public void createComputer(Computer computer) {
 		Connection connexion = null;
@@ -123,7 +144,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		}
 	}
 
+	/** The Constant UPDATE. */
 	private final static String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
+	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.ComputerDao#updateComputer(com.formation.computerdatabase.model.Computer)
+	 */
 	@Override
 	public void updateComputer(Computer computer) {
 		
@@ -147,8 +173,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		}
 	}
 
+	/** The Constant DELETE. */
 	private final static String DELETE = "DELETE FROM computer WHERE id = ?";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.ComputerDao#deleteComputer(long)
+	 */
 	@Override
 	public void deleteComputer(long id) {
 		Connection connexion = null;
@@ -166,8 +196,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		}
 	}
 
+	/** The Constant SELECT_BY_NAME. */
 	private final static String SELECT_BY_NAME = "SELECT * FROM computer WHERE name = ?";
 	
+	/* (non-Javadoc)
+	 * @see com.formation.computerdatabase.persistence.ComputerDao#getComputerByName(java.lang.String)
+	 */
 	@Override
 	public Computer getComputerByName(String name) {
 		

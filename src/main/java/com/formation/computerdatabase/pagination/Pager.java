@@ -81,7 +81,7 @@ public class Pager<T> {
 	 */
 	public void updateListe() {
 		this.nbEntries = dao.getNbEntries();
-		this.nbPages = (int) Math.ceil(nbEntries/nbParPage);
+		this.nbPages = (int) Math.ceil((double) nbEntries/nbParPage);
 		this.liste = this.dao.getFromTo((pageActuelle - 1)*nbParPage, nbParPage);
 	}
 	
