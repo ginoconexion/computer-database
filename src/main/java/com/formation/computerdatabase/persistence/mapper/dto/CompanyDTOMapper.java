@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.persistence.mapper;
+package com.formation.computerdatabase.persistence.mapper.dto;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.dto.CompanyDTO;

@@ -100,13 +100,13 @@ public class ComputerForm {
 	 * @param computer the computer
 	 */
 	public void hydrate(HttpServletRequest request, Computer computer) {
+		
 		String name = getValeurChamp(request, CHAMP_NAME);
 		String introduced = getValeurChamp(request, CHAMP_INTRODUCED);
 		String discontinued = getValeurChamp(request, CHAMP_DISCONTINUED);
 		String companyId = getValeurChamp(request, CHAMP_COMPANY_ID);
 		
-		processName(name, computer);
-		processIntroduced(introduced, computer);
+		processName(name, computer);		processIntroduced(introduced, computer);
 		processDiscontinued(discontinued, computer);
 		processCompanyId(companyId, computer);
 		processIntroducedAndDiscontinued(computer);

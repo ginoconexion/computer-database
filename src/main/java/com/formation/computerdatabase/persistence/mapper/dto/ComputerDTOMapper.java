@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.persistence.mapper;
+package com.formation.computerdatabase.persistence.mapper.dto;
 
 import java.time.LocalDate;
 
@@ -19,7 +19,7 @@ public class ComputerDTOMapper {
 		c.setIntroduced(LocalDate.parse(cDTO.getIntroduced()));
 		c.setDiscontinued(LocalDate.parse(cDTO.getDiscontinued()));
 		c.setName(cDTO.getName());
-		c.setCompany(CompanyDTOMapper.map(cDTO.getCompanyDTO()));
+		c.setCompany(CompanyDTOMapper.map(cDTO.getCompany()));
 		return c;
 	}
 }

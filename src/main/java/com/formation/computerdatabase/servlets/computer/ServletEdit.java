@@ -14,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
+import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
@@ -50,7 +52,9 @@ public class ServletEdit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Computer computer = computerService.getById(Long.parseLong(request.getParameter("id")));
-			request.setAttribute("computer", computer);
+			
+			ComputerDTO computerDTO = new ComputerDTO(computer);
+			request.setAttribute("computer", computerDTO);
 			request.setAttribute("companies", liste);
 			
 		} catch (Exception e) {
