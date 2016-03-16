@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
@@ -24,6 +27,7 @@ public class ServletAdd extends HttpServlet {
     private CompanyDaoServiceImpl companyService;
     private ComputerDaoServiceImpl computerService;
     private List<Company> liste;
+    private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
@@ -63,6 +67,7 @@ public class ServletAdd extends HttpServlet {
 		
 		if (form.getErreurs().isEmpty()) {
 			response.sendRedirect("Dashboard");
+			logger.info("Ajout reussi du computer : " + computer);
 		}
 		else {
 			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );

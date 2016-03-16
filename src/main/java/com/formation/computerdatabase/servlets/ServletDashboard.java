@@ -1,18 +1,19 @@
 package com.formation.computerdatabase.servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Pager;
+import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 /**
  * Servlet implementation class ServletDashboard
@@ -20,6 +21,7 @@ import com.formation.computerdatabase.pagination.Pager;
 public class ServletDashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
     private ComputerDaoServiceImpl computerService;
     private Pager<Computer> pager;
 	
@@ -66,7 +68,6 @@ public class ServletDashboard extends HttpServlet {
 			}
 		}
 		pager.updateListe();
-		
 		request.setAttribute("pager", pager);
 		request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 	}
@@ -80,8 +81,11 @@ public class ServletDashboard extends HttpServlet {
 			try {
 				String[] idArray = request.getParameter("selection").split(",");
 				for (int i = 0; i < idArray.length; i++) {
-					computerService.deleteComputer(Long.parseLong(idArray[i]));
+					long id = Long.parseLong(idArray[i]);
+					computerService.deleteComputer(id);
+					logger.info("Suppression du computer d'id " + id);
 				}
+				
 				doGet(request, response);
 			} catch (NumberFormatException e) {
 				request.getRequestDispatcher("/views/500.jsp").forward( request, response );

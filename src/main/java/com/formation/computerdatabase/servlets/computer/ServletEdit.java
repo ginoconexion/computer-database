@@ -1,7 +1,6 @@
 package com.formation.computerdatabase.servlets.computer;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,8 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.exception.DAONotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
@@ -25,6 +25,7 @@ import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 @WebServlet("/ServletEdit")
 public class ServletEdit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private CompanyDaoServiceImpl companyService;
 	private ComputerDaoServiceImpl computerService;
 	private List<Company> liste;
@@ -76,6 +77,7 @@ public class ServletEdit extends HttpServlet {
 			request.setAttribute("computer", computer);
 			request.setAttribute("companies", liste);
 			if (form.getErreurs().isEmpty()) {
+				logger.info("Modification reussie du computer : " + computer);
 				response.sendRedirect("Dashboard");
 			}
 			else {

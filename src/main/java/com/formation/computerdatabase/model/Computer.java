@@ -1,15 +1,6 @@
 package com.formation.computerdatabase.model;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import com.formation.computerdatabase.util.Formatter;
-import com.formation.computerdatabase.util.Regexp;
 
 // TODO: Auto-generated Javadoc
 /**
