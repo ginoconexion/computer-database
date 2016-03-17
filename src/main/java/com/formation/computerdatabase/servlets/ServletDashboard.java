@@ -52,7 +52,6 @@ public class ServletDashboard extends HttpServlet {
 		if (request.getParameter("page") != null) {
 			try {
 				pager.setPageActuelle(Integer.parseInt(request.getParameter("page")));
-				//page = Integer.parseInt(request.getParameter("page"));
 				
 			} catch (NumberFormatException e) {
 				// traitement
@@ -68,8 +67,13 @@ public class ServletDashboard extends HttpServlet {
 			}
 		}
 		pager.updateListe();
-		request.setAttribute("pager", pager);
-		request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
+		if (pager.isOutofBounds()) {
+			response.sendRedirect("Dashboard");
+		}
+		else {
+			request.setAttribute("pager", pager);
+			request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
+		}
 	}
 
 	/**
@@ -92,7 +96,8 @@ public class ServletDashboard extends HttpServlet {
 			}
 		}
 		else {
-			doGet(request, response);
+			//doGet(request, response);
+			response.sendRedirect("Dashboard");
 		}
 	}
 

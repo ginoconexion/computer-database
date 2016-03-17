@@ -10,8 +10,10 @@ public class CompanyDTO {
 	private String name;
 
 	public CompanyDTO(Company company) {
-		this.id = Long.toString(company.getId());
-		this.name = company.getName();
+		if (company !=  null) {
+			this.id = Long.toString(company.getId());
+			this.name = company.getName();
+		}
 	}
 
 	public String getId() {

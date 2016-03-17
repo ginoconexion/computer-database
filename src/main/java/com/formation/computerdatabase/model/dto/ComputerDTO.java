@@ -26,8 +26,8 @@ public class ComputerDTO {
 	public ComputerDTO(Computer computer) {
 		this.id = Long.toString(computer.getId());
 		this.name = computer.getName();
-		this.introduced = computer.getIntroduced().toString();
-		this.discontinued = computer.getDiscontinued().toString();
+		this.introduced = (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString();
+		this.discontinued = (computer.getIntroduced() == null) ? null : computer.getDiscontinued().toString();
 		this.company = new CompanyDTO(computer.getCompany());
 	}
 

@@ -4,7 +4,7 @@
 	<title>Computer Database</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap -->
-	<c:import url="/views/templates/header.jsp"></c:import>
+	<c:import url="/views/templates/head.jsp"></c:import>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -22,10 +22,6 @@
 			</div>
 		</div>
 	</section>
-
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
-
+	<c:import url="/views/templates/script.jsp"></c:import>
 </body>
 </html>

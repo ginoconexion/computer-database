@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
@@ -50,17 +51,36 @@ public class ServletEdit extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		long id = Long.parseLong(request.getParameter("id"));
+		Computer computer = null;
+		try {
+			computer = computerService.getById(id);
+			System.out.println(computer.getCompany());
+			ComputerDTO computerDTO = new ComputerDTO(computer);
+			request.setAttribute("computer", computerDTO);
+			request.setAttribute("companies", liste);
+			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
+			
+		} catch (DAONotFoundException e) {
+			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
+		}
+		
+		/*
+		if ()
+		
 		try {
 			Computer computer = computerService.getById(Long.parseLong(request.getParameter("id")));
 			
 			ComputerDTO computerDTO = new ComputerDTO(computer);
 			request.setAttribute("computer", computerDTO);
 			request.setAttribute("companies", liste);
+			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
 			
 		} catch (Exception e) {
 			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
 		}
-		request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
+		*/
 	}
 
 	/**

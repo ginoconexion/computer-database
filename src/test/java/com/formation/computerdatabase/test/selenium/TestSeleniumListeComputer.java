@@ -1,6 +1,5 @@
 package com.formation.computerdatabase.test.selenium;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -14,8 +13,10 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import static org.junit.Assert.*;
 
-public class SeleniumTestListeComputer {
+
+public class TestSeleniumListeComputer {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -24,15 +25,17 @@ public class SeleniumTestListeComputer {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "http://localhost:8080/computerdatabase"; 
+    baseUrl = "http://localhost:8080/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testSeleniumTestListeComputer() throws Exception {
-	// on se connecte au site
-	  driver.get(baseUrl);
-	  assertTrue(isElementPresent(By.xpath("//tbody[@id='results']/tr/td[2]")));
+  public void testSeleniumListeComputer() throws Exception {
+    driver.get(baseUrl + "/computerdatabase/Dashboard");
+    driver.findElement(By.linkText("MacBook Pro 15.6")).click();
+    driver.findElement(By.cssSelector("a.navbar-brand")).click();
+    driver.findElements(By.xpath("//tbody[@id='results']/tr/td"));
+    assertTrue(driver.findElements(By.xpath("//tbody[@id='results']/tr/td")).size() > 0);
   }
 
   @After

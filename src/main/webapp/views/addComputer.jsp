@@ -75,5 +75,7 @@
 </body>
 <c:import url="/views/templates/script.jsp"></c:import>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
-<script> $.validate(); </script>
+<script>
+$.validate({ });
+</script>
 </html>

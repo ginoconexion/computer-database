@@ -1,15 +1,14 @@
 package com.formation.computerdatabase.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 
 public class TestCompany {
 

@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Computer Database</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Bootstrap -->
-	<c:import url="/views/templates/header.jsp"></c:import>
+<title>Computer Database</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<c:import url="/views/templates/head.jsp"></c:import>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+			<a class="navbar-brand" href="dashboard.html"> Application -
+				Computer Database </a>
 		</div>
 	</header>
 
 	<section id="main">
-		<div class="container">	
+		<div class="container">
 			<div class="alert alert-danger">
-				Error 500: An error has occured!
-				<br/>
+				Error 500: An error has occured! <br />
 				<!-- stacktrace -->
 			</div>
 		</div>
 	</section>
-
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
-
+	<c:import url="/views/templates/script.jsp"></c:import>
 </body>
 </html>

@@ -27,19 +27,21 @@ public class TestComputerDao {
 	public static void init() {
 		computerDaoImpl = ComputerDaoImpl.INSTANCE;
 	}
-	
+	@Ignore
 	@Test
 	public void testGetById(){
 		Computer computer = ComputerDaoImpl.INSTANCE.getById(1);
 		assertEquals(1, computer.getId());
 	}
 	
+	@Ignore
 	@Test
 	public void testGetByIdNull(){
 		Computer computer = ComputerDaoImpl.INSTANCE.getById(600);
 		assertEquals(null, computer);
 	}
 	
+	@Ignore
 	@Test
 	public void testUpdate(){
 		Computer computer = computerDaoImpl.getById(1);
@@ -51,6 +53,7 @@ public class TestComputerDao {
 		assertEquals("MacBook Pro 15.6", computer.getName());
 	}
 	
+	@Ignore
 	@Test(expected = DAOException.class)
 	public void testUpdateUnknownCompany(){
 		Computer computer = computerDaoImpl.getById(1);
@@ -58,6 +61,7 @@ public class TestComputerDao {
 		computerDaoImpl.updateComputer(computer);
 	}
 	
+	@Ignore
 	@Test(expected = DAOException.class)
 	public void testCreateComputerWithNullCompanyAndNullTimestamps(){
 		Computer computer = new Computer();
@@ -65,7 +69,7 @@ public class TestComputerDao {
 		computerDaoImpl.createComputer(computer);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testCreateAndDelete(){
 		Computer computer = new Computer();
@@ -85,12 +89,12 @@ public class TestComputerDao {
 		
 		assertEquals(null, computer);
 	}
-	
+	@Ignore
 	@Test(expected = DAOException.class)
 	public void testFromToWithNegative(){
 		computerDaoImpl.getFromTo(-5, 5);
 	}
-	
+	@Ignore
 	@Test
 	public void testFromTo(){
 		assertTrue(computerDaoImpl.getFromTo(0, 10).size() == 10);

@@ -76,6 +76,18 @@ public class Pager<T> {
 		}
 	}
 	
+	public boolean isOutofBounds(){
+		boolean bool = false;
+		System.out.println(pageActuelle);
+		System.out.println(nbPages);
+		
+		if (pageActuelle < 1 || pageActuelle > nbPages) {
+			correctPage();
+			bool = true;
+		}
+		return bool;
+	}
+	
 	/**
 	 * Update liste.
 	 */
@@ -83,6 +95,15 @@ public class Pager<T> {
 		this.nbEntries = dao.getNbEntries();
 		this.nbPages = (int) Math.ceil((double) nbEntries/nbParPage);
 		this.liste = this.dao.getFromTo((pageActuelle - 1)*nbParPage, nbParPage);
+		
+	}
+	public void correctPage(){
+		if (this.pageActuelle < 1){
+			this.pageActuelle = 1;
+		}
+		else if (this.pageActuelle > nbPages) {
+			this.pageActuelle = nbPages;
+		}
 	}
 	
 	/**
