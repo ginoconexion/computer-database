@@ -1,6 +1,5 @@
 package com.formation.computerdatabase.persistence.forms;
 
-import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -13,9 +12,11 @@ import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.CompanyDTO;
+import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
+import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
-import com.formation.computerdatabase.util.Formatter;
 import com.formation.computerdatabase.util.Regexp;
 
 // TODO: Auto-generated Javadoc
@@ -124,7 +125,7 @@ public class ComputerForm {
 		hydrate(request, computer);
 		try {
 			if (erreurs.isEmpty()) {
-				computerService.updateComputer(computer);
+				computerService.update(computer);
 				resultat = "Succès de la modification du computer";
 			}
 			else {
@@ -150,7 +151,7 @@ public class ComputerForm {
 		hydrate(request, computer);
 		try {
 			if (erreurs.isEmpty()) {
-				computerService.createComputer(computer);
+				computerService.create(computer);
 				resultat = "Succès de la création du computer";
 			}
 			else {
@@ -284,7 +285,7 @@ public class ComputerForm {
 	 * @throws FormValidationException the form validation exception
 	 */
 	private Company validateCompanyId(String id) throws FormValidationException {
-		Company company =  null;
+		CompanyDTO cDTO =  null;
 		if (id == null) {
 			throw new FormValidationException("Veuillez spécifier une company");
 		}
@@ -292,12 +293,12 @@ public class ComputerForm {
 			throw new FormValidationException("La company n'est pas valide");
 		}
 		else {
-			company = companyService.getById(Long.parseLong(id));
-			if (company == null){
+			cDTO = companyService.getById(Long.parseLong(id));
+			if (cDTO == null){
 				throw new FormValidationException("La company n'est pas valide");
 			}
 		}
-		return company;
+		return CompanyMapper.map(cDTO);
 	}
 	
 	

@@ -15,8 +15,10 @@ import org.apache.logging.log4j.Logger;
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.CompanyDTO;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
+import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
@@ -31,7 +33,7 @@ public class ServletEdit extends HttpServlet {
 	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private CompanyDaoServiceImpl companyService;
 	private ComputerDaoServiceImpl computerService;
-	private List<Company> liste;
+	private List<CompanyDTO> liste;
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
@@ -53,11 +55,9 @@ public class ServletEdit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		long id = Long.parseLong(request.getParameter("id"));
-		Computer computer = null;
+		ComputerDTO computerDTO = null;
 		try {
-			computer = computerService.getById(id);
-			System.out.println(computer.getCompany());
-			ComputerDTO computerDTO = new ComputerDTO(computer);
+			computerDTO = computerService.getById(id);
 			request.setAttribute("computer", computerDTO);
 			request.setAttribute("companies", liste);
 			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
@@ -93,23 +93,28 @@ public class ServletEdit extends HttpServlet {
 		// pas hyper propre, en cas d'erreurs interne elle est catchée ...
 		
 		
-		// la boucle try/catch gère les paramètre invalides et un objet computer inexistant
-		try {
-			Computer computer = computerService.getById(Long.parseLong(request.getParameter("id")));
+			ComputerDTO computerDTO = null;
+			try {
+				computerDTO = computerService.getById(Long.parseLong(request.getParameter("id")));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DAONotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Computer computer = ComputerMapper.map(computerDTO);
 			form.updateComputer(request, computer);
 			request.setAttribute("form", form);
 			request.setAttribute("computer", computer);
 			request.setAttribute("companies", liste);
 			if (form.getErreurs().isEmpty()) {
 				logger.info("Modification reussie du computer : " + computer);
-				response.sendRedirect("Dashboard");
+				response.sendRedirect("dashboard");
 			}
 			else {
 				request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
 			}
-		} catch (Exception e) {
-			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
-		}
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.formation.computerdatabase.pagination;
 
+import java.util.HashMap;
 import java.util.List;
 
-import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.Dao;
 
 // TODO: Auto-generated Javadoc
@@ -28,9 +28,15 @@ public class Pager<T> {
 	/** The page actuelle. */
 	private int pageActuelle;
 	
-	/** The dao. */
+	/** The service. */
 	private Dao<T> dao;
 	
+	/** The filter. */
+	private HashMap<String, Object> filter;
+
+	public HashMap<String, Object> getFilter() {
+		return filter;
+	}
 
 	/**
 	 * Instantiates a new pager.
@@ -38,12 +44,13 @@ public class Pager<T> {
 	 * @param nbParPage the nb par page
 	 * @param page the page
 	 * @param dao the dao
+	 * @param filter the filter
 	 */
-	public Pager(int nbParPage, int page, Dao<T> dao) {
-		
+	public Pager(int nbParPage, int page, Dao<T> dao, HashMap<String, Object> filter) {
 		this.nbParPage = nbParPage;
 		this.pageActuelle = page;
 		this.dao = dao;
+		this.filter = filter;
 		updateListe();
 	}
 	
@@ -76,6 +83,11 @@ public class Pager<T> {
 		}
 	}
 	
+	/**
+	 * Checks if is outof bounds.
+	 *
+	 * @return true, if is outof bounds
+	 */
 	public boolean isOutofBounds(){
 		boolean bool = false;
 		System.out.println(pageActuelle);
@@ -92,11 +104,16 @@ public class Pager<T> {
 	 * Update liste.
 	 */
 	public void updateListe() {
-		this.nbEntries = dao.getNbEntries();
+		this.nbEntries = dao.getNbEntries(filter);
 		this.nbPages = (int) Math.ceil((double) nbEntries/nbParPage);
-		this.liste = this.dao.getFromTo((pageActuelle - 1)*nbParPage, nbParPage);
+		liste = this.dao.getFromTo((pageActuelle - 1) * nbParPage, nbParPage, filter);
+		
 		
 	}
+	
+	/**
+	 * Correct page.
+	 */
 	public void correctPage(){
 		if (this.pageActuelle < 1){
 			this.pageActuelle = 1;

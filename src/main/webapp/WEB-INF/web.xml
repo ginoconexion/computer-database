@@ -11,7 +11,7 @@
     <listener-class>com.formation.computerdatabase.initialization.Initialization</listener-class>
   </listener>
   <welcome-file-list>
-    <welcome-file>Dashboard</welcome-file>
+    <welcome-file>dashboard</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>ServletAdd</servlet-name>
@@ -27,7 +27,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ServletDashboard</servlet-name>
-    <url-pattern>/Dashboard</url-pattern>
+    <url-pattern>/dashboard</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>ServletEdit</servlet-name>

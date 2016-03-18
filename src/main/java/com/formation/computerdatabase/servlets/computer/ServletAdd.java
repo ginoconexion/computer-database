@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.CompanyDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
@@ -26,7 +27,7 @@ public class ServletAdd extends HttpServlet {
        
     private CompanyDaoServiceImpl companyService;
     private ComputerDaoServiceImpl computerService;
-    private List<Company> liste;
+    private List<CompanyDTO> liste;
     private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	
 	public void init() {
@@ -66,7 +67,7 @@ public class ServletAdd extends HttpServlet {
 		request.setAttribute("companies", liste);
 		
 		if (form.getErreurs().isEmpty()) {
-			response.sendRedirect("Dashboard");
+			response.sendRedirect("dashboard");
 			logger.info("Ajout reussi du computer : " + computer);
 		}
 		else {

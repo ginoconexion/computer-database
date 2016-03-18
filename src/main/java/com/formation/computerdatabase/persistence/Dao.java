@@ -1,11 +1,12 @@
 package com.formation.computerdatabase.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
+import com.formation.computerdatabase.model.Computer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Dao.
  *
@@ -20,7 +21,7 @@ public interface Dao<T> {
 	 * @param nb the nb
 	 * @return the from to
 	 */
-	List<T> getFromTo(int from, int nb);
+	List<T> getFromTo(int from, int nb, HashMap<String, Object> filter);
 	
 	/**
 	 * Gets the by id.
@@ -36,5 +37,6 @@ public interface Dao<T> {
 	 *
 	 * @return the nb entries
 	 */
-	int getNbEntries();
+	int getNbEntries(HashMap<String, Object> filter);
+	
 }

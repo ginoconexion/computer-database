@@ -13,14 +13,14 @@ public interface ComputerDao extends Dao<Computer> {
 	 *
 	 * @param computer the computer
 	 */
-	void createComputer(Computer computer);
+	void create(Computer computer);
 	
 	/**
 	 * Update computer.
 	 *
 	 * @param computer the computer
 	 */
-	void updateComputer(Computer computer);
+	void update(Computer computer);
 	
 	/**
 	 * Gets the computer by name.
@@ -28,12 +28,12 @@ public interface ComputerDao extends Dao<Computer> {
 	 * @param name the name
 	 * @return the computer by name
 	 */
-	Computer getComputerByName(String name);
+	Computer getByName(String name);
 	
 	/**
 	 * Delete computer.
 	 *
 	 * @param id the id
 	 */
-	void deleteComputer(long id);
+	void delete(long id);
 }

@@ -2,10 +2,11 @@ package com.formation.computerdatabase.persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 
 // TODO: Auto-generated Javadoc
@@ -39,7 +40,6 @@ public class ComputerMapper {
 	 */
 	public static List<Computer> mapList(ResultSet rs) {
 		List<Computer> liste = new ArrayList<>();
-
 		try {
 			while (rs.next()){
 				liste.add(map(rs));
@@ -48,6 +48,16 @@ public class ComputerMapper {
 			e.printStackTrace();
 		}
 		return liste;
+	}
+	
+	public static Computer map(ComputerDTO cDTO) {
+		Computer c = new Computer();
+ 		c.setId(Long.parseLong(cDTO.getId()));
+		c.setIntroduced((cDTO.getIntroduced() == null) ? null : LocalDate.parse(cDTO.getIntroduced()));
+		c.setDiscontinued((cDTO.getDiscontinued() == null) ? null : LocalDate.parse(cDTO.getDiscontinued()));
+		c.setName(cDTO.getName());
+		c.setCompany(CompanyMapper.map(cDTO.getCompany()));
+		return c;
 	}
 	
 }

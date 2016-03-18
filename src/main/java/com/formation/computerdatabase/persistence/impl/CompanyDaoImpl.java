@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
@@ -29,7 +30,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * @see com.formation.computerdatabase.persistence.CompanyDao#getNbEntries()
 	 */
 	@Override
-	public int getNbEntries() {
+	public int getNbEntries(HashMap<String, Object> filter) {
 		Connection connexion = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -60,7 +61,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	 * @see com.formation.computerdatabase.persistence.CompanyDao#getFromTo(int, int)
 	 */
 	@Override
-	public List<Company> getFromTo(int from, int nb) {
+	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
@@ -150,5 +151,4 @@ private final static String SELECT_ALL = "SELECT * FROM company";
 		}
 		return company;
 	}
-
 }

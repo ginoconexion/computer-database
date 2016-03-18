@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.formation.computerdatabase.model.Company;
+import com.formation.computerdatabase.model.dto.CompanyDTO;
 
 
 // TODO: Auto-generated Javadoc
@@ -23,6 +24,19 @@ public class CompanyMapper {
 		Company company = new Company();
 		company.setId(rs.getInt("id"));
 		company.setName(rs.getString("name"));
+		return company;
+	}
+	
+	/**
+	 * Map.
+	 *
+	 * @param companyDto the company dto
+	 * @return the company
+	 */
+	public static Company map(CompanyDTO companyDto) {
+		Company company = new Company();
+		company.setId(Long.parseLong(companyDto.getId()));
+		company.setName(companyDto.getName());
 		return company;
 	}
 }

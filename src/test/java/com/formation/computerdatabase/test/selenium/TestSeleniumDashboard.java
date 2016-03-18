@@ -16,7 +16,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.junit.Assert.*;
 
 
-public class TestSeleniumListeComputer {
+public class TestSeleniumDashboard {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -25,18 +25,32 @@ public class TestSeleniumListeComputer {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "http://localhost:8080/";
+    //baseUrl = "http://localhost:8080/computerdatabase/";
+    baseUrl = "http://localhost:8080/computerdatabase-1.0-SNAPSHOT/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testSeleniumListeComputer() throws Exception {
-    driver.get(baseUrl + "/computerdatabase/Dashboard");
+  public void testListe() throws Exception {
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.linkText("MacBook Pro 15.6")).click();
     driver.findElement(By.cssSelector("a.navbar-brand")).click();
     driver.findElements(By.xpath("//tbody[@id='results']/tr/td"));
     assertTrue(driver.findElements(By.xpath("//tbody[@id='results']/tr/td")).size() > 0);
   }
+  
+  @Test
+  public void testSearch() throws Exception {
+	  
+	  driver.get(baseUrl + "/dashboard");
+	  //driver.get(baseUrl + "/computerdatabase/dashboard?nb=10&search=&page=1");
+	  driver.findElement(By.id("searchbox")).clear();
+	  driver.findElement(By.id("searchbox")).sendKeys("mac");
+	  driver.findElement(By.id("searchsubmit")).click();
+	  System.out.println(driver.findElement(By.xpath("//td[2]/a")).getText());
+	  assertTrue(driver.findElement(By.xpath("//td[2]/a")).getText().toLowerCase().contains("mac"));	  
+  }
+  
 
   @After
   public void tearDown() throws Exception {

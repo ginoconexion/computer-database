@@ -32,7 +32,8 @@ public class TestSeleniumAddComputer {
   
   @BeforeClass
   public static void init() {
-	  baseUrl = "http://localhost:8080//computerdatabase";
+	  baseUrl = "http://localhost:8080//computerdatabase-1.0-SNAPSHOT";
+	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
 	  File noscript = new File("/home/excilys/noscript.xpi");
 	  try {
@@ -56,7 +57,7 @@ public class TestSeleniumAddComputer {
   @Test
   public void addValidWithouContinuedAndDiscontinued() throws Exception {
 	// add without introduced and discontinued
-    driver.get(baseUrl + "/Dashboard#");
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     driver.findElement(By.id("computerName")).clear();
     driver.findElement(By.id("computerName")).sendKeys("Test");
@@ -64,14 +65,14 @@ public class TestSeleniumAddComputer {
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
     
     // on teste la redirection si l'ajout s 'est bien passé
-    assertTrue(driver.getCurrentUrl().equals(baseUrl + "/Dashboard"));
+    assertTrue(driver.getCurrentUrl().equals(baseUrl + "/dashboard"));
   }
   
   @Ignore
   @Test
   public void addValidWithContinuedAndDiscontinued() throws Exception {
 	// add with valid parameters
-    driver.get(baseUrl + "/Dashboard");
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     driver.findElement(By.id("computerName")).clear();
     driver.findElement(By.id("computerName")).sendKeys("Test");
@@ -83,14 +84,14 @@ public class TestSeleniumAddComputer {
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
     
     // on s'attends à deux erreurs
-    assertTrue(driver.getCurrentUrl().equals(baseUrl + "/Dashboard"));
+    assertTrue(driver.getCurrentUrl().equals(baseUrl + "/dashboard"));
   }
   
   @Ignore
   @Test
   public void addWithWrongIntroducedAndDiscontinued() throws Exception {
 	// add with wrong parameters introduced discontinued
-    driver.get(baseUrl + "/Dashboard");
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     
     driver.findElement(By.id("computerName")).clear();
@@ -104,13 +105,13 @@ public class TestSeleniumAddComputer {
     
     // on s'attends à deux erreurs
     assertEquals(2, driver.findElements(By.cssSelector("div.alert.alert-danger")).size());
-    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/Dashboard"));
+    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/dashboard"));
   }
   @Ignore
   @Test
   public void addWithNoParameters() throws Exception {
 	// add with no parameters
-    driver.get(baseUrl + "/Dashboard");
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
     
@@ -118,13 +119,13 @@ public class TestSeleniumAddComputer {
     
     // on s'attends à deux erreurs (nom + company)
     assertEquals(2, driver.findElements(By.cssSelector("div.alert.alert-danger")).size());
-    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/Dashboard"));
+    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/dashboard"));
   }
   @Ignore
   @Test
   public void addWithValidParametersButNoCompany() throws Exception {
 	// add with valid parameters but no company
-    driver.get(baseUrl + "/Dashboard");
+    driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     
     driver.findElement(By.id("computerName")).clear();
@@ -138,7 +139,7 @@ public class TestSeleniumAddComputer {
     
     // on s'attends à deux erreurs
     assertEquals(1, driver.findElements(By.cssSelector("div.alert.alert-danger")).size());
-    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/Dashboard"));
+    assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/dashboard"));
   }
 
   @AfterClass

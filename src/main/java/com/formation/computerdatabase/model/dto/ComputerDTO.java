@@ -31,6 +31,9 @@ public class ComputerDTO {
 		this.company = new CompanyDTO(computer.getCompany());
 	}
 
+	public ComputerDTO() {
+	}
+
 	public String getId() {
 		return id;
 	}

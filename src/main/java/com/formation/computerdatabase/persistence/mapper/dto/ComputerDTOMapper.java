@@ -1,25 +1,38 @@
 package com.formation.computerdatabase.persistence.mapper.dto;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 
+
 public class ComputerDTOMapper {
 	
 	/**
-	 * Map.
+	 * Map
 	 *
 	 * @param cDTO the c dto
 	 * @return the computer
 	 */
-	public static Computer map(ComputerDTO cDTO) {
-		Computer c = new Computer();
- 		c.setId(Long.parseLong(cDTO.getId()));
-		c.setIntroduced(LocalDate.parse(cDTO.getIntroduced()));
-		c.setDiscontinued(LocalDate.parse(cDTO.getDiscontinued()));
-		c.setName(cDTO.getName());
-		c.setCompany(CompanyDTOMapper.map(cDTO.getCompany()));
-		return c;
+	
+	public static ComputerDTO map(Computer computer) {
+		ComputerDTO cDTO = new ComputerDTO();
+		cDTO.setId(Long.toString(computer.getId()));
+		cDTO.setName(computer.getName());
+		cDTO.setDiscontinued((computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString());
+		cDTO.setIntroduced((computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
+		cDTO.setCompany((computer.getCompany() == null ) ? null : CompanyDTOMapper.map(computer.getCompany()));
+		return cDTO;
+	}
+	
+	public static List<ComputerDTO> mapList(List<Computer> listeComputer) {
+		
+		List<ComputerDTO> liste = new ArrayList<>();
+		
+		for (Computer computer : listeComputer) {
+			liste.add(ComputerDTOMapper.map(computer));
+		}
+		return liste;
 	}
 }

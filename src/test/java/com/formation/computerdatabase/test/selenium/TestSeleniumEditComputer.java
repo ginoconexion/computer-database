@@ -27,7 +27,8 @@ public class TestSeleniumEditComputer {
 
   @Before
   public void setUp() throws Exception {
-	  baseUrl = "http://localhost:8080//computerdatabase";
+	  baseUrl = "http://localhost:8080//computerdatabase-1.0-SNAPSHOT";
+	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
 	  File noscript = new File("/home/excilys/noscript.xpi");
 	  try {
@@ -47,7 +48,7 @@ public class TestSeleniumEditComputer {
 	driver.get(baseUrl);
 	
 	// initialisation de l'objet
-	driver.get(baseUrl + "/Dashboard");
+	driver.get(baseUrl + "/dashboard");
 	String nom = "MacBook Pro 15.7";
 	String introduced = "1992-03-30";
 	String discontinued = "1993-03-30";
@@ -75,7 +76,7 @@ public class TestSeleniumEditComputer {
 	String discontinued = "1993-03-29";
 	String company = "Apple Inc.";
 	int idCompany1 = 1;
-	driver.get(baseUrl + "/Dashboard");
+	driver.get(baseUrl + "/dashboard");
     
     // on clique sur le premier lien
     driver.findElement(By.xpath("//td[2]/a")).click();
@@ -92,7 +93,7 @@ public class TestSeleniumEditComputer {
     new Select(driver.findElement(By.id("companyId"))).selectByVisibleText(company);
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
     
-    driver.get(baseUrl + "/Dashboard");
+    driver.get(baseUrl + "/dashboard");
     // on clique sur le premier lien
     driver.findElement(By.xpath("//td[2]/a")).click();
     

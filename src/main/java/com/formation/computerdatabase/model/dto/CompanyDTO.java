@@ -9,6 +9,10 @@ public class CompanyDTO {
 	/** The name. */
 	private String name;
 
+	
+	public CompanyDTO() {
+	}
+	
 	public CompanyDTO(Company company) {
 		if (company !=  null) {
 			this.id = Long.toString(company.getId());
@@ -31,6 +35,4 @@ public class CompanyDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

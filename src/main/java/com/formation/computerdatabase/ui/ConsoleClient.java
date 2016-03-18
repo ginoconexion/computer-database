@@ -1,21 +1,7 @@
 package com.formation.computerdatabase.ui;
 
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
-
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.exception.DAONotFoundException;
-import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.pagination.Pager;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
-import com.formation.computerdatabase.util.Regexp;
-
 public class ConsoleClient {
+	/*
 
 	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private final static int nbParPage = 10;
@@ -222,4 +208,5 @@ public class ConsoleClient {
 		ConsoleClient consoleClient = new ConsoleClient(ServiceFactory.INSTANCE);
 		consoleClient.printMenu();
 	}
+	*/
 }

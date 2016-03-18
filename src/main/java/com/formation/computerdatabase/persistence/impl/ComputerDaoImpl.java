@@ -7,16 +7,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum ComputerDaoImpl.
  */
@@ -27,13 +28,10 @@ public enum ComputerDaoImpl implements ComputerDao {
 	
 	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT_LIMIT = "SELECT * FROM computer LIMIT ?, ?";
-	
-	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.Dao#getFromTo(int, int)
-	 */
+	private final static String WHERE_NAME = " WHERE name LIKE ? ";
+
 	@Override
-	public List<Computer> getFromTo(int from, int nb) {
+	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -41,12 +39,22 @@ public enum ComputerDaoImpl implements ComputerDao {
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
-			String sql = SELECT_LIMIT;
-			pstmt = connexion.prepareStatement(sql);
-			pstmt.setInt(1, from);
-			pstmt.setInt(2, nb);
-			rs = pstmt.executeQuery();
+			String sql = "SELECT * FROM computer";
+			int i = 1;
 			
+			if (filter.containsKey("byName")){
+				sql = sql + WHERE_NAME;
+			}
+			sql = sql + " LIMIT ?, ?";
+			System.out.println(sql);
+			pstmt = connexion.prepareStatement(sql);
+			
+			if (filter.containsKey("byName")) {
+				pstmt.setString(i++, "%" + (String) filter.get("byName") + "%");
+			}
+			pstmt.setInt(i++, from);
+			pstmt.setInt(i++, nb);
+			rs = pstmt.executeQuery();
 			liste = ComputerMapper.mapList(rs);
 			
 		} catch (SQLException e) {
@@ -57,21 +65,28 @@ public enum ComputerDaoImpl implements ComputerDao {
 		return liste;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.Dao#getNbEntries()
-	 */
 	@Override
-	public int getNbEntries() {
+	public int getNbEntries(HashMap<String, Object> filter) {
 		Connection connexion = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int nbEntries = 0;
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
 			String sql = "SELECT COUNT(*) as nb_computers FROM computer";
-			stmt = connexion.createStatement();
-			rs = stmt.executeQuery(sql);
+			
+			if (filter.containsKey("byName")){
+				sql = sql + WHERE_NAME;
+			}
+			
+			pstmt = connexion.prepareStatement(sql);
+			
+			if (filter.containsKey("byName")) {
+				pstmt.setString(1, "%" + (String) filter.get("byName") + "%");
+			}
+			
+			rs = pstmt.executeQuery();
 			
 			if (rs.next()){
 				nbEntries = rs.getInt("nb_computers");
@@ -80,7 +95,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
 		} finally {
-			ConnexionFactory.close(connexion, rs, stmt, null);
+			ConnexionFactory.close(connexion, rs, pstmt, null);
 		}
 		return nbEntries;
 	}
@@ -88,9 +103,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant SELECT_BY_ID. */
 	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.Dao#getById(long)
-	 */
 	@Override
 	public Computer getById(long id) throws DAONotFoundException {
 		Connection connexion = null;
@@ -120,11 +132,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant INSERT. */
 	private final static String INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.ComputerDao#createComputer(com.formation.computerdatabase.model.Computer)
-	 */
 	@Override
-	public void createComputer(Computer computer) {
+	public void create(Computer computer) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		
@@ -147,11 +156,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant UPDATE. */
 	private final static String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.ComputerDao#updateComputer(com.formation.computerdatabase.model.Computer)
-	 */
 	@Override
-	public void updateComputer(Computer computer) {
+	public void update(Computer computer) {
 		
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
@@ -176,11 +182,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant DELETE. */
 	private final static String DELETE = "DELETE FROM computer WHERE id = ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.ComputerDao#deleteComputer(long)
-	 */
 	@Override
-	public void deleteComputer(long id) {
+	public void delete(long id) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		
@@ -199,11 +202,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant SELECT_BY_NAME. */
 	private final static String SELECT_BY_NAME = "SELECT * FROM computer WHERE name = ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.ComputerDao#getComputerByName(java.lang.String)
-	 */
 	@Override
-	public Computer getComputerByName(String name) {
+	public Computer getByName(String name) {
 		
 		Connection connexion = null;
 		PreparedStatement pstmt = null;

@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
@@ -23,13 +25,15 @@ public class ServletDashboard extends HttpServlet {
 	
 	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
     private ComputerDaoServiceImpl computerService;
-    private Pager<Computer> pager;
+    private Pager<ComputerDTO> pager;
+    private HashMap<String, Object> filter;
 	
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
 		this.computerService = service.getComputerDaoServiceImpl();
-		this.pager = new Pager<>(10, 1, computerService);
+		filter = new HashMap<>();
+		this.pager = new Pager<>(10, 1, computerService, filter);
 	}
 	
     /**
@@ -47,8 +51,7 @@ public class ServletDashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int page = 1;
-		int nb = 10;
+		filter.remove("byName");
 		if (request.getParameter("page") != null) {
 			try {
 				pager.setPageActuelle(Integer.parseInt(request.getParameter("page")));
@@ -60,17 +63,25 @@ public class ServletDashboard extends HttpServlet {
 		if (request.getParameter("nb") != null) {
 			try {
 				pager.setNbParPage(Integer.parseInt(request.getParameter("nb")));
-				//nb = Integer.parseInt(request.getParameter("nb"));
 				
 			} catch (NumberFormatException e) {
 				// traitement
 			}
 		}
+		
+		if (request.getParameter("search") !=  null ) {
+			try {
+				filter.put("byName", request.getParameter("search").toLowerCase());
+			} catch (Exception e) {
+				
+			}
+		}
 		pager.updateListe();
 		if (pager.isOutofBounds()) {
-			response.sendRedirect("Dashboard");
+			response.sendRedirect("dashboard");
 		}
 		else {
+			//request.setAttribute("url", "Dashboard?nb="+pager.getNbParPage()+"&se");
 			request.setAttribute("pager", pager);
 			request.getRequestDispatcher("/views/dashboard.jsp").forward( request, response );
 		}
@@ -86,7 +97,7 @@ public class ServletDashboard extends HttpServlet {
 				String[] idArray = request.getParameter("selection").split(",");
 				for (int i = 0; i < idArray.length; i++) {
 					long id = Long.parseLong(idArray[i]);
-					computerService.deleteComputer(id);
+					computerService.delete(id);
 					logger.info("Suppression du computer d'id " + id);
 				}
 				
@@ -97,7 +108,7 @@ public class ServletDashboard extends HttpServlet {
 		}
 		else {
 			//doGet(request, response);
-			response.sendRedirect("Dashboard");
+			response.sendRedirect("dashboard");
 		}
 	}
 

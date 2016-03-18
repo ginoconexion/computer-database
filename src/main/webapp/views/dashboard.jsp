@@ -19,7 +19,7 @@
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['byName'] }" />
                         <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
                     </form>
                 </div>
@@ -74,11 +74,11 @@
                             <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
-                            <a href="editComputer?id=${ computer.id }" onclick="">${ computer.name }</a>
+                            <a href="editComputer?id=${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
                         </td>
                         <td>${ computer.introduced }</td>
                         <td>${ computer.discontinued }</td>
-                        <td>${ computer.company.name }</td>
+                        <td><c:out value="${ computer.company.name }"></c:out></td>
                     </tr>
                     </c:forEach>
                 </tbody>
@@ -86,7 +86,8 @@
         </div>
     </section>
 
-	<c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}?nb=${ pager.nbParPage }"></c:set>
+	<c:set var="url" value="dashboard?nb=${ pager.nbParPage }&search=${ pager.filter['byName'] }"></c:set>
+	
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
         	<c:set var="pagePrecedente" value="${ pager.pageActuelle -1 }"></c:set>

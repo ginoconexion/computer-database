@@ -1,25 +1,8 @@
 package com.formation.computerdatabase.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.sql.Timestamp;
-import java.util.List;
-
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.persistence.ConnexionFactory;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-
 public class TestComputerDao {
 	
-	
+	/*
 	private static ComputerDaoImpl computerDaoImpl;
 	
 	
@@ -78,13 +61,13 @@ public class TestComputerDao {
 		computer.setName(name);
 		computerDaoImpl.createComputer(computer);
 		
-		/** on vérifie qu'on récupère bien le bon ordinateur */
+		/** on vérifie qu'on récupère bien le bon ordinateur 
 		computer = computerDaoImpl.getComputerByName(name);
 		assertEquals(name, computer.getName());
 		
 		computerDaoImpl.deleteComputer(computer.getId());
 		
-		/** on vérifie que l'ordinateur a bien été supprimé */
+		/** on vérifie que l'ordinateur a bien été supprimé 
 		computer = computerDaoImpl.getComputerByName(name);
 		
 		assertEquals(null, computer);
@@ -99,4 +82,5 @@ public class TestComputerDao {
 	public void testFromTo(){
 		assertTrue(computerDaoImpl.getFromTo(0, 10).size() == 10);
 	}
+	*/
 }
