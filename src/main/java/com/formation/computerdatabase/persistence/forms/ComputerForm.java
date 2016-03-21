@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.validator.ValidatorResult;
-
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
@@ -17,8 +15,6 @@ import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Regexp;
-
-import net.sf.cglib.core.Local;
 
 // TODO: Auto-generated Javadoc
 /**

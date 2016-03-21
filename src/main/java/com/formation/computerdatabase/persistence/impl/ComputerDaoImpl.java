@@ -27,8 +27,10 @@ public enum ComputerDaoImpl implements ComputerDao {
 	INSTANCE;
 	
 	/** The Constant SELECT_LIMIT. */
-	private final static String SELECT_LIMIT = "SELECT * FROM computer LIMIT ?, ?";
-	private final static String WHERE_NAME = " WHERE name LIKE ? ";
+	private final static String SELECT = "SELECT * FROM computer ";
+	private final static String LIMIT = "LIMIT ?, ? ";
+	private final static String JOIN_ON_COMPANY = "LEFT JOIN company on computer.id = company.id ";
+	private final static String WHERE_NAME = " WHERE computer.name LIKE ?  OR company.name LIKE ? ";
 
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
@@ -39,17 +41,18 @@ public enum ComputerDaoImpl implements ComputerDao {
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
-			String sql = "SELECT * FROM computer";
+			String sql = SELECT;
 			int i = 1;
 			
 			if (filter.containsKey("byName")){
-				sql = sql + WHERE_NAME;
+				sql = sql + JOIN_ON_COMPANY + WHERE_NAME;
 			}
-			sql = sql + " LIMIT ?, ?";
+			sql = sql + LIMIT;
 			System.out.println(sql);
 			pstmt = connexion.prepareStatement(sql);
 			
 			if (filter.containsKey("byName")) {
+				pstmt.setString(i++, "%" + (String) filter.get("byName") + "%");
 				pstmt.setString(i++, "%" + (String) filter.get("byName") + "%");
 			}
 			pstmt.setInt(i++, from);
@@ -65,6 +68,8 @@ public enum ComputerDaoImpl implements ComputerDao {
 		return liste;
 	}
 
+	private final static String SELECT_COUNT = "SELECT COUNT(*) as nb_computers FROM computer ";
+	
 	@Override
 	public int getNbEntries(HashMap<String, Object> filter) {
 		Connection connexion = null;
@@ -74,20 +79,20 @@ public enum ComputerDaoImpl implements ComputerDao {
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
-			String sql = "SELECT COUNT(*) as nb_computers FROM computer";
+			String sql = SELECT_COUNT;
 			
 			if (filter.containsKey("byName")){
-				sql = sql + WHERE_NAME;
+				sql = sql + JOIN_ON_COMPANY + WHERE_NAME;
 			}
 			
 			pstmt = connexion.prepareStatement(sql);
 			
 			if (filter.containsKey("byName")) {
 				pstmt.setString(1, "%" + (String) filter.get("byName") + "%");
+				pstmt.setString(2, "%" + (String) filter.get("byName") + "%");
 			}
 			
 			rs = pstmt.executeQuery();
-			
 			if (rs.next()){
 				nbEntries = rs.getInt("nb_computers");
 			}

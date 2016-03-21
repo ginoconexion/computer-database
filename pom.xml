@@ -64,29 +64,39 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j2Version}</version>
-			<scope>provided</scope>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j2Version}</version>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-		
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysqlVersion}</version>
 			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>0.8.0.RELEASE</version>
 		</dependency>
 	</dependencies>
 
@@ -94,10 +104,11 @@
 		<jUnitVersion>4.12</jUnitVersion>
 		<mysqlVersion>(5.1,)</mysqlVersion>
 		<jstlVersion>1.2</jstlVersion>
-		<log4j2Version>2.5</log4j2Version>
+		<slf4jVersion>1.6.1</slf4jVersion>
 		<servletVersion>3.0.1</servletVersion>
 		<seleniumVersion>2.53.0</seleniumVersion>
 		<javaxServletVersion>3.1.0</javaxServletVersion>
+		<tomcatplugin>2.2</tomcatplugin>
 	</properties>
 
 	<build>
@@ -112,67 +123,30 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${tomcatplugin}</version>
 				<configuration>
-					<excludes>
-						<exclude>**/selenium/**</exclude>
-					</excludes>
+					<port>8080</port>
+					<path>/</path>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12.4</version>
-				<configuration>
-					<includes>
-						<include>**/selenium/**</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.2.0</version>
-				<configuration>
-					<container>
-						<containerId>tomcat7x</containerId>
-						<zipUrlInstaller>
-							<url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.zip
-							</url>
-							<downloadDir>${project.build.directory}/downloads</downloadDir>
-							<extractDir>${project.build.directory}/extracts</extractDir>
-						</zipUrlInstaller>
-					</container>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-tomcat</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop-tomcat</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<version>2.19.1</version> <configuration> <excludes> <exclude>**/selenium/**</exclude> 
+				</excludes> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-failsafe-plugin</artifactId> <version>2.12.4</version> 
+				<configuration> <includes> <include>**/selenium/**</include> </includes> 
+				</configuration> <executions> <execution> <goals> <goal>integration-test</goal> 
+				<goal>verify</goal> </goals> </execution> </executions> </plugin> <plugin> 
+				<groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
+				<version>2.2</version> </plugin> <plugin> <groupId>org.codehaus.cargo</groupId> 
+				<artifactId>cargo-maven2-plugin</artifactId> <version>1.2.0</version> <configuration> 
+				<container> <containerId>tomcat7x</containerId> <zipUrlInstaller> <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.zip 
+				</url> <downloadDir>${project.build.directory}/downloads</downloadDir> <extractDir>${project.build.directory}/extracts</extractDir> 
+				</zipUrlInstaller> </container> </configuration> <executions> <execution> 
+				<id>start-tomcat</id> <phase>pre-integration-test</phase> <goals> <goal>start</goal> 
+				</goals> </execution> <execution> <id>stop-tomcat</id> <phase>post-integration-test</phase> 
+				<goals> <goal>stop</goal> </goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 

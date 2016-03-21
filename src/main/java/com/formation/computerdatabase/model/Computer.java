@@ -1,14 +1,9 @@
 package com.formation.computerdatabase.model;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.exception.DateFormatException;
 
-import net.sf.cglib.core.Local;
 
 // TODO: Auto-generated Javadoc
 /**

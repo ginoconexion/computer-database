@@ -11,13 +11,10 @@ import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
-import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum CompanyDaoImpl.
  */
@@ -26,9 +23,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 	/** The instance. */
 	INSTANCE;
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.CompanyDao#getNbEntries()
-	 */
 	@Override
 	public int getNbEntries(HashMap<String, Object> filter) {
 		Connection connexion = null;
@@ -57,9 +51,6 @@ public enum CompanyDaoImpl implements CompanyDao {
 	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT_LIMIT = "SELECT * FROM company LIMIT ?, ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.CompanyDao#getFromTo(int, int)
-	 */
 	@Override
 	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		
@@ -88,12 +79,9 @@ public enum CompanyDaoImpl implements CompanyDao {
 		return liste;
 	}
 	
-/** The Constant SELECT_ALL. */
-private final static String SELECT_ALL = "SELECT * FROM company";
+	/** The Constant SELECT_ALL. */
+	private final static String SELECT_ALL = "SELECT * FROM company";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.CompanyDao#getAll()
-	 */
 	@Override
 	public List<Company> getAll() {
 		
@@ -123,9 +111,6 @@ private final static String SELECT_ALL = "SELECT * FROM company";
 	/** The Constant SELECT_BY_ID. */
 	private final static String SELECT_BY_ID = "SELECT * FROM company WHERE id = ?";
 	
-	/* (non-Javadoc)
-	 * @see com.formation.computerdatabase.persistence.CompanyDao#getById(long)
-	 */
 	@Override
 	public Company getById(long id) {
 		
@@ -144,11 +129,45 @@ private final static String SELECT_ALL = "SELECT * FROM company";
 				company = CompanyMapper.map(rs);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			throw new DAOException(e.getMessage());
 		} finally {
 			ConnexionFactory.close(connexion, rs, null, pstmt);
 		}
 		return company;
+	}
+	
+	/** The Constant DELETE. */
+	private final static String DELETE_COMPUTERS = "DELETE FROM computer WHERE company_id = ?";
+	private final static String DELETE = "DELETE FROM company WHERE id = ?";
+	
+	@Override
+	public void delete(long id) {
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion.setAutoCommit(false);
+			pstmt = connexion.prepareStatement(DELETE_COMPUTERS);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			
+			pstmt = connexion.prepareStatement(DELETE);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+			connexion.commit();
+			
+		} catch (SQLException e) {
+			try {
+				connexion.rollback();
+			} catch (SQLException e1) {
+				throw new DAOException(e.getMessage());
+			}
+			throw new DAOException(e.getMessage());
+		} finally {
+			ConnexionFactory.close(connexion, null, null, pstmt);
+		}
 	}
 }

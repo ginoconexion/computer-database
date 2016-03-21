@@ -29,11 +29,4 @@ public interface ComputerDao extends Dao<Computer> {
 	 * @return the computer by name
 	 */
 	Computer getByName(String name);
-	
-	/**
-	 * Delete computer.
-	 *
-	 * @param id the id
-	 */
-	void delete(long id);
 }

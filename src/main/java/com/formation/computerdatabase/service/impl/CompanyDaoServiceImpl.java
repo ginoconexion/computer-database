@@ -45,6 +45,11 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	public List<Company> getAll() {
 		return companyDaoImpl.getAll();
 	}
+
+	@Override
+	public void delete(long id) {
+		companyDaoImpl.delete(id);
+	}
 	
 
 }

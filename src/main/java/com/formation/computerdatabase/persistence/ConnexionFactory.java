@@ -9,13 +9,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import javax.management.RuntimeErrorException;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * A factory for creating Connexion objects.
  */
@@ -47,7 +50,7 @@ public enum ConnexionFactory {
     
     /** The company dao impl. */
     private static CompanyDaoImpl companyDaoImpl = CompanyDaoImpl.INSTANCE;
-	
+    BoneCP connectionPool;
 	
     /**
      * Constructeur privé.
@@ -55,6 +58,8 @@ public enum ConnexionFactory {
 	private ConnexionFactory() {
 		
 		properties = new Properties();
+		connectionPool = null;
+		
 		try {
 			properties.load(ConnexionFactory.class.getClassLoader().getResourceAsStream(FICHIER_PROPERTIES));
 		} catch (IOException e) {
@@ -72,6 +77,24 @@ public enum ConnexionFactory {
 			System.err.println(message);
 			throw new RuntimeException(message, e);
 		}
+		
+		
+		
+		try {
+			BoneCPConfig config = new BoneCPConfig();
+			config.setJdbcUrl(properties.getProperty(PROPERTY_URL));
+			config.setUsername(properties.getProperty(PROPERTY_NOM_UTILISATEUR));
+			config.setPassword(properties.getProperty(PROPERTY_MOT_DE_PASSE));
+			config.setMinConnectionsPerPartition(5);
+			config.setMaxConnectionsPerPartition(15);
+			config.setPartitionCount(2);
+			connectionPool = new BoneCP(config);
+		} catch (SQLException e) {
+			String message = "Erreur de configuration du pool de connexion";
+			System.err.println(message);
+			throw new RuntimeException(message, e);
+		}
+		
 	}
 	
 	
@@ -100,8 +123,9 @@ public enum ConnexionFactory {
 	 * @return the connection
 	 * @throws SQLException the SQL exception
 	 */
-	public Connection getConnection() throws SQLException{
-		return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
+	public Connection getConnection() throws SQLException {
+		return connectionPool.getConnection();
+		//return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
 	}
     
 	/**

@@ -5,8 +5,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.formation.computerdatabase.service.CompanyDaoService;
+import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.util.Formatter;
 import com.formation.computerdatabase.util.Regexp;
+import com.google.common.util.concurrent.Service;
 
 public class Test {
 
@@ -20,7 +24,11 @@ public class Test {
 		sp.
 		*/
 		
-		LocalDate ld = LocalDate.parse("2016-03-29");
+		//LocalDate ld = LocalDate.parse("2016-03-29");
+		ServiceFactory service = ServiceFactory.INSTANCE;
+		CompanyDaoService companyService = service.getCompanyDaoServiceImpl();
+		companyService.delete(44);
+		
 	}
 
 }

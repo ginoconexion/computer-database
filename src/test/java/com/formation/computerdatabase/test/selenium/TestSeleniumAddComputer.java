@@ -32,7 +32,7 @@ public class TestSeleniumAddComputer {
   
   @BeforeClass
   public static void init() {
-	  baseUrl = "http://localhost:8080//computerdatabase-1.0-SNAPSHOT";
+	  baseUrl = "http://localhost:8080/";
 	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
 	  File noscript = new File(TestSeleniumAddComputer.class.getClassLoader().getResource("noscript.xpi").getFile());
@@ -43,14 +43,14 @@ public class TestSeleniumAddComputer {
 		e.printStackTrace();
 	}
 	  
-	  driver = new FirefoxDriver(profile);
-	  
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	driver = new FirefoxDriver(profile);
+	
 	try {
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
+	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	driver.get(baseUrl);
   }
   

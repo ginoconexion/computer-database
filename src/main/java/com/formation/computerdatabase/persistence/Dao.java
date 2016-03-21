@@ -39,4 +39,5 @@ public interface Dao<T> {
 	 */
 	int getNbEntries(HashMap<String, Object> filter);
 	
+	void delete(long id);
 }

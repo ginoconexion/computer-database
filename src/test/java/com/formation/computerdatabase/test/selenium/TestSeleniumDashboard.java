@@ -26,7 +26,7 @@ public class TestSeleniumDashboard {
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
     //baseUrl = "http://localhost:8080/computerdatabase/";
-    baseUrl = "http://localhost:8080/computerdatabase-1.0-SNAPSHOT/";
+    baseUrl = "http://localhost:8080/computerdatabase/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 

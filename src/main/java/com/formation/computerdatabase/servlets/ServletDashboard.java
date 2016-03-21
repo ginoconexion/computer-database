@@ -2,7 +2,6 @@ package com.formation.computerdatabase.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
-import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
@@ -26,7 +25,6 @@ import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 public class ServletDashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private static Logger logger = LoggerFactory.getLogger("com.excilys.formation.computerdatabase");
     private ComputerDaoServiceImpl computerService;
     private Pager<Computer> pager;
@@ -93,7 +91,7 @@ public class ServletDashboard extends HttpServlet {
 				for (int i = 0; i < idArray.length; i++) {
 					long id = Long.parseLong(idArray[i]);
 					computerService.delete(id);
-					logger.info("Suppression du computer d'id " + id);
+					//logger.info("Suppression du computer d'id " + id);
 				}
 				
 				doGet(request, response);

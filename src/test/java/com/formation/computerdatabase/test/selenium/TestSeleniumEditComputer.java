@@ -27,7 +27,7 @@ public class TestSeleniumEditComputer {
 
   @Before
   public void setUp() throws Exception {
-	  baseUrl = "http://localhost:8080//computerdatabase-1.0-SNAPSHOT";
+	  baseUrl = "http://localhost:8080//computerdatabase";
 	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
 	  File noscript = new File(TestSeleniumAddComputer.class.getClassLoader().getResource("noscript.xpi").getFile());
@@ -38,11 +38,11 @@ public class TestSeleniumEditComputer {
 		e.printStackTrace();
 	}
 	  
-	  driver = new FirefoxDriver(profile);
+	driver = new FirefoxDriver(profile);
 	  
 	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	try {
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
