@@ -12,9 +12,6 @@ import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.CompanyDTO;
-import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
-import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Regexp;
@@ -285,7 +282,7 @@ public class ComputerForm {
 	 * @throws FormValidationException the form validation exception
 	 */
 	private Company validateCompanyId(String id) throws FormValidationException {
-		CompanyDTO cDTO =  null;
+		Company company =  null;
 		if (id == null) {
 			throw new FormValidationException("Veuillez spécifier une company");
 		}
@@ -293,12 +290,12 @@ public class ComputerForm {
 			throw new FormValidationException("La company n'est pas valide");
 		}
 		else {
-			cDTO = companyService.getById(Long.parseLong(id));
-			if (cDTO == null){
+			company = companyService.getById(Long.parseLong(id));
+			if (company == null){
 				throw new FormValidationException("La company n'est pas valide");
 			}
 		}
-		return CompanyMapper.map(cDTO);
+		return company;
 	}
 	
 	

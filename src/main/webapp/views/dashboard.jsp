@@ -68,7 +68,7 @@
                 
                 <!-- Browse attribute computers -->
                 <tbody id="results">
-                    <c:forEach var="computer" items="${ pager.liste }">
+                    <c:forEach var="computer" items="${ liste }">
                     <tr>
                         <td class="editMode">
                             <input type="checkbox" name="cb" class="cb" value="${ computer.id }">

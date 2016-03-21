@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.dto.CompanyDTO;
-import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.service.CompanyDaoService;
 
 // TODO: Auto-generated Javadoc
@@ -31,13 +28,13 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	}
 
 	@Override
-	public List<CompanyDTO> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		return CompanyDTOMapper.mapList(companyDaoImpl.getFromTo(from, nb, filter));
+	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
+		return companyDaoImpl.getFromTo(from, nb, filter);
 	}
 
 	@Override
-	public CompanyDTO getById(long id) {
-		return CompanyDTOMapper.map(companyDaoImpl.getById(id));
+	public Company getById(long id) {
+		return companyDaoImpl.getById(id);
 	}
 
 	@Override
@@ -45,8 +42,8 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 		return companyDaoImpl.getNbEntries(filter);
 	}
 	
-	public List<CompanyDTO> getAll() {
-		return CompanyDTOMapper.mapList(companyDaoImpl.getAll());
+	public List<Company> getAll() {
+		return companyDaoImpl.getAll();
 	}
 	
 

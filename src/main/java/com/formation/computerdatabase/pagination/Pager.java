@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.formation.computerdatabase.persistence.Dao;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Pager.
  *
@@ -13,9 +12,6 @@ import com.formation.computerdatabase.persistence.Dao;
  */
 public class Pager<T> {
 
-	/** The liste. */
-	private List<T> liste;
-	
 	/** The nb entries. */
 	private int nbEntries;
 	
@@ -52,15 +48,6 @@ public class Pager<T> {
 		this.dao = dao;
 		this.filter = filter;
 		updateListe();
-	}
-	
-	/**
-	 * Prints the liste.
-	 */
-	public void printListe(){
-		for (Object object : liste) {
-			System.out.println("------------ " + object);
-		}
 	}
 	
 	/**
@@ -106,9 +93,6 @@ public class Pager<T> {
 	public void updateListe() {
 		this.nbEntries = dao.getNbEntries(filter);
 		this.nbPages = (int) Math.ceil((double) nbEntries/nbParPage);
-		liste = this.dao.getFromTo((pageActuelle - 1) * nbParPage, nbParPage, filter);
-		
-		
 	}
 	
 	/**
@@ -121,6 +105,10 @@ public class Pager<T> {
 		else if (this.pageActuelle > nbPages) {
 			this.pageActuelle = nbPages;
 		}
+	}
+	
+	public int getFrom() {
+		return (pageActuelle - 1)*nbParPage;
 	}
 	
 	/**
@@ -194,14 +182,4 @@ public class Pager<T> {
 	public void setPageActuelle(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
 	}
-
-	/**
-	 * Gets the liste.
-	 *
-	 * @return the liste
-	 */
-	public List<T> getListe() {
-		return liste;
-	}
-	
 }
