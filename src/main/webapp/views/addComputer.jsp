@@ -28,7 +28,7 @@
                             
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd" type="date" class="form-control" name="introduced" id="introduced" placeholder="Introduced date" value="${ computer.introduced }">
+                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd" type="date" class="form-control datepicker" name="introduced" id="introduced" placeholder="Introduced date" value="${ computer.introduced }">
                             </div>
                             <c:if test="${ form.erreurs.containsKey('introduced') }">
                             <div class="alert alert-danger">
@@ -38,7 +38,7 @@
                             
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd"  data-validation-error-msg="Le format de la date n'est pas valide" type="date" class="form-control" name="discontinued" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }">
+                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd"  data-validation-error-msg="Le format de la date n'est pas valide" type="date" class="form-control datepicker" name="discontinued" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }">
                             </div>
                             <c:if test="${ form.erreurs.containsKey('discontinued') }">
                             <div class="alert alert-danger">
@@ -77,5 +77,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
 <script>
 $.validate({ });
+
+$(".datepicker").datepicker({
+	dateFormat: "yy-mm-dd",
+	maxDate: 0,
+}
+);
+
 </script>
 </html>

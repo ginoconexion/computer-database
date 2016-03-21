@@ -1,12 +1,21 @@
 package com.formation.computerdatabase.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+
+import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.exception.DateFormatException;
+
+import net.sf.cglib.core.Local;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Computer.
  */
 public class Computer {
+	
 	
 	/** The id. */
 	private long id;
@@ -23,7 +32,13 @@ public class Computer {
 	/** The company. */
 	private Company company;
 	
+	public Computer() {
+	}
 	
+	public Computer(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * Gets the company.
 	 *
@@ -114,41 +129,99 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 	
-	/*
-	public void setIntroduced(String introduced) {
-		this.introduced = (introduced == null) ? null : LocalDate.parse(introduced, Formatter.dateTimeFormatter);
-	}
 	
-	public void setDiscontinued(String discontinued) {
-		this.discontinued = (discontinued == null) ? null : LocalDate.parse(discontinued, Formatter.dateTimeFormatter);
-	}
-	*/
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
 				+ ", company=" + company + "]";
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1; 
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		 result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
+		 result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
+		 result = prime * result + ((name == null) ? 0 : name.hashCode());
+		 return result;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+		if (this == obj) {
+			return true;
+		}
+		else if (obj == null) {
+			return false;
+		}
+		else if (getClass() != this.getClass()) {
+			return false;
+		}
+		Computer c = (Computer) obj;
+		if (this.id == c.getId()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static class Builder {
+		private Computer c;
+
+		public Builder(String name) {
+			c = new Computer(name);
+		}
+
+		public Builder id(Long id) {
+			c.id = id;
+			return this;
+		}
+
+		public Builder name(String name) {
+			c.name = name;
+			return this;
+		}
+
+		public Builder introduced(String introduced) {
+			try {
+				c.introduced = LocalDate.parse(introduced);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DAOException("Wrong date format was provided.", e);
+			}
+			return this;
+		}
+
+		public Builder introduced(LocalDate introduced) {
+			c.introduced = introduced;
+			return this;
+		}
+
+		public Builder discontinued(String discontinued) {
+			try {
+				c.discontinued = LocalDate.parse(discontinued);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DAOException("Wrong date format was provided.", e);
+			}
+			return this;
+		}
+
+		public Builder discontinued(LocalDate discontinued) {
+			c.discontinued = discontinued;
+			return this;
+		}
+
+		public Builder company(Company company) {
+			c.company = company;
+			return this;
+		}
+
+		public Computer build() {
+			return c;
+		}
 	}
 	
 	

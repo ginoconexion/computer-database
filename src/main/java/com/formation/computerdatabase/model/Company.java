@@ -1,5 +1,10 @@
 package com.formation.computerdatabase.model;
 
+import java.time.LocalDate;
+
+import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.model.Computer.Builder;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Company.
@@ -12,6 +17,12 @@ public class Company {
 	/** The name. */
 	private String name;
 	
+	public Company(String name) {
+		this.name = name;
+	}
+	public Company() {
+	}
+
 	/**
 	 * Gets the id.
 	 *
@@ -48,30 +59,58 @@ public class Company {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + "]";
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1; 
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+		if (this == obj) {
+			return true;
+		}
+		else if (obj == null) {
+			return false;
+		}
+		else if (getClass() != this.getClass()) {
+			return false;
+		}
+		Company c = (Company) obj;
+		if (this.id == c.getId()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public static class Builder {
+		private Company c;
+
+		public Builder(String name) {
+			c = new Company(name);
+		}
+
+		public Builder id(Long id) {
+			c.id = id;
+			return this;
+		}
+
+		public Builder name(String name) {
+			c.name = name;
+			return this;
+		}
+
+		public Company build() {
+			return c;
+		}
 	}
 	
 	

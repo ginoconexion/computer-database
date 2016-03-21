@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.validator.ValidatorResult;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
@@ -18,6 +20,8 @@ import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Regexp;
+
+import net.sf.cglib.core.Local;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -100,17 +104,14 @@ public class ComputerForm {
 	 * @param request the request
 	 * @param computer the computer
 	 */
-	public void hydrate(HttpServletRequest request, Computer computer) {
-		
-		String name = getValeurChamp(request, CHAMP_NAME);
-		String introduced = getValeurChamp(request, CHAMP_INTRODUCED);
-		String discontinued = getValeurChamp(request, CHAMP_DISCONTINUED);
-		String companyId = getValeurChamp(request, CHAMP_COMPANY_ID);
-		
-		processName(name, computer);		processIntroduced(introduced, computer);
-		processDiscontinued(discontinued, computer);
-		processCompanyId(companyId, computer);
+	public Computer hydrate(HttpServletRequest request) {
+		String name = processName(request, CHAMP_NAME);
+		LocalDate introduced = processIntroduced(request, CHAMP_INTRODUCED);
+		LocalDate discontinued = processDiscontinued(request, CHAMP_DISCONTINUED);
+		Company company = processCompanyId(request, CHAMP_COMPANY_ID);
+		Computer computer = new Computer.Builder(name).introduced(introduced).discontinued(discontinued).company(company).build();
 		processIntroducedAndDiscontinued(computer);
+		return computer;
 	}
 	
 	
@@ -122,7 +123,8 @@ public class ComputerForm {
 	 * @return the computer
 	 */
 	public Computer updateComputer(HttpServletRequest request, Computer computer) {
-		hydrate(request, computer);
+		Computer c = hydrate(request);
+		c.setId(computer.getId());
 		try {
 			if (erreurs.isEmpty()) {
 				computerService.update(computer);
@@ -147,8 +149,7 @@ public class ComputerForm {
 	 * @return the computer
 	 */
 	public Computer addComputer(HttpServletRequest request) {
-		Computer computer = new Computer();
-		hydrate(request, computer);
+		Computer computer = hydrate(request);
 		try {
 			if (erreurs.isEmpty()) {
 				computerService.create(computer);
@@ -161,7 +162,6 @@ public class ComputerForm {
 			// a remplacer par un log
 			e.printStackTrace();
 		}
-		
 		return computer;
 	}
 	
@@ -171,13 +171,14 @@ public class ComputerForm {
 	 * @param name the name
 	 * @param computer the computer
 	 */
-	private void processName(String name, Computer computer) {
+	private String processName(HttpServletRequest request, String champ) {
+		String name = getValeurChamp(request, champ);
 		try {
 			validateName(name);
 		} catch (FormValidationException e) {
-			setErreur(CHAMP_NAME, e.getMessage());
+			setErreur(champ, e.getMessage());
 		}
-		computer.setName(name);
+		return name;
 	}
 	
 	/**
@@ -186,12 +187,14 @@ public class ComputerForm {
 	 * @param introduced the introduced
 	 * @param computer the computer
 	 */
-	private void processIntroduced(String introduced, Computer computer) {
+	private LocalDate processIntroduced(HttpServletRequest request, String champ) {
+		LocalDate date = null;
 		try {
-			computer.setIntroduced(validateDate(introduced));
+			date = validateDate(getValeurChamp(request, champ));
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_INTRODUCED, e.getMessage());
 		}
+		return date;
 	}
 	
 	/**
@@ -200,12 +203,14 @@ public class ComputerForm {
 	 * @param discontinued the discontinued
 	 * @param computer the computer
 	 */
-	private void processDiscontinued(String discontinued, Computer computer) {
+	private LocalDate processDiscontinued(HttpServletRequest request, String champ) {
+		LocalDate date = null;
 		try {
-			computer.setDiscontinued(validateDate(discontinued));
+			date = validateDate(getValeurChamp(request, champ));
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_DISCONTINUED, e.getMessage());
 		}
+		return date;
 	}
 	
 	private void processIntroducedAndDiscontinued(Computer computer) {
@@ -217,16 +222,19 @@ public class ComputerForm {
 	/**
 	 * Process company id.
 	 *
-	 * @param companyId the company id
-	 * @param computer the computer
+	 * @param request the company id
+	 * @param champCompanyId the computer
+	 * @return 
 	 */
-	private void processCompanyId(String companyId, Computer computer) {
+	private Company processCompanyId(HttpServletRequest request, String champCompanyId) {
+		Company company = null;
 		try {
-			computer.setCompany(validateCompanyId(companyId));
+			company = validateCompanyId(getValeurChamp(request, champCompanyId));
 			
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_COMPANY_ID, e.getMessage());
 		}
+		return company;
 	}
 	
 	/**
