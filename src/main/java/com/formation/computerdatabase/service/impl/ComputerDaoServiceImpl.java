@@ -5,10 +5,8 @@ import java.util.List;
 
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ComputerDaoService;
 
 // TODO: Auto-generated Javadoc
@@ -31,12 +29,12 @@ public enum ComputerDaoServiceImpl implements ComputerDaoService {
 	}
 
 	@Override
-	public List<ComputerDTO> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		return ComputerDTOMapper.mapList(computerDaoImpl.getFromTo(from, nb, filter));
+	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
+		return computerDaoImpl.getFromTo(from, nb, filter);
 	}
 	@Override
-	public ComputerDTO getById(long id) throws DAONotFoundException {
-		return ComputerDTOMapper.map(computerDaoImpl.getById(id));
+	public Computer getById(long id) throws DAONotFoundException {
+		return computerDaoImpl.getById(id);
 	}
 	public int getNbEntries(HashMap<String, Object> filter) {
 		return computerDaoImpl.getNbEntries(filter);

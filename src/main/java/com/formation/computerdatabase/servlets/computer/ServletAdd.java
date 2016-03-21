@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.CompanyDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
@@ -27,7 +26,7 @@ public class ServletAdd extends HttpServlet {
        
     private CompanyDaoServiceImpl companyService;
     private ComputerDaoServiceImpl computerService;
-    private List<CompanyDTO> liste;
+    private List<Company> liste;
     private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	
 	public void init() {

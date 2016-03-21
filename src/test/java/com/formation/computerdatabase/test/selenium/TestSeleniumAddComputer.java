@@ -35,7 +35,8 @@ public class TestSeleniumAddComputer {
 	  baseUrl = "http://localhost:8080//computerdatabase-1.0-SNAPSHOT";
 	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
-	  File noscript = new File("/home/excilys/noscript.xpi");
+	  File noscript = new File(TestSeleniumAddComputer.class.getClassLoader().getResource("noscript.xpi").getFile());
+	  //File noscript = new File("/home/excilys/noscript.xpi");
 	  try {
 		profile.addExtension(noscript);
 	} catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.formation.computerdatabase.test.selenium;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -13,7 +14,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import static org.junit.Assert.*;
 
 
 public class TestSeleniumDashboard {

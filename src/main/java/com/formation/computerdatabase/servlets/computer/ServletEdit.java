@@ -15,10 +15,8 @@ import org.apache.logging.log4j.Logger;
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.CompanyDTO;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
-import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
@@ -33,7 +31,7 @@ public class ServletEdit extends HttpServlet {
 	private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private CompanyDaoServiceImpl companyService;
 	private ComputerDaoServiceImpl computerService;
-	private List<CompanyDTO> liste;
+	private List<Company> liste;
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
@@ -57,7 +55,7 @@ public class ServletEdit extends HttpServlet {
 		long id = Long.parseLong(request.getParameter("id"));
 		ComputerDTO computerDTO = null;
 		try {
-			computerDTO = computerService.getById(id);
+			computerDTO = ComputerDTOMapper.map(computerService.getById(id));
 			request.setAttribute("computer", computerDTO);
 			request.setAttribute("companies", liste);
 			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
@@ -65,22 +63,6 @@ public class ServletEdit extends HttpServlet {
 		} catch (DAONotFoundException e) {
 			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
 		}
-		
-		/*
-		if ()
-		
-		try {
-			Computer computer = computerService.getById(Long.parseLong(request.getParameter("id")));
-			
-			ComputerDTO computerDTO = new ComputerDTO(computer);
-			request.setAttribute("computer", computerDTO);
-			request.setAttribute("companies", liste);
-			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
-			
-		} catch (Exception e) {
-			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
-		}
-		*/
 	}
 
 	/**
@@ -92,28 +74,26 @@ public class ServletEdit extends HttpServlet {
 		ComputerForm form = new ComputerForm(computerService, companyService);
 		// pas hyper propre, en cas d'erreurs interne elle est catchée ...
 		
-		
-			ComputerDTO computerDTO = null;
-			try {
-				computerDTO = computerService.getById(Long.parseLong(request.getParameter("id")));
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DAONotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Computer computer = ComputerMapper.map(computerDTO);
-			form.updateComputer(request, computer);
+		Computer computer = null;
+		try {
+			computer = computerService.getById(Long.parseLong(request.getParameter("id")));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DAONotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		form.updateComputer(request, computer);
+		request.setAttribute("companies", liste);
+		if (form.getErreurs().isEmpty()) {
+			logger.info("Modification reussie du computer : " + computer);
+			response.sendRedirect("dashboard");
+		}
+		else {
 			request.setAttribute("form", form);
-			request.setAttribute("computer", computer);
-			request.setAttribute("companies", liste);
-			if (form.getErreurs().isEmpty()) {
-				logger.info("Modification reussie du computer : " + computer);
-				response.sendRedirect("dashboard");
-			}
-			else {
-				request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
+			request.setAttribute("computer", ComputerDTOMapper.map(computer));
+			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
 			}
 	}
 
