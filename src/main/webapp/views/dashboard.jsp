@@ -19,7 +19,7 @@
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['byName'] }" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
                         <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
                     </form>
                 </div>
@@ -49,19 +49,20 @@
                                     </a>
                             </span>
                         </th>
-                        <th>
-                            Computer name
+                        <th aria-sort="ascending">
+                        	
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' >Computer name <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
                         </th>
                         <th>
-                            Introduced date
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' >Introduced date <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByDiscontinued"></mylib:link>' >Discontinued date <mylib:chevron filter="${ pager.filter }" parameter="orderByDiscontinued"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByCompany"></mylib:link>' >Company <mylib:chevron filter="${ pager.filter }" parameter="orderByCompany"></mylib:chevron></a>
                         </th>
                     </tr>
                 </thead>
@@ -86,7 +87,7 @@
         </div>
     </section>
 
-	<c:set var="url" value="dashboard?nb=${ pager.nbParPage }&search=${ pager.filter['byName'] }"></c:set>
+	<c:set var="url" value="dashboard?nb=${ pager.nbParPage }"></c:set>
 	
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
@@ -94,17 +95,14 @@
         	<c:set var="pageSuivante" value="${ pager.pageActuelle + 1 }"></c:set>
         	
             <ul class="pagination">
-            	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="prev" pageActuelle="${ pager.pageActuelle }"></mylib:link>
-            	<mylib:pagination nbPages="${ pager.nbPages }" url="${ url }" pageActuelle="${ pager.pageActuelle }"></mylib:pagination>
-            	<mylib:link nbPages="${ pager.nbPages }" url="${ url }" type="next" pageActuelle="${ pager.pageActuelle }"></mylib:link>
+            	<mylib:pagination pager="${ pager }" url="dashboard"></mylib:pagination>
         	</ul>
 
 	        <div class="btn-group btn-group-sm pull-right" role="group" >
-	            <a href="Dashboard?nb=10" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
-	            <a href="Dashboard?nb=50" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>"">50</a>
-	            <a href="Dashboard?nb=100" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>"">100</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="10" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="50" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>">50</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="100" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>">100</a>
 	        </div>
-	        
 		</div>
     </footer>
        <input type="checkbox" id="selectall" /> 

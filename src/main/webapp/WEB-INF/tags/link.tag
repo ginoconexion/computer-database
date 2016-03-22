@@ -1,29 +1,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@ attribute name="pageActuelle" required="true" type="java.lang.Integer" %>
-<%@ attribute name="nbPages" required="true" type="java.lang.Integer" %>
-<%@ attribute name="type" required="true" type="java.lang.String" %>
-<%@ attribute name="url" required="true" type="java.lang.String" %>
+
+<%@ attribute name="pager" required="true" type="com.formation.computerdatabase.pagination.Pager"%>
+<%@ attribute name="parameter" required="true" type="java.lang.String"%>
+<%@ attribute name="parameterValue" required="true" type="java.lang.String"%>
+<%@ attribute name="type" type="java.lang.String"%>
 
 <c:choose>
-	<c:when test="${ type == 'prev' }">
-		<c:set var="pagePrecedente" value="${ pageActuelle - 1 }"></c:set>
-		<c:if test="${ pagePrecedente > 0 }">
-			<li>
-            	<a href="${ url }&page=${ pagePrecedente }" aria-label="Previous">
-                	<span aria-hidden="true">&laquo;</span>
-               </a>
-           </li>
-		</c:if>
+	<c:when test="${ type == 'orderBy' }">
+		<c:choose>
+			<c:when test="${ not empty pager.filter[parameter] }">
+				<c:choose>
+					<c:when test="${ pager.filter[parameter] == 'asc' }">
+		<%-- 				<c:out value="desc"></c:out> --%>
+						<c:set value="desc" var="orderBy"></c:set>
+					</c:when>
+					<c:otherwise>
+						<%-- <c:out value="asc"></c:out> --%>
+						<c:set value="asc" var="orderBy"></c:set>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<%-- <c:out value="asc"></c:out> --%>
+				<c:set value="asc" var="orderBy"></c:set>
+			</c:otherwise>
+		</c:choose>
+		<c:out value="?${ parameter }=${ orderBy }" ></c:out>
 	</c:when>
-	<c:when test="${ type == 'next' }">
-		<c:set var="pageSuivante" value="${ pageActuelle + 1 }"></c:set>
-		<c:if test="${ pageSuivante < nbPages }">
-			<li>
-	            <a href="${ url }&page=${ pageSuivante }" aria-label="Next">
-	                <span aria-hidden="true">&raquo;</span>
-	            </a>
-	        </li>
-	     </c:if>
-	</c:when>
+	<c:otherwise>
+		<c:out value="?${ parameter }=${ parameterValue }"></c:out>
+	</c:otherwise>
 </c:choose>
+
+<c:forEach items="${pager.filter}" var="entry">
+	<c:if test="${ entry.key ne parameter }">
+		<c:out value="&${ entry.key }=${ entry.value }"></c:out>
+	</c:if>
+</c:forEach>

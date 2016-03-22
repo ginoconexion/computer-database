@@ -120,7 +120,8 @@ public class ComputerForm {
 		c.setId(computer.getId());
 		try {
 			if (erreurs.isEmpty()) {
-				computerService.update(computer);
+				System.out.println(computer.getName());
+				computerService.update(c);
 				resultat = "Succès de la modification du computer";
 			}
 			else {

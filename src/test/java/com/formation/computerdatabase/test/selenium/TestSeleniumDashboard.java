@@ -15,6 +15,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.formation.computerdatabase.pagination.Order;
+
 
 public class TestSeleniumDashboard {
   private WebDriver driver;
@@ -33,17 +35,12 @@ public class TestSeleniumDashboard {
   @Test
   public void testListe() throws Exception {
     driver.get(baseUrl + "/dashboard");
-    driver.findElement(By.linkText("MacBook Pro 15.6")).click();
-    driver.findElement(By.cssSelector("a.navbar-brand")).click();
-    driver.findElements(By.xpath("//tbody[@id='results']/tr/td"));
     assertTrue(driver.findElements(By.xpath("//tbody[@id='results']/tr/td")).size() > 0);
   }
   
   @Test
   public void testSearch() throws Exception {
-	  
 	  driver.get(baseUrl + "/dashboard");
-	  //driver.get(baseUrl + "/computerdatabase/dashboard?nb=10&search=&page=1");
 	  driver.findElement(By.id("searchbox")).clear();
 	  driver.findElement(By.id("searchbox")).sendKeys("mac");
 	  driver.findElement(By.id("searchsubmit")).click();
@@ -51,6 +48,21 @@ public class TestSeleniumDashboard {
 	  assertTrue(driver.findElement(By.xpath("//td[2]/a")).getText().toLowerCase().contains("mac"));	  
   }
   
+  @Test
+  public void testFiltre() throws Exception {
+	  driver.get(baseUrl + "/dashboard");
+	  driver.findElement(By.xpath("//th[2]/a")).click();
+	  assertTrue(driver.findElement(By.xpath("//th[2]/a")).getAttribute("href").contains(Order.BY_NAME + "=desc"));
+	  
+	  driver.findElement(By.xpath("//th[3]/a")).click();
+	  assertTrue(driver.findElement(By.xpath("//th[3]/a")).getAttribute("href").contains(Order.BY_INTRODUCED + "=desc"));
+	  
+	  driver.findElement(By.xpath("//th[4]/a")).click();
+	  assertTrue(driver.findElement(By.xpath("//th[4]/a")).getAttribute("href").contains(Order.BY_DISCONTINUED + "=desc"));
+	  
+	  driver.findElement(By.xpath("//th[5]/a")).click();
+	  assertTrue(driver.findElement(By.xpath("//th[5]/a")).getAttribute("href").contains(Order.BY_COMPANY + "=desc"));
+  }
 
   @After
   public void tearDown() throws Exception {

@@ -14,6 +14,7 @@ import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
+import com.formation.computerdatabase.pagination.Order;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
@@ -41,19 +42,21 @@ public enum ComputerDaoImpl implements ComputerDao {
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
-			String sql = SELECT;
+			StringBuilder sb = new StringBuilder(SELECT);
+			
 			int i = 1;
 			
-			if (filter.containsKey("byName")){
-				sql = sql + JOIN_ON_COMPANY + WHERE_NAME;
+			if (filter.containsKey(Order.SEARCH) || filter.containsKey(Order.BY_COMPANY)) {
+				sb.append(JOIN_ON_COMPANY).append(WHERE_NAME);
 			}
-			sql = sql + LIMIT;
-			System.out.println(sql);
-			pstmt = connexion.prepareStatement(sql);
+			Order.orderBy(filter, sb);
 			
-			if (filter.containsKey("byName")) {
-				pstmt.setString(i++, "%" + (String) filter.get("byName") + "%");
-				pstmt.setString(i++, "%" + (String) filter.get("byName") + "%");
+			sb.append(" ").append(LIMIT);
+			pstmt = connexion.prepareStatement(sb.toString());
+			
+			if (filter.containsKey(Order.SEARCH) || filter.containsKey(Order.BY_COMPANY)) {
+				pstmt.setString(i++, "%" + (String) filter.get("search") + "%");
+				pstmt.setString(i++, "%" + (String) filter.get("search") + "%");
 			}
 			pstmt.setInt(i++, from);
 			pstmt.setInt(i++, nb);
@@ -81,15 +84,15 @@ public enum ComputerDaoImpl implements ComputerDao {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
 			String sql = SELECT_COUNT;
 			
-			if (filter.containsKey("byName")){
+			if (filter.containsKey("search")){
 				sql = sql + JOIN_ON_COMPANY + WHERE_NAME;
 			}
 			
 			pstmt = connexion.prepareStatement(sql);
 			
-			if (filter.containsKey("byName")) {
-				pstmt.setString(1, "%" + (String) filter.get("byName") + "%");
-				pstmt.setString(2, "%" + (String) filter.get("byName") + "%");
+			if (filter.containsKey("search")) {
+				pstmt.setString(1, "%" + (String) filter.get("search") + "%");
+				pstmt.setString(2, "%" + (String) filter.get("search") + "%");
 			}
 			
 			rs = pstmt.executeQuery();

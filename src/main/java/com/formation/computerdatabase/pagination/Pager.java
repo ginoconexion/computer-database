@@ -1,7 +1,6 @@
 package com.formation.computerdatabase.pagination;
 
 import java.util.HashMap;
-import java.util.List;
 
 import com.formation.computerdatabase.persistence.Dao;
 
@@ -29,10 +28,7 @@ public class Pager<T> {
 	
 	/** The filter. */
 	private HashMap<String, Object> filter;
-
-	public HashMap<String, Object> getFilter() {
-		return filter;
-	}
+	
 
 	/**
 	 * Instantiates a new pager.
@@ -86,6 +82,7 @@ public class Pager<T> {
 		}
 		return bool;
 	}
+	
 	
 	/**
 	 * Update liste.
@@ -181,5 +178,9 @@ public class Pager<T> {
 	 */
 	public void setPageActuelle(int pageActuelle) {
 		this.pageActuelle = pageActuelle;
+	}
+	
+	public HashMap<String, Object> getFilter() {
+		return filter;
 	}
 }

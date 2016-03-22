@@ -22,9 +22,7 @@ public class TestDeleteCompany {
 	
 	@Test
 	public void test() {
-		companyService.delete(44);
 		
-		fail("Not yet implemented");
 	}
 
 }

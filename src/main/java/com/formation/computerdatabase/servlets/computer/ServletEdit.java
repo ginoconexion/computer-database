@@ -67,7 +67,6 @@ public class ServletEdit extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		ComputerForm form = new ComputerForm(computerService, companyService);
 		// pas hyper propre, en cas d'erreurs interne elle est catchée ...
 		
