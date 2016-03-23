@@ -1,5 +1,6 @@
 package com.formation.computerdatabase.service.impl;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,23 +34,35 @@ public enum ComputerDaoServiceImpl implements ComputerDaoService {
 		return computerDaoImpl.getFromTo(from, nb, filter);
 	}
 	@Override
-	public Computer getById(long id) throws DAONotFoundException {
+	public Computer getById(long id)  {
 		return computerDaoImpl.getById(id);
 	}
+	@Override
 	public int getNbEntries(HashMap<String, Object> filter) {
 		return computerDaoImpl.getNbEntries(filter);
 	}
-
+	@Override
 	public void create(Computer computer) {
 		computerDaoImpl.create(computer);
 	}
+	@Override
 	public void update(Computer computer) {
 		computerDaoImpl.update(computer);
 	}
+	@Override
 	public void delete(long id) {
 		computerDaoImpl.delete(id);
 	}
+	@Override
 	public Computer getByName(String name) {
 		return computerDaoImpl.getByName(name);
+	}
+	@Override
+	public List<Computer> getListByCompany(long id) {
+		return computerDaoImpl.getListByCompany(id);
+	}
+	@Override
+	public void deleteList(List<Computer> list, Connection connexion) {
+		computerDaoImpl.deleteList(list, connexion);
 	}
 }

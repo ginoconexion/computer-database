@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
@@ -112,7 +114,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
 	
 	@Override
-	public Computer getById(long id) throws DAONotFoundException {
+	public Computer getById(long id) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -125,9 +127,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				computer = ComputerMapper.map(rs);
-			}
-			else {
-				throw new DAONotFoundException("Le computer demandé n'existe pas");
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -190,7 +189,6 @@ public enum ComputerDaoImpl implements ComputerDao {
 	/** The Constant DELETE. */
 	private final static String DELETE = "DELETE FROM computer WHERE id = ?";
 	
-	@Override
 	public void delete(long id) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
@@ -232,6 +230,50 @@ public enum ComputerDaoImpl implements ComputerDao {
 			ConnexionFactory.close(connexion, rs, null, pstmt);
 		}
 		return computer;
+	}
+
+	private final static String SELECT_BY_COMPANY_ID = "SELECT * FROM computer WHERE company_id = ?";
+	@Override
+	public List<Computer> getListByCompany(long id) {
+		
+		Connection connexion = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Computer computer = null;
+		List<Computer> list = new LinkedList<>();
+		
+		try {
+			connexion = ConnexionFactory.INSTANCE.getConnection();
+			pstmt = connexion.prepareStatement(SELECT_BY_COMPANY_ID);
+			pstmt.setLong(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				list.add(ComputerMapper.map(rs));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		} finally {
+			ConnexionFactory.close(connexion, rs, null, pstmt);
+		}
+		return list;
+	}
+
+	@Override
+	public void deleteList(List<Computer> list, Connection connexion) {
+		
+		PreparedStatement pstmt = null;
+		try {
+			connexion = ConnexionFactory.INSTANCE.getConnection();
+			for (Computer computer : list) {
+				pstmt = connexion.prepareStatement(DELETE);
+				pstmt.setLong(1, computer.getId());
+				pstmt.executeUpdate();
+				pstmt.close();
+			}
+			
+		} catch (SQLException e1) {
+			throw new DAOException(e1.getMessage());
+		}
 	}
 
 }

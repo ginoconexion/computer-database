@@ -1,12 +1,17 @@
 package com.formation.computerdatabase.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
+import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.service.CompanyDaoService;
+import com.formation.computerdatabase.service.ComputerDaoService;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,9 +52,19 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	}
 
 	@Override
-	public void delete(long id) {
-		companyDaoImpl.delete(id);
+	public void delete(long id, ComputerDaoService computerService) {
+		try {
+			List<Computer> liste = computerService.getListByCompany(id);
+			Connection connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion.setAutoCommit(false);
+			computerService.deleteList(liste, connexion);
+			companyDaoImpl.delete(id, connexion);
+			connexion.commit();
+			
+		} catch (SQLException e) {
+			String message = "La company n'a pas pu être supprimée";
+			System.err.println(message);
+			throw new DAOException(message);
+		}
 	}
-	
-
 }

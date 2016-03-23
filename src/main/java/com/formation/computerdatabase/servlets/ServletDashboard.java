@@ -17,6 +17,7 @@ import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Order;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
+import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
@@ -27,7 +28,7 @@ public class ServletDashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger logger = LoggerFactory.getLogger("com.excilys.formation.computerdatabase");
-    private ComputerDaoServiceImpl computerService;
+    private ComputerDaoService computerService;
     private Pager<Computer> pager;
     private List<ComputerDTO> liste;
     private HashMap<String, Object> filter;
@@ -35,8 +36,8 @@ public class ServletDashboard extends HttpServlet {
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
 		this.computerService = service.getComputerDaoServiceImpl();
-		filter = new HashMap<>();
-		this.pager = new Pager<>(10, 1, computerService, filter);
+		//filter = new HashMap<>();
+		//this.pager = new Pager<>(10, 1, computerService, filter);
 	}
 	
 	/**
@@ -44,6 +45,8 @@ public class ServletDashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		filter = new HashMap<>();
+		pager = new Pager<>(10, 1, computerService, filter);
 		// a mettre dans un validator de paramètres
 		//filter.remove("search");
 		

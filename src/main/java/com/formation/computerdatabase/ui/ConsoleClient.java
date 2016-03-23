@@ -1,8 +1,24 @@
 package com.formation.computerdatabase.ui;
 
-public class ConsoleClient {
-	/*
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
+import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.exception.DAONotFoundException;
+import com.formation.computerdatabase.model.Company;
+import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.pagination.Pager;
+import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
+import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.util.Regexp;
+
+public class ConsoleClient {
+	
 	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private final static int nbParPage = 10;
 	private final static Pattern patternChoix = Pattern.compile(Regexp.REGEXP_CHOIX);
@@ -10,6 +26,24 @@ public class ConsoleClient {
 	private ServiceFactory serviceFactory;
 	private ComputerDaoServiceImpl computerDaoServiceImpl;
 	private CompanyDaoServiceImpl companyDaoServiceImpl;
+	
+	
+	public void printDeleteCompanyById() {
+		System.out.println("Supprimer une company : ");
+		System.out.println("Entrer l'id de la company :");
+		Scanner scanner = new Scanner(System.in);
+		String choix = null;
+		Pattern patternId = Pattern.compile(Regexp.REGEXP_LONG);
+
+		do {
+			choix = scanner.next();
+			long id = Long.parseLong(choix);
+			companyDaoServiceImpl.delete(id);
+		} while (patternId.matcher(choix).find());
+	}
+	
+	
+	
 	
 	public ConsoleClient(ServiceFactory serviceFactory) {
 		this.serviceFactory = serviceFactory;
@@ -62,12 +96,16 @@ public class ConsoleClient {
 	}
 
 	public void printAllComputers(Pager<Computer> pager) {
-
+		
+		HashMap<String, Object> filter = new HashMap<>();
+		
 		if (pager == null) {
-			int nbEntries = computerDaoServiceImpl.getNbEntries();
-			pager = new Pager<>(nbEntries, nbParPage, computerDaoServiceImpl);
+			int nbEntries = computerDaoServiceImpl.getNbEntries(filter);
+			
+			pager = new Pager(nbEntries, 1, computerDaoServiceImpl, filter);
 		}
-		pager.printListe();
+		//pager.printListe();
+		
 		System.out.println("Page suivante : n | Page précédente : p Quitter : q ");
 		Scanner scanner = new Scanner(System.in);
 		String choix = null;
@@ -97,7 +135,7 @@ public class ConsoleClient {
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			Computer computer;
+			Computer computer = null;
 			try {
 				computer = computerDaoServiceImpl.getById(id);
 			} catch (DAONotFoundException e) {
@@ -118,7 +156,7 @@ public class ConsoleClient {
 		Pattern pattern = null;
 		Scanner scanner = new Scanner(System.in);
 		computer.setName(scanner.nextLine());
-
+		
 		pattern = Pattern.compile(Regexp.REGEXP_DATE);
 		String introduced = null;
 
@@ -126,7 +164,7 @@ public class ConsoleClient {
 		do {
 			introduced = scanner.nextLine();
 		} while (!pattern.matcher(introduced).find());
-		computer.setIntroduced(introduced);
+		//computer.setIntroduced(LocalDate.);
 
 		System.out.println("Entrez la date discontinued au format dd-mm-YYYY");
 		String continued = null;
@@ -134,7 +172,7 @@ public class ConsoleClient {
 		do {
 			continued = scanner.next().trim();
 		} while (!pattern.matcher(continued).find());
-		computer.setDiscontinued(continued);
+		//computer.setDiscontinued(continued);
 
 		System.out.println("Entrez l'id de la company");
 		pattern = Pattern.compile(Regexp.REGEXP_LONG);
@@ -152,8 +190,8 @@ public class ConsoleClient {
 		System.out.println("Creation d'un nouvel ordinateur");
 		Computer computer = new Computer();
 		hydrateComputer(computer);
-		computerDaoServiceImpl.createComputer(computer);
-		logger.info("Création ordinateur : " + computer);
+		computerDaoServiceImpl.create(computer);
+		//logger.info("Création ordinateur : " + computer);
 	}
 
 	public void updateComputer() {
@@ -165,25 +203,32 @@ public class ConsoleClient {
 			computerIdString = scanner.next().trim();
 		} while (!pattern.matcher(computerIdString).find());
 		long computerId = Long.parseLong(computerIdString);
-		Computer computer = computerDaoServiceImpl.getById(computerId);
+		Computer computer = null;
+		try {
+			computer = computerDaoServiceImpl.getById(computerId);
+		} catch (DAONotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		hydrateComputer(computer);
-		computerDaoServiceImpl.updateComputer(computer);
-		logger.info("Mise à jour computer : " + computer);
+		computerDaoServiceImpl.update(computer);
+		//logger.info("Mise à jour computer : " + computer);
 	}
 
 	public void deleteComputer(long id) {
 		System.out.println("Supression de l'ordinateur d'id " + id);
-		computerDaoServiceImpl.deleteComputer(id);
-		logger.info("Suppression du computer d'id : " + id);
+		computerDaoServiceImpl.delete(id);
+		//logger.info("Suppression du computer d'id : " + id);
 	}
 
-	public void printAllCompanies(Pager<Company> pager) {
+	public void printAllCompanies(Pager pager) {
+		HashMap<String, Object> filter = new HashMap<>();
 		
 		if (pager == null) {
-			int nbEntries = computerDaoServiceImpl.getNbEntries();
-			pager = new Pager<>(nbEntries, nbParPage, companyDaoServiceImpl);
+			int nbEntries = computerDaoServiceImpl.getNbEntries(filter);
+			pager = new Pager<>(nbEntries, 1, computerDaoServiceImpl, filter);
 		}
-		pager.printListe();
+		//pager.printListe();
 
 		System.out.println("Page suivante : n | Page précédente : p Quitter : q ");
 		Scanner scanner = new Scanner(System.in);
@@ -203,10 +248,9 @@ public class ConsoleClient {
 			printAllCompanies(pager);
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		ConsoleClient consoleClient = new ConsoleClient(ServiceFactory.INSTANCE);
 		consoleClient.printMenu();
 	}
-	*/
 }

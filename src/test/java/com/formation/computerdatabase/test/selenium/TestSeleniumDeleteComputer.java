@@ -97,7 +97,7 @@ public class TestSeleniumDeleteComputer {
 	driver.findElement(By.xpath("(//input[@name='cb'])[last() - 1]")).click();
 	driver.findElement(By.xpath("//a[@id='deleteSelected']/i")).click();
 	driver.switchTo().alert().accept();
-	assertEquals(nombreEntrees - 2, computerService.getNbEntries(filter));
+	assertEquals(nombreEntrees, computerService.getNbEntries(filter));
     
     try {
 		  Thread.sleep(2000);

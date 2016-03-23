@@ -9,9 +9,12 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.service.CompanyDaoService;
+import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Regexp;
@@ -41,10 +44,10 @@ public class ComputerForm {
 	private Map<String, String> erreurs = new HashMap<>();
 	
 	/** The computer service. */
-	private ComputerDaoServiceImpl computerService;
+	private ComputerDaoService computerService;
 	
 	/** The company service. */
-	private CompanyDaoServiceImpl companyService;
+	private CompanyDaoService companyService;
 	
 	/** The pattern date. */
 	private Pattern patternDate = Pattern.compile(Regexp.REGEXP_DATE);
@@ -55,12 +58,12 @@ public class ComputerForm {
 	/**
 	 *  constructeur.
 	 *
-	 * @param computerService the computer service
-	 * @param companyService the company service
+	 * @param computerService2 the computer service
+	 * @param companyService2 the company service
 	 */
-	public ComputerForm(ComputerDaoServiceImpl computerService, CompanyDaoServiceImpl companyService) {
-		this.computerService = computerService;
-		this.companyService = companyService;
+	public ComputerForm(ComputerDaoService computerService2, CompanyDaoService companyService2) {
+		this.computerService = computerService2;
+		this.companyService = companyService2;
 	}
 
 	/**
@@ -295,7 +298,12 @@ public class ComputerForm {
 			throw new FormValidationException("La company n'est pas valide");
 		}
 		else {
-			company = companyService.getById(Long.parseLong(id));
+			try {
+				company = companyService.getById(Long.parseLong(id));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (company == null){
 				throw new FormValidationException("La company n'est pas valide");
 			}

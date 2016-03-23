@@ -1,5 +1,6 @@
 package com.formation.computerdatabase.persistence;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public interface Dao<T> {
 	 * @return the by id
 	 * @throws DAONotFoundException the DAO not found exception
 	 */
-	T getById(long id) throws DAONotFoundException;
+	T getById(long id);
 	
 	/**
 	 * Gets the nb entries.
@@ -38,6 +39,4 @@ public interface Dao<T> {
 	 * @return the nb entries
 	 */
 	int getNbEntries(HashMap<String, Object> filter);
-	
-	void delete(long id);
 }

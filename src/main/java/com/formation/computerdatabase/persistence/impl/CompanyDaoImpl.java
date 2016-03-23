@@ -137,34 +137,19 @@ public enum CompanyDaoImpl implements CompanyDao {
 	}
 	
 	/** The Constant DELETE. */
-	private final static String DELETE_COMPUTERS = "DELETE FROM computer WHERE company_id = ?";
 	private final static String DELETE = "DELETE FROM company WHERE id = ?";
 	
 	@Override
-	public void delete(long id) {
-		Connection connexion = null;
+	public void delete(long id, Connection connexion) {
 		PreparedStatement pstmt = null;
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
-			connexion.setAutoCommit(false);
-			pstmt = connexion.prepareStatement(DELETE_COMPUTERS);
-			pstmt.setLong(1, id);
-			pstmt.executeUpdate();
-			
-			pstmt.close();
-			
 			pstmt = connexion.prepareStatement(DELETE);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
-			connexion.commit();
 			
 		} catch (SQLException e) {
-			try {
-				connexion.rollback();
-			} catch (SQLException e1) {
-				throw new DAOException(e.getMessage());
-			}
 			throw new DAOException(e.getMessage());
 		} finally {
 			ConnexionFactory.close(connexion, null, null, pstmt);

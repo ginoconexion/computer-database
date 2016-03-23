@@ -1,7 +1,5 @@
 package com.formation.computerdatabase.test;
 
-import static org.junit.Assert.fail;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ public class TestDeleteCompany {
 	
 	@Test
 	public void test() {
-		
+		companyService.delete(44, computerService);
 	}
 
 }

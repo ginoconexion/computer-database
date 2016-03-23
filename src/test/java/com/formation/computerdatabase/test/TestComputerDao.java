@@ -28,40 +28,25 @@ public class TestComputerDao {
 	@Test
 	public void testGetById() {
 		Computer computer = null;
-		try {
-			computer = computerService.getById(1);
-		} catch (DAONotFoundException e) {
-			e.printStackTrace();
-		}
+		computer = computerService.getById(1);
 		assertEquals(1, computer.getId());
 	}
 	
 	@Test
 	public void testGetByIdNull() {
 		Computer computer = null;
-			try {
-				computer = computerService.getById(600);
-			} catch (DAONotFoundException e) {
-				assertEquals(null, computer);
-			}
+		computer = computerService.getById(600);
+		assertEquals(null, computer);
 	}
 	
 	@Test
 	public void testUpdate() {
 		Computer computer = null;
-		try {
-			computer = computerService.getById(1);
-		} catch (DAONotFoundException e) {
-			e.printStackTrace();
-		}
+		computer = computerService.getById(1);
 		System.out.println(computer);
 		computer.setName("MacBook Pro 15.6");
 		computerService.update(computer);
-		try {
-			computer = computerService.getById(1);
-		} catch (DAONotFoundException e) {
-			e.printStackTrace();
-		}
+		computer = computerService.getById(1);
 		System.out.println(computer.getName());
 		assertEquals("MacBook Pro 15.6", computer.getName());
 	}
@@ -69,11 +54,7 @@ public class TestComputerDao {
 	@Test(expected = DAOException.class)
 	public void testUpdateUnknownCompany() {
 		Computer computer = null;
-		try {
-			computer = computerService.getById(1);
-		} catch (DAONotFoundException e) {
-			e.printStackTrace();
-		}
+		computer = computerService.getById(1);
 		computer.getCompany().setId(600);
 		computerService.update(computer);
 	}

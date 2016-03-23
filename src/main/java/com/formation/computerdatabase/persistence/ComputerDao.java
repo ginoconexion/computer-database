@@ -1,5 +1,8 @@
 package com.formation.computerdatabase.persistence;
 
+import java.sql.Connection;
+import java.util.List;
+
 import com.formation.computerdatabase.model.Computer;
 
 // TODO: Auto-generated Javadoc
@@ -8,25 +11,10 @@ import com.formation.computerdatabase.model.Computer;
  */
 public interface ComputerDao extends Dao<Computer> {
 	
-	/**
-	 * Creates the computer.
-	 *
-	 * @param computer the computer
-	 */
 	void create(Computer computer);
-	
-	/**
-	 * Update computer.
-	 *
-	 * @param computer the computer
-	 */
 	void update(Computer computer);
-	
-	/**
-	 * Gets the computer by name.
-	 *
-	 * @param name the name
-	 * @return the computer by name
-	 */
 	Computer getByName(String name);
+	List<Computer> getListByCompany(long id);
+	void delete(long id);
+	void deleteList(List<Computer> list, Connection connexion);
 }
