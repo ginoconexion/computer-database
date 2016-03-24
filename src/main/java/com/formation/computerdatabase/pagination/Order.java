@@ -10,6 +10,8 @@ public class Order {
 	public final static String SEARCH = "search";
 	public final static String ASC = "asc";
 	public final static String DESC = "desc";
+	public static final String OFFSET = "offset";
+	public static final String PAGE = "page";
 	
 	public final static void orderBy(HashMap<String, Object> filter, StringBuilder sb) {
 		

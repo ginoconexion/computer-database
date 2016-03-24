@@ -14,7 +14,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${ pager.nbEntries } Computers found
+                ${ pager.count } Computers found
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -87,21 +87,20 @@
         </div>
     </section>
 
-	<c:set var="url" value="dashboard?nb=${ pager.nbParPage }"></c:set>
+	<c:set var="url" value="dashboard?nb=${ pager.offset }"></c:set>
 	
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
-        	<c:set var="pagePrecedente" value="${ pager.pageActuelle -1 }"></c:set>
-        	<c:set var="pageSuivante" value="${ pager.pageActuelle + 1 }"></c:set>
+        	<c:set var="pagePrecedente" value="${ pager.current -1 }"></c:set>
+        	<c:set var="pageSuivante" value="${ pager.current + 1 }"></c:set>
         	
             <ul class="pagination">
             	<mylib:pagination pager="${ pager }" url="dashboard"></mylib:pagination>
         	</ul>
-
 	        <div class="btn-group btn-group-sm pull-right" role="group" >
-	            <a href="<mylib:link pager="${ pager }" parameterValue="10" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 10 }">active</c:if>"  >10</a>
-	            <a href="<mylib:link pager="${ pager }" parameterValue="50" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 50 }">active</c:if>">50</a>
-	            <a href="<mylib:link pager="${ pager }" parameterValue="100" parameter="nb"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.nbParPage == 100 }">active</c:if>">100</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="10" parameter="offset"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.offset == 10 }">active</c:if>"  >10</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="50" parameter="offset"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.offset == 50 }">active</c:if>">50</a>
+	            <a href="<mylib:link pager="${ pager }" parameterValue="100" parameter="offset"></mylib:link>" type="button" class="btn btn-default <c:if test="${ pager.offset == 100 }">active</c:if>">100</a>
 	        </div>
 		</div>
     </footer>

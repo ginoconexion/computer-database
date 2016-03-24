@@ -11,17 +11,10 @@ import com.formation.computerdatabase.persistence.Dao;
  */
 public class Pager<T> {
 
-	/** The nb entries. */
-	private int nbEntries;
-	
-	/** The nb par page. */
-	private int nbParPage;
-	
-	/** The nb pages. */
+	private int count;
+	private int offset;
 	private int nbPages;
-	
-	/** The page actuelle. */
-	private int pageActuelle;
+	private int current;
 	
 	/** The service. */
 	private Dao<T> dao;
@@ -38,32 +31,12 @@ public class Pager<T> {
 	 * @param dao the dao
 	 * @param filter the filter
 	 */
-	public Pager(int nbParPage, int page, Dao<T> dao, HashMap<String, Object> filter) {
-		this.nbParPage = nbParPage;
-		this.pageActuelle = page;
+	public Pager(int offset, int current, Dao<T> dao, HashMap<String, Object> filter) {
+		this.offset = offset;
+		this.current = current;
 		this.dao = dao;
 		this.filter = filter;
 		updateListe();
-	}
-	
-	/**
-	 * Next.
-	 */
-	public void next() {
-		if (pageActuelle < nbPages){
-			pageActuelle  += 1;
-			updateListe();
-		}
-	}
-	
-	/**
-	 * Prev.
-	 */
-	public void prev() {
-		if (pageActuelle > 1){
-			pageActuelle  -= 1;
-			updateListe();
-		}
 	}
 	
 	/**
@@ -73,10 +46,8 @@ public class Pager<T> {
 	 */
 	public boolean isOutofBounds(){
 		boolean bool = false;
-		System.out.println(pageActuelle);
-		System.out.println(nbPages);
 		
-		if (pageActuelle < 1 || pageActuelle > nbPages) {
+		if (current < 1 || current > nbPages) {
 			correctPage();
 			bool = true;
 		}
@@ -88,61 +59,28 @@ public class Pager<T> {
 	 * Update liste.
 	 */
 	public void updateListe() {
-		this.nbEntries = dao.getNbEntries(filter);
-		this.nbPages = (int) Math.ceil((double) nbEntries/nbParPage);
+		this.count = dao.getNbEntries(filter);
+		this.nbPages = (int) Math.ceil((double) count/offset);
 	}
 	
 	/**
 	 * Correct page.
 	 */
 	public void correctPage(){
-		if (this.pageActuelle < 1){
-			this.pageActuelle = 1;
+		if (this.current < 1){
+			this.current = 1;
 		}
-		else if (this.pageActuelle > nbPages) {
-			this.pageActuelle = nbPages;
+		else if (this.current > nbPages) {
+			this.current = nbPages;
 		}
 	}
 	
 	public int getFrom() {
-		return (pageActuelle - 1)*nbParPage;
+		return (current - 1)*offset;
 	}
 	
-	/**
-	 * Gets the nb entries.
-	 *
-	 * @return the nb entries
-	 */
-	public int getNbEntries() {
-		return nbEntries;
-	}
 	
-	/**
-	 * Sets the nb entries.
-	 *
-	 * @param nbEntries the new nb entries
-	 */
-	public void setNbEntries(int nbEntries) {
-		this.nbEntries = nbEntries;
-	}
 	
-	/**
-	 * Gets the nb par page.
-	 *
-	 * @return the nb par page
-	 */
-	public int getNbParPage() {
-		return nbParPage;
-	}
-	
-	/**
-	 * Sets the nb par page.
-	 *
-	 * @param nbParPage the new nb par page
-	 */
-	public void setNbParPage(int nbParPage) {
-		this.nbParPage = nbParPage;
-	}
 	
 	/**
 	 * Gets the nb pages.
@@ -162,25 +100,45 @@ public class Pager<T> {
 		this.nbPages = nbPages;
 	}
 	
-	/**
-	 * Gets the page actuelle.
-	 *
-	 * @return the page actuelle
-	 */
-	public int getPageActuelle() {
-		return pageActuelle;
-	}
-	
-	/**
-	 * Sets the page actuelle.
-	 *
-	 * @param pageActuelle the new page actuelle
-	 */
-	public void setPageActuelle(int pageActuelle) {
-		this.pageActuelle = pageActuelle;
-	}
-	
 	public HashMap<String, Object> getFilter() {
 		return filter;
 	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(int current) {
+		this.current = current;
+	}
+
+	public Dao<T> getDao() {
+		return dao;
+	}
+
+	public void setDao(Dao<T> dao) {
+		this.dao = dao;
+	}
+
+	public void setFilter(HashMap<String, Object> filter) {
+		this.filter = filter;
+	}
+	
+	
 }
