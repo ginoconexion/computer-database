@@ -76,8 +76,6 @@ public enum ConnexionFactory {
 			throw new RuntimeException(message, e);
 		}
 		
-		
-		
 		try {
 			BoneCPConfig config = new BoneCPConfig();
 			config.setJdbcUrl(properties.getProperty(PROPERTY_URL));

@@ -37,10 +37,11 @@ public class PagerMapper<T> {
 				// si l'utilisateur a entré une nouvelle recherche
 				if (!request.getParameter(Order.SEARCH).equals(filter.get(Order.SEARCH)))
 					pager.setCurrent(1);
+				/*
 				filter.remove(Order.BY_NAME);
 				filter.remove(Order.BY_COMPANY);
 				filter.remove(Order.BY_DISCONTINUED);
-				filter.remove(Order.BY_INTRODUCED);
+				filter.remove(Order.BY_INTRODUCED);*/
 				filter.put("search", request.getParameter("search").toLowerCase());
 		}
 		

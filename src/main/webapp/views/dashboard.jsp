@@ -18,9 +18,15 @@
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
-                    <form id="searchForm" action="#" method="GET" class="form-inline">
+                    <form id="searchForm" action="" method="GET" class="form-inline">
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
                         <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+                        <%-- on écrit le reste des paramètres dans l'url --%>
+						<c:forEach items="${ pager.filter }" var="entry">
+							<c:if test="${ entry.key ne 'search' }">
+								<input type="hidden" value="${ entry.key }" name="${ entry.value }" />
+							</c:if>
+						</c:forEach>
                     </form>
                 </div>
                 <div class="pull-right">
