@@ -1,16 +1,15 @@
 package com.formation.computerdatabase.service.impl;
 
-import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
 
-import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
+import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
+import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ComputerDaoService;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum ComputerDaoServiceImpl.
  */
@@ -30,16 +29,8 @@ public enum ComputerDaoServiceImpl implements ComputerDaoService {
 	}
 
 	@Override
-	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		return computerDaoImpl.getFromTo(from, nb, filter);
-	}
-	@Override
 	public Computer getById(long id)  {
 		return computerDaoImpl.getById(id);
-	}
-	@Override
-	public int getNbEntries(HashMap<String, Object> filter) {
-		return computerDaoImpl.getNbEntries(filter);
 	}
 	@Override
 	public void create(Computer computer) {
@@ -62,7 +53,14 @@ public enum ComputerDaoServiceImpl implements ComputerDaoService {
 		return computerDaoImpl.getListByCompany(id);
 	}
 	@Override
-	public void deleteList(List<Computer> list, Connection connexion) {
-		computerDaoImpl.deleteList(list, connexion);
+	public void deleteList(List<Computer> list) {
+		computerDaoImpl.deleteList(list);
+	}
+
+	@Override
+	public void updatePager(Pager<ComputerDTO> pager) {
+		pager.setCount(computerDaoImpl.getCount(pager.getFilter()));
+		pager.setListe(ComputerDTOMapper.mapList(computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter())));
+		pager.updateListe();
 	}
 }

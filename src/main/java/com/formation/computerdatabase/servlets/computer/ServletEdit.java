@@ -37,13 +37,6 @@ public class ServletEdit extends HttpServlet {
 		this.liste = companyService.getAll();
 	}
      
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletEdit() {
-        super();
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -74,11 +67,12 @@ public class ServletEdit extends HttpServlet {
 			Computer computer = computerService.getById(id);
 			ComputerForm form = new ComputerForm(computerService, companyService);
 			
-			if (computer !=  null) {
-				form.updateComputer(request, computer);
+			if (computer ==  null) {
+				request.getRequestDispatcher("/views/404.jsp").forward( request, response );
+				
 			}
 			else {
-				request.getRequestDispatcher("/views/404.jsp").forward( request, response );
+				form.updateComputer(request, computer);
 				if (form.getErreurs().isEmpty()) {
 					//logger.info("Modification reussie du computer : " + computer);
 					response.sendRedirect("dashboard");

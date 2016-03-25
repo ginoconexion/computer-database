@@ -20,5 +20,5 @@ public interface CompanyDao extends Dao<Company> {
 	 */
 	List<Company> getAll();
 	Company getById(long id);
-	void delete(long id, Connection connexion);
+	void delete(long id);
 }

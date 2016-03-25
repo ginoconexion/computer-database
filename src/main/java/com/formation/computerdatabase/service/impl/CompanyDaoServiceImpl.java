@@ -33,18 +33,8 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	}
 
 	@Override
-	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		return companyDaoImpl.getFromTo(from, nb, filter);
-	}
-
-	@Override
 	public Company getById(long id) {
 		return companyDaoImpl.getById(id);
-	}
-
-	@Override
-	public int getNbEntries(HashMap<String, Object> filter) {
-		return companyDaoImpl.getNbEntries(filter);
 	}
 	
 	public List<Company> getAll() {
@@ -55,16 +45,29 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	public void delete(long id, ComputerDaoService computerService) {
 		try {
 			List<Computer> liste = computerService.getListByCompany(id);
-			Connection connexion = ConnexionFactory.INSTANCE.getConnection();
-			connexion.setAutoCommit(false);
-			computerService.deleteList(liste, connexion);
-			companyDaoImpl.delete(id, connexion);
-			connexion.commit();
+			ConnexionFactory.initTransaction();
+			computerService.deleteList(liste);
+			companyDaoImpl.delete(id);
+			ConnexionFactory.commit();
 			
 		} catch (SQLException e) {
+			try {
+				ConnexionFactory.rollback();
+			} catch (SQLException e1) {
+				String message = "La transaction n'a pas pu être annulée";
+				System.err.println(message);
+				throw new DAOException(message);
+			}
 			String message = "La company n'a pas pu être supprimée";
 			System.err.println(message);
 			throw new DAOException(message);
+		} finally {
+			try {
+				ConnexionFactory.closeTransaction();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

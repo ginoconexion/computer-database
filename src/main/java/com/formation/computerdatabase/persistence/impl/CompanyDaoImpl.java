@@ -24,7 +24,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 	INSTANCE;
 	
 	@Override
-	public int getNbEntries(HashMap<String, Object> filter) {
+	public int getCount(HashMap<String, Object> filter) {
 		Connection connexion = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -140,8 +140,9 @@ public enum CompanyDaoImpl implements CompanyDao {
 	private final static String DELETE = "DELETE FROM company WHERE id = ?";
 	
 	@Override
-	public void delete(long id, Connection connexion) {
+	public void delete(long id) {
 		PreparedStatement pstmt = null;
+		Connection connexion = null;
 		
 		try {
 			connexion = ConnexionFactory.INSTANCE.getConnection();
@@ -152,6 +153,16 @@ public enum CompanyDaoImpl implements CompanyDao {
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
 		} finally {
+			
+			// si auto commit à true on est pas dans une transaction donc on ferme la connexion
+			try {
+				if (connexion.getAutoCommit()) {
+					ConnexionFactory.close(connexion, null, null, pstmt);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 			ConnexionFactory.close(connexion, null, null, pstmt);
 		}
 	}

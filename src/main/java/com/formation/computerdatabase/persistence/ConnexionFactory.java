@@ -2,19 +2,15 @@ package com.formation.computerdatabase.persistence;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import javax.management.RuntimeErrorException;
-
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
@@ -26,6 +22,8 @@ public enum ConnexionFactory {
 	
 	/** The instance. */
 	INSTANCE;
+	
+	private static ThreadLocal<Connection> context = new ThreadLocal<>();
 	
 	/** The Constant FICHIER_PROPERTIES. */
 	private static final String FICHIER_PROPERTIES       = "dao.properties";
@@ -124,8 +122,43 @@ public enum ConnexionFactory {
 	 * @throws SQLException the SQL exception
 	 */
 	public Connection getConnection() throws SQLException {
-		return connectionPool.getConnection();
-		//return DriverManager.getConnection(properties.getProperty(PROPERTY_URL), properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
+		Connection connexion = context.get();
+		// la connexion ne sera pas nulle uniquement dans le cas de transcation
+		if (connexion != null) {
+			return connexion;
+		}
+		// dans l'autre cas on en instancie une nouvelle
+		else {
+			return connectionPool.getConnection();
+		}
+		
+	}
+	/**
+	 * Beginning of a Transaction, enable to set in the context a connexion with autocommit set to false
+	 * @throws SQLException
+	 */
+	public static void initTransaction() throws SQLException {
+		Connection connexion = ConnexionFactory.INSTANCE.getConnection();
+		connexion.setAutoCommit(false);
+		context.set(connexion);
+	}
+	
+	/**
+	 * Enables to close and to remove connexion from context
+	 * @throws SQLException 
+	 */
+	public static void closeTransaction() throws SQLException {
+		Connection connexion = context.get();
+		connexion.close();
+		context.remove();
+	}
+	
+	public static void commit() throws SQLException {
+		context.get().commit();
+	}
+	
+	public static void rollback() throws SQLException {
+		context.get().rollback();
 	}
     
 	/**

@@ -4,18 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Order;
 import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.ConnexionFactory;
@@ -76,7 +71,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 	private final static String SELECT_COUNT = "SELECT COUNT(*) as nb_computers FROM computer ";
 	
 	@Override
-	public int getNbEntries(HashMap<String, Object> filter) {
+	public int getCount(HashMap<String, Object> filter) {
 		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -259,10 +254,11 @@ public enum ComputerDaoImpl implements ComputerDao {
 	}
 
 	@Override
-	public void deleteList(List<Computer> list, Connection connexion) {
-		
+	public void deleteList(List<Computer> list) {
+		Connection connexion = null;
 		PreparedStatement pstmt = null;
 		try {
+			// ConnexionFactory va renvoyer la valeur ThreadLocal de connexion car la méthode est utilisée dans une transaction
 			connexion = ConnexionFactory.INSTANCE.getConnection();
 			for (Computer computer : list) {
 				pstmt = connexion.prepareStatement(DELETE);
@@ -273,6 +269,17 @@ public enum ComputerDaoImpl implements ComputerDao {
 			
 		} catch (SQLException e1) {
 			throw new DAOException(e1.getMessage());
+		} finally {
+			// cette méthode est utilisé dans une transaction, la connexion sera fermée à l'issue de celle-ci
+			try {
+				// si auto commit à true on est pas dans une transaction, on ferme la connexion
+				if (connexion.getAutoCommit()) {
+					ConnexionFactory.close(connexion, null, null, pstmt);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			ConnexionFactory.close(null, null, null, pstmt);
 		}
 	}
 

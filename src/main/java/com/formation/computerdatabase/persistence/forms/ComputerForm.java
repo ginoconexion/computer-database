@@ -301,7 +301,6 @@ public class ComputerForm {
 			try {
 				company = companyService.getById(Long.parseLong(id));
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (company == null){

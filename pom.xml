@@ -4,12 +4,11 @@
 	<groupId>com.formation</groupId>
 	<artifactId>computerdatabase</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.3.1-SNAPSHOT</version>
 	<name>computerdatabase Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
-		<!-- Unit Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -27,7 +26,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>${mockitoVersion}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -35,13 +34,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${servletVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.18</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -54,25 +46,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.18</version>
-		</dependency>
-
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstlVersion}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
+			<version>${slf4jVersion}</version>
 		</dependency>
 
 		<dependency>
@@ -80,23 +54,36 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4jVersion}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guavaVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logbackVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>${commonsValidatorVersion}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysqlVersion}</version>
 			<scope>runtime</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>19.0</version>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>com.jolbox</groupId>
 			<artifactId>bonecp</artifactId>
-			<version>0.8.0.RELEASE</version>
+			<version>${boneCPVersion}</version>
 		</dependency>
 	</dependencies>
 
@@ -104,11 +91,16 @@
 		<jUnitVersion>4.12</jUnitVersion>
 		<mysqlVersion>(5.1,)</mysqlVersion>
 		<jstlVersion>1.2</jstlVersion>
-		<slf4jVersion>1.6.1</slf4jVersion>
+		<slf4jVersion>1.7.19</slf4jVersion>
 		<servletVersion>3.0.1</servletVersion>
 		<seleniumVersion>2.53.0</seleniumVersion>
 		<javaxServletVersion>3.1.0</javaxServletVersion>
 		<tomcatplugin>2.2</tomcatplugin>
+		<mockitoVersion>1.9.5</mockitoVersion>
+		<boneCPVersion>0.8.0.RELEASE</boneCPVersion>
+		<guavaVersion>19.0</guavaVersion>
+		<commonsValidatorVersion>1.4.0</commonsValidatorVersion>
+		<logbackVersion>1.0.13</logbackVersion>
 	</properties>
 
 	<build>
@@ -131,22 +123,6 @@
 					<path>/</path>
 				</configuration>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
-				<version>2.19.1</version> <configuration> <excludes> <exclude>**/selenium/**</exclude> 
-				</excludes> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-failsafe-plugin</artifactId> <version>2.12.4</version> 
-				<configuration> <includes> <include>**/selenium/**</include> </includes> 
-				</configuration> <executions> <execution> <goals> <goal>integration-test</goal> 
-				<goal>verify</goal> </goals> </execution> </executions> </plugin> <plugin> 
-				<groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
-				<version>2.2</version> </plugin> <plugin> <groupId>org.codehaus.cargo</groupId> 
-				<artifactId>cargo-maven2-plugin</artifactId> <version>1.2.0</version> <configuration> 
-				<container> <containerId>tomcat7x</containerId> <zipUrlInstaller> <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.zip 
-				</url> <downloadDir>${project.build.directory}/downloads</downloadDir> <extractDir>${project.build.directory}/extracts</extractDir> 
-				</zipUrlInstaller> </container> </configuration> <executions> <execution> 
-				<id>start-tomcat</id> <phase>pre-integration-test</phase> <goals> <goal>start</goal> 
-				</goals> </execution> <execution> <id>stop-tomcat</id> <phase>post-integration-test</phase> 
-				<goals> <goal>stop</goal> </goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 

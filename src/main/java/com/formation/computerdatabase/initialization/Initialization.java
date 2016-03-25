@@ -1,8 +1,5 @@
 package com.formation.computerdatabase.initialization;
 
-import java.util.Enumeration;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

@@ -38,5 +38,5 @@ public interface Dao<T> {
 	 *
 	 * @return the nb entries
 	 */
-	int getNbEntries(HashMap<String, Object> filter);
+	int getCount(HashMap<String, Object> filter);
 }

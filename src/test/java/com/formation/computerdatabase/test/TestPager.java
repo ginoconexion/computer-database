@@ -24,7 +24,7 @@ public class TestPager {
 	public static void init() {
 		ServiceFactory service = ServiceFactory.INSTANCE;
 		companyDaoImpl = service.getCompanyDaoServiceImpl();
-		pager = new Pager<>(parPage, 1, companyDaoImpl, new HashMap<>());
+		//pager = new Pager<>(parPage, 1, companyDaoImpl, new HashMap<>());
 	}
 	@AfterClass
 	public static void close() {

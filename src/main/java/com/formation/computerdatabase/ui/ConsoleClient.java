@@ -18,7 +18,7 @@ import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.util.Regexp;
 
 public class ConsoleClient {
-	
+	/*
 	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private final static int nbParPage = 10;
 	private final static Pattern patternChoix = Pattern.compile(Regexp.REGEXP_CHOIX);
@@ -38,7 +38,7 @@ public class ConsoleClient {
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			companyDaoServiceImpl.delete(id);
+			companyDaoServiceImpl.delete(id, computerDaoServiceImpl);
 		} while (patternId.matcher(choix).find());
 	}
 	
@@ -96,11 +96,11 @@ public class ConsoleClient {
 	}
 
 	public void printAllComputers(Pager<Computer> pager) {
-		
+		/*
 		HashMap<String, Object> filter = new HashMap<>();
 		
 		if (pager == null) {
-			int nbEntries = computerDaoServiceImpl.getNbEntries(filter);
+			int nbEntries = computerDaoServiceImpl.ge(filter);
 			
 			pager = new Pager(nbEntries, 1, computerDaoServiceImpl, filter);
 		}
@@ -253,4 +253,5 @@ public class ConsoleClient {
 		ConsoleClient consoleClient = new ConsoleClient(ServiceFactory.INSTANCE);
 		consoleClient.printMenu();
 	}
+	*/
 }

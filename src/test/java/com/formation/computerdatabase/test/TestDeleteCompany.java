@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.test;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
@@ -11,13 +12,13 @@ public class TestDeleteCompany {
 	private static ComputerDaoServiceImpl computerService;
 	private static CompanyDaoServiceImpl companyService;
 	
-	
 	@BeforeClass
 	public static void init() {
 		computerService = ComputerDaoServiceImpl.INSTANCE;
 		companyService = CompanyDaoServiceImpl.INSTANCE;
 	}
-	
+	 
+	@Ignore
 	@Test
 	public void test() {
 		companyService.delete(44, computerService);
