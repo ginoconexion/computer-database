@@ -1,0 +1,30 @@
+LOGIN
+docker login --username=yourhubusername --email=youremail@company.com : permet de se loger dans le terminal
+
+NETWORK
+docker network ls
+docker network create -d bridge my-bridge-network
+docker run --name some-container --net=my-bridge-network -it containerimager 
+
+RUN CONTAINER :
+run :
+   options :
+	-i : mode interatif
+	-t : alloue un mode tty (mode terminal)
+	-d : run as daemon (run en arrière plan)
+COPY INTO CONTAINER
+docker cp test.txt some-container:/folder/test.txt
+
+DOCKERFILE
+docker build .
+
+COMMIT
+docker commit -m <msg> 
+
+TAG
+docker tag <some-container> <new_name_for_the_container>
+
+MYSQL :	
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=root -d ginoconexion/computerdatabase-mysql : permet de run un docker mysql en définissant le root password à "root"
+docker exec -i -t some-mysql /bin/bash : permet de se connecter en mode terminal au conteneur
+mysql -p : permet de se connecter au serveur mysql après tapé le password
