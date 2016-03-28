@@ -19,7 +19,7 @@ DOCKERFILE
 docker build .
 
 COMMIT
-docker commit -m <msg> 
+docker commit -m <msg> <nom_container> 
 
 TAG
 docker tag <some-container> <new_name_for_the_container>
