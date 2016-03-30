@@ -87,6 +87,7 @@ public enum ConnexionFactory {
 			connectionPool = new BoneCP(config);
 		} catch (SQLException e) {
 			String message = "Erreur de configuration du pool de connexion";
+			e.printStackTrace();
 			System.err.println(message);
 			throw new RuntimeException(message, e);
 		}

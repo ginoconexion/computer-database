@@ -1,7 +1,0 @@
-show databases : liste les databases
-create database <nom_database>: creer une base de données
-use database;
-mysql -p : se connecter en mode root
-source <path> : executer un script sql
-show variables : affiche les variable d'envirronnements de mysql
-	datadir : /var/lib/mysql/ (dossier de data de mysql sur linux)

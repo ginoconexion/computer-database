@@ -18,7 +18,6 @@ public class TestCompany {
 	
 	@BeforeClass
 	public static void init() {
-		
 		companyDaoImpl = CompanyDaoImpl.INSTANCE;
 	}
 	
