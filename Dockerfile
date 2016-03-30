@@ -5,4 +5,4 @@ RUN apt-get install nano
 RUN cp /usr/app/dao.properties /usr/app/src/test/resources/
 RUN cp /usr/app/dao.properties /usr/app/src/main/resources/
 
-CMD mvn install
+CMD["mvn", "install"]
