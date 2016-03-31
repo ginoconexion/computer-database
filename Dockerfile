@@ -9,10 +9,15 @@ RUN mkdir -p /usr/share/maven \
 
 ENV MAVEN_HOME /usr/share/maven
 
+# on copie le projet maven dans /usr/app/
 COPY . /usr/app/
 RUN apt-get update
 RUN apt-get install nano
-RUN cp /usr/app/dao.properties /usr/app/src/test/resources/
-RUN cp /usr/app/dao.properties /usr/app/src/main/resources/
+
+# on place le workdir dans /usr/app
 WORKDIR /usr/app/
+
+# on remplace le fichier de configuration 
+RUN cp Dockerfiles/jdk-maven/dao.properties src/test/resources/
+RUN cp Dockerfiles/jdk-maven/dao.properties src/main/resources/
 CMD ["mvn", "install"]
