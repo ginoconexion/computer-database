@@ -1,0 +1,2 @@
+docker run -it --name=cdb-maven --net=cdb-net  -d ginoconexion/cdb-maven
+docker run --name=cdb-maven -d ginoconexion/cdb-mysql 
