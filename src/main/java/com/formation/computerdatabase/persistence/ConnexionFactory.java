@@ -18,10 +18,7 @@ import com.jolbox.bonecp.BoneCPConfig;
 /**
  * A factory for creating Connexion objects.
  */
-public enum ConnexionFactory {
-	
-	/** The instance. */
-	INSTANCE;
+public class ConnexionFactory {
 	
 	private static ThreadLocal<Connection> context = new ThreadLocal<>();
 	
@@ -43,17 +40,9 @@ public enum ConnexionFactory {
     /** The properties. */
     private Properties properties;
     
-    /** The computer dao impl. */
-    private static ComputerDaoImpl computerDaoImpl = ComputerDaoImpl.INSTANCE;
-    
-    /** The company dao impl. */
-    private static CompanyDaoImpl companyDaoImpl = CompanyDaoImpl.INSTANCE;
     BoneCP connectionPool;
 	
-    /**
-     * Constructeur privé.
-     */
-	private ConnexionFactory() {
+	public ConnexionFactory() {
 		
 		properties = new Properties();
 		connectionPool = null;
@@ -94,26 +83,6 @@ public enum ConnexionFactory {
 		
 	}
 	
-	
-
-	/**
-	 * Gets the computer dao impl.
-	 *
-	 * @return the computer dao impl
-	 */
-	public static ComputerDaoImpl getComputerDaoImpl() {
-		return computerDaoImpl;
-	}
-	
-	/**
-	 * Gets the company dao impl.
-	 *
-	 * @return the company dao impl
-	 */
-	public static CompanyDaoImpl getCompanyDaoImpl() {
-		return companyDaoImpl;
-	}
-
 	/**
 	 * Gets the connection.
 	 *
@@ -136,8 +105,8 @@ public enum ConnexionFactory {
 	 * Beginning of a Transaction, enable to set in the context a connexion with autocommit set to false
 	 * @throws SQLException
 	 */
-	public static void initTransaction() throws SQLException {
-		Connection connexion = ConnexionFactory.INSTANCE.getConnection();
+	public void initTransaction() throws SQLException {
+		Connection connexion = getConnection();
 		connexion.setAutoCommit(false);
 		context.set(connexion);
 	}

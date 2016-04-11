@@ -9,12 +9,19 @@ import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ComputerMapper.
  */
 public class ComputerMapper {
 
+	private CompanyDaoImpl companyDaoImpl;
+	private CompanyMapper companyMapper;
+	
+	public ComputerMapper(CompanyDaoImpl companyDaoImpl, CompanyMapper companyMapper) {
+		this.companyDaoImpl = companyDaoImpl;
+		this.companyMapper = companyMapper;
+	}
+	
 	/**
 	 * Map.
 	 *
@@ -22,13 +29,13 @@ public class ComputerMapper {
 	 * @return the computer
 	 * @throws SQLException the SQL exception
 	 */
-	public static Computer map(ResultSet rs) throws SQLException{
+	public Computer map(ResultSet rs) throws SQLException{
 		Computer computer = new Computer();
 		computer.setId(rs.getInt("id"));
 		computer.setName(rs.getString("name"));
 		computer.setIntroduced((rs.getTimestamp("introduced") == null) ? null : rs.getTimestamp("introduced").toLocalDateTime().toLocalDate());
 		computer.setDiscontinued((rs.getTimestamp("discontinued") == null) ? null : rs.getTimestamp("discontinued").toLocalDateTime().toLocalDate());
-		computer.setCompany(CompanyDaoImpl.INSTANCE.getById(rs.getLong("company_id")));
+		computer.setCompany(companyDaoImpl.getById(rs.getLong("company_id")));
 		return computer;
 	}
 	
@@ -38,7 +45,7 @@ public class ComputerMapper {
 	 * @param rs the rs
 	 * @return the list
 	 */
-	public static List<Computer> mapList(ResultSet rs) {
+	public List<Computer> mapList(ResultSet rs) {
 		List<Computer> liste = new ArrayList<>();
 		try {
 			while (rs.next()){
@@ -50,13 +57,13 @@ public class ComputerMapper {
 		return liste;
 	}
 	
-	public static Computer map(ComputerDTO cDTO) {
+	public Computer map(ComputerDTO cDTO) {
 		Computer c = new Computer();
  		c.setId(Long.parseLong(cDTO.getId()));
 		c.setIntroduced((cDTO.getIntroduced() == null) ? null : LocalDate.parse(cDTO.getIntroduced()));
 		c.setDiscontinued((cDTO.getDiscontinued() == null) ? null : LocalDate.parse(cDTO.getDiscontinued()));
 		c.setName(cDTO.getName());
-		c.setCompany(CompanyMapper.map(cDTO.getCompany()));
+		c.setCompany(companyMapper.map(cDTO.getCompany()));
 		return c;
 	}
 	

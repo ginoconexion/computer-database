@@ -19,17 +19,21 @@ import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 /**
  * The Enum ComputerDaoImpl.
  */
-public enum ComputerDaoImpl implements ComputerDao {
-	
-	/** The instance. */
-	INSTANCE;
+public class ComputerDaoImpl implements ComputerDao {
 	
 	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT = "SELECT * FROM computer ";
 	private final static String LIMIT = "LIMIT ?, ? ";
 	private final static String JOIN_ON_COMPANY = "LEFT JOIN company on computer.id = company.id ";
 	private final static String WHERE_NAME = " WHERE computer.name LIKE ?  OR company.name LIKE ? ";
-
+	private ConnexionFactory connexionFactory;
+	private ComputerMapper computerMapper;
+	
+	public ComputerDaoImpl(ConnexionFactory connexionFactory, ComputerMapper computerMapper) {
+		this.connexionFactory = connexionFactory;
+		this.computerMapper = computerMapper;
+	}
+	
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		Connection connexion = null;
@@ -38,7 +42,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		List<Computer> liste = new ArrayList<>();
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			StringBuilder sb = new StringBuilder(SELECT);
 			
 			int i = 1;
@@ -58,7 +62,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 			pstmt.setInt(i++, from);
 			pstmt.setInt(i++, nb);
 			rs = pstmt.executeQuery();
-			liste = ComputerMapper.mapList(rs);
+			liste = computerMapper.mapList(rs);
 			
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -78,7 +82,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		int nbEntries = 0;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			String sql = SELECT_COUNT;
 			
 			if (filter.containsKey("search")){
@@ -116,12 +120,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		Computer computer = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(SELECT_BY_ID);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				computer = ComputerMapper.map(rs);
+				computer = computerMapper.map(rs);
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -140,7 +144,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(INSERT);
 			pstmt.setString(1, computer.getName());
 			pstmt.setString(2, (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
@@ -165,7 +169,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt =  connexion.prepareStatement(UPDATE);
 			pstmt.setString(1, computer.getName());
 			pstmt.setString(2, (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
@@ -189,7 +193,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(DELETE);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
@@ -212,12 +216,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		Computer computer = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(SELECT_BY_NAME);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
-				computer = ComputerMapper.map(rs);
+				computer = computerMapper.map(rs);
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -238,12 +242,12 @@ public enum ComputerDaoImpl implements ComputerDao {
 		List<Computer> list = new LinkedList<>();
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(SELECT_BY_COMPANY_ID);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(ComputerMapper.map(rs));
+				list.add(computerMapper.map(rs));
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -259,7 +263,7 @@ public enum ComputerDaoImpl implements ComputerDao {
 		PreparedStatement pstmt = null;
 		try {
 			// ConnexionFactory va renvoyer la valeur ThreadLocal de connexion car la méthode est utilisée dans une transaction
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			for (Computer computer : list) {
 				pstmt = connexion.prepareStatement(DELETE);
 				pstmt.setLong(1, computer.getId());
