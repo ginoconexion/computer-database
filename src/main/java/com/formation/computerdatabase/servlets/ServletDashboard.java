@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.pagination.mapper.PagerMapper;
@@ -18,6 +21,7 @@ import com.formation.computerdatabase.service.ServiceFactory;
  */
 public class ServletDashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServletDashboard.class.getSimpleName());
 	
 	//private static Logger logger = LoggerFactory.getLogger("com.excilys.formation.computerdatabase");
     private ComputerDaoService computerService;

@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.exception.FormValidationException;
@@ -17,6 +20,7 @@ import com.formation.computerdatabase.service.CompanyDaoService;
 import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.servlets.ServletDashboard;
 import com.formation.computerdatabase.util.Regexp;
 
 // TODO: Auto-generated Javadoc
@@ -54,6 +58,8 @@ public class ComputerForm {
 	
 	/** The pattern long. */
 	private Pattern patternLong = Pattern.compile(Regexp.REGEXP_LONG);
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServletDashboard.class.getSimpleName());
 	
 	/**
 	 *  constructeur.
@@ -243,7 +249,9 @@ public class ComputerForm {
 	private void validateName(String name) throws FormValidationException {
 		if (name != null) {
 			if (name.length() < 2 ){
-				throw new FormValidationException("Le nom du computer doit contenir au moins 2 caractères.");
+				String message = "Le nom du computer doit contenir au moins 2 caractères.";
+				LOGGER.debug(message);
+				throw new FormValidationException(message);
 			}
 			else if (name.length() > 25 ){
 				throw new FormValidationException("Le nom du computer doit contenir au maximum 25 caractères");
@@ -267,6 +275,7 @@ public class ComputerForm {
 		
 		if (date != null && !Pattern.matches(Regexp.REGEXP_DATE, date)) {
 			System.out.println("date incorrecte");
+			
 			throw new FormValidationException("Le format de la date n'est pas valide");
 		}
 		else if (date != null) {

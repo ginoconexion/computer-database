@@ -1,0 +1,9 @@
+docker build -t ginoconexion/cdb-mysql .
+
+docker run -d --name=cdb-mysql --net=cdb-net -e MYSQL_ROOT_PASSWORD=root ginoconexion/cdb-mysql
+
+p
+
+root
+
+-> visualisation de la base déployée 

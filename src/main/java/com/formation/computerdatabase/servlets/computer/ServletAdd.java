@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
 import com.formation.computerdatabase.service.CompanyDaoService;
 import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.ServiceFactory;
+import com.formation.computerdatabase.servlets.ServletDashboard;
 
 /**
  * Servlet implementation class ServletAdd
@@ -24,7 +28,7 @@ public class ServletAdd extends HttpServlet {
     private CompanyDaoService companyService;
     private ComputerDaoService computerService;
     private List<Company> liste;
-   // private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServletDashboard.class.getSimpleName());
 	
 	public void init() {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
@@ -64,7 +68,7 @@ public class ServletAdd extends HttpServlet {
 		
 		if (form.getErreurs().isEmpty()) {
 			response.sendRedirect("dashboard");
-			//logger.info("Ajout reussi du computer : " + computer);
+			LOGGER.info("Computer created : " + computer);
 		}
 		else {
 			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
