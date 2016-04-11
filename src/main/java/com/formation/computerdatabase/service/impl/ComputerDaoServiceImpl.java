@@ -5,18 +5,11 @@ import java.util.List;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
-import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ComputerDaoService;
 
-/**
- * The Enum ComputerDaoServiceImpl.
- */
-public enum ComputerDaoServiceImpl implements ComputerDaoService {
-	
-	/** The instance. */
-	INSTANCE;
+public class ComputerDaoServiceImpl implements ComputerDaoService {
 	
 	/** The computer dao impl. */
 	private ComputerDaoImpl computerDaoImpl;
@@ -24,8 +17,8 @@ public enum ComputerDaoServiceImpl implements ComputerDaoService {
 	/**
 	 * Instantiates a new computer dao service impl.
 	 */
-	private ComputerDaoServiceImpl() {
-		computerDaoImpl = ConnexionFactory.getComputerDaoImpl();
+	public ComputerDaoServiceImpl(ComputerDaoImpl computerDaoImpl) {
+		this.computerDaoImpl = computerDaoImpl;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class CompanyMapper {
 	 * @return the company
 	 * @throws SQLException the SQL exception
 	 */
-	public static Company map(ResultSet rs) throws SQLException{
+	public Company map(ResultSet rs) throws SQLException{
 		Company company = new Company();
 		company.setId(rs.getInt("id"));
 		company.setName(rs.getString("name"));
@@ -33,7 +33,7 @@ public class CompanyMapper {
 	 * @param companyDto the company dto
 	 * @return the company
 	 */
-	public static Company map(CompanyDTO companyDto) {
+	public Company map(CompanyDTO companyDto) {
 		Company company = new Company();
 		company.setId(Long.parseLong(companyDto.getId()));
 		company.setName(companyDto.getName());

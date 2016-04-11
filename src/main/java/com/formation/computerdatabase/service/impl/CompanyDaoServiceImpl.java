@@ -1,8 +1,6 @@
 package com.formation.computerdatabase.service.impl;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.exception.DAOException;
@@ -17,19 +15,17 @@ import com.formation.computerdatabase.service.ComputerDaoService;
 /**
  * The Enum CompanyDaoServiceImpl.
  */
-public enum CompanyDaoServiceImpl implements CompanyDaoService {
-	
-	/** The instance. */
-	INSTANCE;
+public class CompanyDaoServiceImpl implements CompanyDaoService {
 	
 	/** The company dao impl. */
 	private CompanyDaoImpl companyDaoImpl;
-	
+	private ConnexionFactory connexionFactory;
 	/**
 	 * Instantiates a new company dao service impl.
 	 */
-	private CompanyDaoServiceImpl() {
-		companyDaoImpl = ConnexionFactory.getCompanyDaoImpl();
+	private CompanyDaoServiceImpl(CompanyDaoImpl companyDaoImpl, ConnexionFactory connexionFactory) {
+		this.companyDaoImpl = companyDaoImpl;
+		this.connexionFactory = connexionFactory;
 	}
 
 	@Override
@@ -45,7 +41,7 @@ public enum CompanyDaoServiceImpl implements CompanyDaoService {
 	public void delete(long id, ComputerDaoService computerService) {
 		try {
 			List<Computer> liste = computerService.getListByCompany(id);
-			ConnexionFactory.initTransaction();
+			connexionFactory.initTransaction();
 			computerService.deleteList(liste);
 			companyDaoImpl.delete(id);
 			ConnexionFactory.commit();

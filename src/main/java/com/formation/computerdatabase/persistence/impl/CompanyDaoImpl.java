@@ -18,11 +18,16 @@ import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
 /**
  * The Enum CompanyDaoImpl.
  */
-public enum CompanyDaoImpl implements CompanyDao {
+public class CompanyDaoImpl implements CompanyDao {
 	
-	/** The instance. */
-	INSTANCE;
+	private ConnexionFactory connexionFactory;
+	private CompanyMapper companyMapper;
 	
+	public CompanyDaoImpl(ConnexionFactory connexionFactory, CompanyMapper companyMapper) {
+		this.connexionFactory = connexionFactory;
+		this.companyMapper = companyMapper;
+	}
+
 	@Override
 	public int getCount(HashMap<String, Object> filter) {
 		Connection connexion = null;
@@ -31,7 +36,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		int nbEntries = 0;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			String sql = "SELECT COUNT(*) as nb_companies FROM company";
 			stmt = connexion.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -60,7 +65,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		List<Company> liste = new ArrayList<Company>();
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			String sql = SELECT_LIMIT;
 			pstmt = connexion.prepareStatement(sql);
 			pstmt.setInt(1, from);
@@ -68,7 +73,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()){
-				Company company = CompanyMapper.map(rs);
+				Company company = companyMapper.map(rs);
 				liste.add(company);
 			}
 		} catch (SQLException e) {
@@ -91,13 +96,13 @@ public enum CompanyDaoImpl implements CompanyDao {
 		List<Company> liste = new ArrayList<Company>();
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			String sql = SELECT_ALL;
 			stmt = connexion.createStatement();
 			rs = stmt.executeQuery(sql);
 			
 			while (rs.next()){
-				Company company = CompanyMapper.map(rs);
+				Company company = companyMapper.map(rs);
 				liste.add(company);
 			}
 		} catch (SQLException e) {
@@ -120,13 +125,13 @@ public enum CompanyDaoImpl implements CompanyDao {
 		Company company = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(SELECT_BY_ID);
 			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()){
-				company = CompanyMapper.map(rs);
+				company = companyMapper.map(rs);
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -145,7 +150,7 @@ public enum CompanyDaoImpl implements CompanyDao {
 		Connection connexion = null;
 		
 		try {
-			connexion = ConnexionFactory.INSTANCE.getConnection();
+			connexion = connexionFactory.getConnection();
 			pstmt = connexion.prepareStatement(DELETE);
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();

@@ -3,14 +3,10 @@ package com.formation.computerdatabase.service;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
-// TODO: Auto-generated Javadoc
 /**
  * A factory for creating Service objects.
  */
-public enum ServiceFactory {
-	
-	/** The instance. */
-	INSTANCE;
+public class ServiceFactory {
 	
 	/** The computer dao service impl. */
 	ComputerDaoServiceImpl computerDaoServiceImpl;
@@ -21,9 +17,9 @@ public enum ServiceFactory {
 	/**
 	 * Instantiates a new service factory.
 	 */
-	private ServiceFactory() {
-		computerDaoServiceImpl = ComputerDaoServiceImpl.INSTANCE;
-		companyDaoServiceImpl =  CompanyDaoServiceImpl.INSTANCE;
+	private ServiceFactory(ComputerDaoServiceImpl computerDaoServiceImpl, CompanyDaoServiceImpl companyDaoServiceImpl) {
+		this.computerDaoServiceImpl = computerDaoServiceImpl;
+		this.companyDaoServiceImpl =  companyDaoServiceImpl;
 	}
 
 	/**
