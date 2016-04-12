@@ -8,7 +8,7 @@ import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 public class TestDeleteCompany {
-	
+	/*
 	private static ComputerDaoServiceImpl computerService;
 	private static CompanyDaoServiceImpl companyService;
 	
@@ -23,5 +23,5 @@ public class TestDeleteCompany {
 	public void test() {
 		companyService.delete(44, computerService);
 	}
-
+	*/
 }

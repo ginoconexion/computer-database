@@ -2,15 +2,15 @@ package com.formation.computerdatabase.persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import org.springframework.stereotype.Component;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.dto.CompanyDTO;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CompanyMapper.
  */
+@Component
 public class CompanyMapper {
 
 	/**

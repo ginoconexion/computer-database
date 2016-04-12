@@ -14,6 +14,7 @@ import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 
 public class TestCompany {
 	
+	/*
 	private static CompanyDaoImpl companyDaoImpl;
 	
 	@BeforeClass
@@ -42,5 +43,5 @@ public class TestCompany {
 	public void testFromToWithNegative() {
 		companyDaoImpl.getFromTo(-5, 5, new HashMap<>());
 	}
-	
+	*/
 }

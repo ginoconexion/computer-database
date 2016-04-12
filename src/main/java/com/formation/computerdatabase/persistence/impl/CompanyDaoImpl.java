@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.persistence.CompanyDao;
@@ -18,16 +21,14 @@ import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
 /**
  * The Enum CompanyDaoImpl.
  */
+@Component
 public class CompanyDaoImpl implements CompanyDao {
 	
+	@Autowired
 	private ConnexionFactory connexionFactory;
+	@Autowired
 	private CompanyMapper companyMapper;
 	
-	public CompanyDaoImpl(ConnexionFactory connexionFactory, CompanyMapper companyMapper) {
-		this.connexionFactory = connexionFactory;
-		this.companyMapper = companyMapper;
-	}
-
 	@Override
 	public int getCount(HashMap<String, Object> filter) {
 		Connection connexion = null;

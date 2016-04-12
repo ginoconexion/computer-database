@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Order;
@@ -19,6 +22,7 @@ import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 /**
  * The Enum ComputerDaoImpl.
  */
+@Component
 public class ComputerDaoImpl implements ComputerDao {
 	
 	/** The Constant SELECT_LIMIT. */
@@ -26,13 +30,11 @@ public class ComputerDaoImpl implements ComputerDao {
 	private final static String LIMIT = "LIMIT ?, ? ";
 	private final static String JOIN_ON_COMPANY = "LEFT JOIN company on computer.id = company.id ";
 	private final static String WHERE_NAME = " WHERE computer.name LIKE ?  OR company.name LIKE ? ";
-	private ConnexionFactory connexionFactory;
-	private ComputerMapper computerMapper;
 	
-	public ComputerDaoImpl(ConnexionFactory connexionFactory, ComputerMapper computerMapper) {
-		this.connexionFactory = connexionFactory;
-		this.computerMapper = computerMapper;
-	}
+	@Autowired
+	private ConnexionFactory connexionFactory;
+	@Autowired
+	private ComputerMapper computerMapper;
 	
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {

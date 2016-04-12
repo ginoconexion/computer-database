@@ -29,6 +29,7 @@ import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 public class TestSeleniumDeleteComputer {
+  /*
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -150,4 +151,5 @@ public class TestSeleniumDeleteComputer {
       acceptNextAlert = true;
     }
   }
+  */
 }

@@ -3,6 +3,9 @@ package com.formation.computerdatabase.service.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
@@ -15,18 +18,15 @@ import com.formation.computerdatabase.service.ComputerDaoService;
 /**
  * The Enum CompanyDaoServiceImpl.
  */
+@Component
 public class CompanyDaoServiceImpl implements CompanyDaoService {
 	
 	/** The company dao impl. */
+	@Autowired
 	private CompanyDaoImpl companyDaoImpl;
+	@Autowired
 	private ConnexionFactory connexionFactory;
-	/**
-	 * Instantiates a new company dao service impl.
-	 */
-	private CompanyDaoServiceImpl(CompanyDaoImpl companyDaoImpl, ConnexionFactory connexionFactory) {
-		this.companyDaoImpl = companyDaoImpl;
-		this.connexionFactory = connexionFactory;
-	}
+	
 
 	@Override
 	public Company getById(long id) {
