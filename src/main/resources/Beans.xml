@@ -2,43 +2,19 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
-	<bean id="connexionFactory" class="com.formation.computerdatabase.persistence.ConnexionFactory"></bean>
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
-	<bean id="companyMapper" class="com.formation.computerdatabase.persistence.mapper.CompanyMapper"></bean>
+	<bean id="dataSource"
+	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	   <property name="url" value="jdbc:mysql://localhost:3306/computer-database-db-test?zeroDateTimeBehavior=convertToNull"/>
+	   <property name="username" value="admincdb"/>
+	   <property name="password" value="qwerty1234"/>
+	</bean>
 	
-	<bean id="companyDao" class="com.formation.computerdatabase.persistence.impl.CompanyDaoImpl">
-   	<constructor-arg ref="connexionFactory"></constructor-arg>
-   	<constructor-arg ref="companyMapper"></constructor-arg>
-   </bean>
-	
-    <bean id="computerMapper" class="com.formation.computerdatabase.persistence.mapper.ComputerMapper">
-    	<constructor-arg ref="companyDao"></constructor-arg>
-    	<constructor-arg ref="companyMapper"></constructor-arg>
-    </bean>
-   
-    <bean id="computerDao" class="com.formation.computerdatabase.persistence.impl.ComputerDaoImpl">
-   	<constructor-arg ref="connexionFactory"></constructor-arg>
-   	<constructor-arg ref="computerMapper"></constructor-arg>
-   </bean>
-   
-   
-
-   <bean id="computerService" class="com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl" scope="singleton">
-   	<constructor-arg ref="computerDao"></constructor-arg>
-   </bean>
-   
-   <bean id="companyService" class="com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl" scope="singleton">
-   	<constructor-arg ref="companyDao"></constructor-arg>
-   	<constructor-arg ref="connexionFactory"></constructor-arg>
-   </bean>
-   
-   
-   <bean id="serviceFactory" class="com.formation.computerdatabase.service.ServiceFactory">
-   	<constructor-arg ref="computerService"></constructor-arg>
-   	<constructor-arg ref="companyService"></constructor-arg>
-   </bean>
-
+	<context:component-scan base-package="com.formation.computerdatabase"></context:component-scan>
 </beans>

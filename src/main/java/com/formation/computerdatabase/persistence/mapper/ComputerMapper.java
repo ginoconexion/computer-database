@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
@@ -12,15 +16,13 @@ import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 /**
  * The Class ComputerMapper.
  */
+@Component
 public class ComputerMapper {
 
+	@Autowired
 	private CompanyDaoImpl companyDaoImpl;
+	@Autowired
 	private CompanyMapper companyMapper;
-	
-	public ComputerMapper(CompanyDaoImpl companyDaoImpl, CompanyMapper companyMapper) {
-		this.companyDaoImpl = companyDaoImpl;
-		this.companyMapper = companyMapper;
-	}
 	
 	/**
 	 * Map.

@@ -1,32 +1,22 @@
 package com.formation.computerdatabase.test;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 public class TestComputerDao {
 	
-	private static ComputerDaoServiceImpl computerService;
 	
 	
 	@BeforeClass
 	public static void init() {
-		computerService = ComputerDaoServiceImpl.INSTANCE;
 	}
-
+	/*
 	@Test
 	public void testGetById() {
 		Computer computer = null;
 		computer = computerService.getById(1);
 		assertEquals(1, computer.getId());
 	}
+	
 	
 	@Test
 	public void testGetByIdNull() {
@@ -71,26 +61,27 @@ public class TestComputerDao {
 		computer.setName(name);
 		computerService.create(computer);
 		
-		/** on vérifie qu'on récupère bien le bon ordinateur */
+		// on vérifie qu'on récupère bien le bon ordinateur
 		computer = computerService.getByName(name);
 		assertEquals(name, computer.getName());
 		
 		computerService.delete(computer.getId());
 		
-		/** on vérifie que l'ordinateur a bien été supprimé */
-		/*computer = computerService.getByName(name);
+		// on vérifie que l'ordinateur a bien été supprimé
+		computer = computerService.getByName(name);
 		
-		assertEquals(null, computer);*/
+		assertEquals(null, computer);
 	}
 	@Ignore
 	@Test(expected = DAOException.class)
 	public void testFromToWithNegative() {
-		/*
-		computerService.getFromTo(-5, 5, new HashMap<>()); */
+	
+		computerService.getFromTo(-5, 5, new HashMap<>()); 
 	}
 	
 	@Test
 	public void testFromTo() {
 		//assertTrue(computerService.getFromTo(0, 10, new HashMap<>()).size() == 10);
 	}
+	*/
 }

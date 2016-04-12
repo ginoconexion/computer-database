@@ -10,6 +10,7 @@ import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 
 public class TestPager {
 	
+	/*
 	private static Pager pager;
 	private final static int nbEntries = 578;
 	private final static int parPage = 10;
@@ -31,4 +32,5 @@ public class TestPager {
 	public void testNbPages() {
 		//assertEquals((int) Math.ceil(nbEntries/parPage), pager.getNbPages());
 	}
+	*/
 }

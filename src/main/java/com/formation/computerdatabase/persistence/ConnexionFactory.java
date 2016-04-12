@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+
 import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
@@ -18,6 +20,7 @@ import com.jolbox.bonecp.BoneCPConfig;
 /**
  * A factory for creating Connexion objects.
  */
+@Component
 public class ConnexionFactory {
 	
 	private static ThreadLocal<Connection> context = new ThreadLocal<>();
