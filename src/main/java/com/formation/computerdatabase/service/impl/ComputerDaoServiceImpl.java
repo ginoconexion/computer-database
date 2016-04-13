@@ -3,7 +3,7 @@ package com.formation.computerdatabase.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
@@ -12,14 +12,13 @@ import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.service.ComputerDaoService;
 
-@Component
+@Service
 public class ComputerDaoServiceImpl implements ComputerDaoService {
 	
 	/** The computer dao impl. */
 	@Autowired
 	private ComputerDaoImpl computerDaoImpl;
 	
-
 	@Override
 	public Computer getById(long id)  {
 		return computerDaoImpl.getById(id);

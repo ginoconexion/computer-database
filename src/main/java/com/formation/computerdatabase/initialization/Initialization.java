@@ -23,11 +23,6 @@ public class Initialization implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		
 		ServletContext servletContext = event.getServletContext();
-		/*
-		this.service = new ServiceFactory();
-		this.service = ServiceFactory.INSTANCE;
-		*/
-		
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	    ServiceFactory service = (ServiceFactory) context.getBean("serviceFactory");
 		servletContext.setAttribute("service", service);

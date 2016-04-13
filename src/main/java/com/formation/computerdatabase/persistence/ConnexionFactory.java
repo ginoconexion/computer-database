@@ -1,20 +1,9 @@
 package com.formation.computerdatabase.persistence;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 import org.springframework.stereotype.Component;
-
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
 
 
 /**
@@ -43,8 +32,8 @@ public class ConnexionFactory {
     /** The properties. */
     private Properties properties;
     
-    BoneCP connectionPool;
-	
+    //BoneCP connectionPool;
+	/*
 	public ConnexionFactory() {
 		
 		properties = new Properties();
@@ -92,6 +81,7 @@ public class ConnexionFactory {
 	 * @return the connection
 	 * @throws SQLException the SQL exception
 	 */
+    /*
 	public Connection getConnection() throws SQLException {
 		Connection connexion = context.get();
 		// la connexion ne sera pas nulle uniquement dans le cas de transcation
@@ -108,6 +98,7 @@ public class ConnexionFactory {
 	 * Beginning of a Transaction, enable to set in the context a connexion with autocommit set to false
 	 * @throws SQLException
 	 */
+    /*
 	public void initTransaction() throws SQLException {
 		Connection connexion = getConnection();
 		connexion.setAutoCommit(false);
@@ -118,6 +109,7 @@ public class ConnexionFactory {
 	 * Enables to close and to remove connexion from context
 	 * @throws SQLException 
 	 */
+    /*
 	public static void closeTransaction() throws SQLException {
 		Connection connexion = context.get();
 		connexion.close();
@@ -140,6 +132,7 @@ public class ConnexionFactory {
 	 * @param stmt the stmt
 	 * @param pstmt the pstmt
 	 */
+    /*
 	public static void close(Connection conn, ResultSet rs, Statement stmt, PreparedStatement pstmt ) { 
 		if (rs != null) {
 			try {
@@ -178,4 +171,5 @@ public class ConnexionFactory {
 			}
 		}
 	}
+	*/
 }

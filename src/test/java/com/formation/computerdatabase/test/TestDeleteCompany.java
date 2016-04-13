@@ -1,27 +1,37 @@
 package com.formation.computerdatabase.test;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.formation.computerdatabase.service.ServiceFactory;
 import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 public class TestDeleteCompany {
-	/*
-	private static ComputerDaoServiceImpl computerService;
+
+
 	private static CompanyDaoServiceImpl companyService;
-	
+	private static ComputerDaoServiceImpl computerService;
+	private static AbstractApplicationContext context;
+
 	@BeforeClass
 	public static void init() {
-		computerService = ComputerDaoServiceImpl.INSTANCE;
-		companyService = CompanyDaoServiceImpl.INSTANCE;
+		context = new ClassPathXmlApplicationContext("Beans.xml");
+		ServiceFactory service = (ServiceFactory) context.getBean("serviceFactory");
+		companyService = service.getCompanyDaoServiceImpl();
+		computerService = service.getComputerDaoServiceImpl();
 	}
-	 
-	@Ignore
+	@AfterClass
+	public static void close() {
+		context.close();
+	}
+
 	@Test
 	public void test() {
-		companyService.delete(44, computerService);
+		companyService.delete(43, computerService);
 	}
-	*/
+
 }

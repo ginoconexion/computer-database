@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.formation.computerdatabase.model.Computer;
@@ -17,7 +18,7 @@ import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
  * The Class ComputerMapper.
  */
 @Component
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer> {
 
 	@Autowired
 	private CompanyDaoImpl companyDaoImpl;
@@ -40,6 +41,7 @@ public class ComputerMapper {
 		computer.setCompany(companyDaoImpl.getById(rs.getLong("company_id")));
 		return computer;
 	}
+	
 	
 	/**
 	 * Map list.
@@ -66,6 +68,27 @@ public class ComputerMapper {
 		c.setDiscontinued((cDTO.getDiscontinued() == null) ? null : LocalDate.parse(cDTO.getDiscontinued()));
 		c.setName(cDTO.getName());
 		c.setCompany(companyMapper.map(cDTO.getCompany()));
+		return c;
+	}
+
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		LocalDate introduced = null;
+	    LocalDate discontinued = null;
+	    if (rs.getTimestamp("introduced") != null) {
+	    	introduced = rs.getTimestamp("introduced").toLocalDateTime().toLocalDate();
+	    }
+	    if (rs.getTimestamp("discontinued") != null) {
+	    	discontinued = rs.getTimestamp("discontinued").toLocalDateTime().toLocalDate();
+	    }
+		
+		Computer c = new Computer.Builder(rs.getString("name"))
+			.id(rs.getLong("id"))
+			.introduced(introduced)
+			.discontinued(discontinued)
+			.company(companyDaoImpl.getById(rs.getLong("company_id")))
+			.build();
 		return c;
 	}
 	

@@ -1,57 +1,31 @@
 package com.formation.computerdatabase.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import com.formation.computerdatabase.exception.DAOException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.persistence.CompanyDao;
-import com.formation.computerdatabase.persistence.ConnexionFactory;
 import com.formation.computerdatabase.persistence.mapper.CompanyMapper;
 
 /**
  * The Enum CompanyDaoImpl.
  */
-@Component
+@Repository
 public class CompanyDaoImpl implements CompanyDao {
 	
 	@Autowired
-	private ConnexionFactory connexionFactory;
-	@Autowired
-	private CompanyMapper companyMapper;
+	private JdbcTemplate jdbcTemplateObject;
 	
+	
+	private final static String SELECT_COUNT = "SELECT COUNT(*) as nb_companies FROM company";
 	@Override
 	public int getCount(HashMap<String, Object> filter) {
-		Connection connexion = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		int nbEntries = 0;
-		
-		try {
-			connexion = connexionFactory.getConnection();
-			String sql = "SELECT COUNT(*) as nb_companies FROM company";
-			stmt = connexion.createStatement();
-			rs = stmt.executeQuery(sql);
-			
-			if (rs.next()){
-				nbEntries = rs.getInt("nb_companies");
-			}
-			
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} finally {
-			ConnexionFactory.close(connexion, rs, stmt, null);
-		}
-		return nbEntries;
+		return jdbcTemplateObject.queryForObject(SELECT_COUNT, Integer.class);
 	}
 
 	/** The Constant SELECT_LIMIT. */
@@ -59,29 +33,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	@Override
 	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		
-		Connection connexion = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Company> liste = new ArrayList<Company>();
-		
-		try {
-			connexion = connexionFactory.getConnection();
-			String sql = SELECT_LIMIT;
-			pstmt = connexion.prepareStatement(sql);
-			pstmt.setInt(1, from);
-			pstmt.setInt(2, nb);
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()){
-				Company company = companyMapper.map(rs);
-				liste.add(company);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} finally {
-			ConnexionFactory.close(connexion, rs, null, pstmt);
-		}
+		List <Company> liste = jdbcTemplateObject.query(SELECT_LIMIT, new CompanyMapper());
 		return liste;
 	}
 	
@@ -90,27 +42,7 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	@Override
 	public List<Company> getAll() {
-		
-		Connection connexion = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		List<Company> liste = new ArrayList<Company>();
-		
-		try {
-			connexion = connexionFactory.getConnection();
-			String sql = SELECT_ALL;
-			stmt = connexion.createStatement();
-			rs = stmt.executeQuery(sql);
-			
-			while (rs.next()){
-				Company company = companyMapper.map(rs);
-				liste.add(company);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} finally {
-			ConnexionFactory.close(connexion, rs, stmt, null);
-		}
+		List <Company> liste = jdbcTemplateObject.query(SELECT_ALL, new CompanyMapper());
 		return liste;
 	}
 
@@ -119,27 +51,10 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	@Override
 	public Company getById(long id) {
-		
-		Connection connexion = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Company company = null;
-		
-		try {
-			connexion = connexionFactory.getConnection();
-			pstmt = connexion.prepareStatement(SELECT_BY_ID);
-			pstmt.setLong(1, id);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()){
-				company = companyMapper.map(rs);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} finally {
-			ConnexionFactory.close(connexion, rs, null, pstmt);
+		if (id != 0) {
+			return jdbcTemplateObject.queryForObject(SELECT_BY_ID, new Object[]{id}, new CompanyMapper());
 		}
-		return company;
+		return null;
 	}
 	
 	/** The Constant DELETE. */
@@ -147,29 +62,8 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	@Override
 	public void delete(long id) {
-		PreparedStatement pstmt = null;
-		Connection connexion = null;
-		
-		try {
-			connexion = connexionFactory.getConnection();
-			pstmt = connexion.prepareStatement(DELETE);
-			pstmt.setLong(1, id);
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} finally {
-			
-			// si auto commit à true on est pas dans une transaction donc on ferme la connexion
-			try {
-				if (connexion.getAutoCommit()) {
-					ConnexionFactory.close(connexion, null, null, pstmt);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			ConnexionFactory.close(connexion, null, null, pstmt);
-		}
+		jdbcTemplateObject.update(DELETE, id);
+	    // logger msg
+	    return;
 	}
 }

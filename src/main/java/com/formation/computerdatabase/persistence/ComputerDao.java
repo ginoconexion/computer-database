@@ -4,12 +4,10 @@ import java.util.List;
 
 import com.formation.computerdatabase.model.Computer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ComputerDao.
  */
 public interface ComputerDao extends Dao<Computer> {
-	
 	void create(Computer computer);
 	void update(Computer computer);
 	Computer getByName(String name);

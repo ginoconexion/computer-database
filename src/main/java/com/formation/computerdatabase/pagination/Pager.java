@@ -40,7 +40,7 @@ public class Pager<T> {
 	public boolean isOutofBounds(){
 		boolean bool = false;
 		
-		if (current < 1 || current > nbPages) {
+		if (current < 1 || current > nbPages &&  nbPages > 0) {
 			correctPage();
 			bool = true;
 		}
