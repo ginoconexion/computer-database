@@ -38,8 +38,10 @@ public class ServletDashboard extends HttpServlet {
 		
 		// on map le pager au niveau des différent paramètre
 		Pager<ComputerDTO> pager = PagerMapper.map(request);
+		System.out.println("1 " + pager.getFilter().get("search"));
 		// on set la liste et le nombre d'entrées
 		computerService.updatePager(pager);
+		System.out.println("2 " + pager.getFilter().get("search"));
 		
 		pager.updateListe();
 		if (pager.isOutofBounds()) {

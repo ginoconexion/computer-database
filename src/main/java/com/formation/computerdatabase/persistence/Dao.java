@@ -1,12 +1,9 @@
 package com.formation.computerdatabase.persistence;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
-
+import javax.sql.DataSource;
 import com.formation.computerdatabase.exception.DAONotFoundException;
-import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
 
 /**
  * The Interface Dao.

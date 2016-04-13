@@ -2,6 +2,8 @@ package com.formation.computerdatabase.persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.dto.CompanyDTO;
@@ -11,7 +13,7 @@ import com.formation.computerdatabase.model.dto.CompanyDTO;
  * The Class CompanyMapper.
  */
 @Component
-public class CompanyMapper {
+public class CompanyMapper implements RowMapper<Company> {
 
 	/**
 	 * Map.
@@ -39,4 +41,10 @@ public class CompanyMapper {
 		company.setName(companyDto.getName());
 		return company;
 	}
+
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+		return new Company.Builder(rs.getString("name")).id(rs.getLong("id")).build();
+	}
+	
 }

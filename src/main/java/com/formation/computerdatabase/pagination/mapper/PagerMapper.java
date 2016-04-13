@@ -35,7 +35,7 @@ public class PagerMapper<T> {
 		}
 		if (request.getParameter(Order.SEARCH) !=  null ) {
 				// si l'utilisateur a entré une nouvelle recherche
-				if (!request.getParameter(Order.SEARCH).equals(filter.get(Order.SEARCH)))
+				if (request.getParameter(Order.SEARCH).equals(filter.get(Order.SEARCH)))
 					pager.setCurrent(1);
 				/*
 				filter.remove(Order.BY_NAME);

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.openqa.selenium.Alert;
@@ -20,6 +22,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
@@ -29,12 +33,27 @@ import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
 
 public class TestSeleniumDeleteComputer {
-  /*
+  
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
-
+  private static CompanyDaoServiceImpl companyService;
+  private static ComputerDaoServiceImpl computerService;
+  private static AbstractApplicationContext context;
+  
+  @BeforeClass
+  public static void init() {
+	  context = new ClassPathXmlApplicationContext("Beans.xml");
+	  ServiceFactory service = (ServiceFactory) context.getBean("serviceFactory");
+	  companyService = service.getCompanyDaoServiceImpl();
+	  computerService = service.getComputerDaoServiceImpl();
+  }
+  @AfterClass
+  public void close() {
+	  context.close();
+  }
+  
   @Before
   public void setUp() throws Exception {
 	  baseUrl = "http://localhost:8080//computerdatabase";
@@ -52,13 +71,12 @@ public class TestSeleniumDeleteComputer {
 	  driver.get(baseUrl);
   }
   
+  
   @Test
   public void add2ComputersAndDelete() throws Exception {
+	 
 	  
-	  ServiceFactory service = ServiceFactory.INSTANCE;
-	  CompanyDaoServiceImpl companyService = service.getCompanyDaoServiceImpl();
-	  ComputerDaoServiceImpl computerService = service.getComputerDaoServiceImpl();
-	  HashMap<String, Object> filter = new HashMap<>();
+	HashMap<String, Object> filter = new HashMap<>();
   
 	String nom = "Test";
 	String introduced = "1992-03-29";
@@ -151,5 +169,4 @@ public class TestSeleniumDeleteComputer {
       acceptNextAlert = true;
     }
   }
-  */
 }

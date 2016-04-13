@@ -12,6 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		/*
 	      AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	      ComputerDaoService obj = (ComputerDaoService) context.getBean("computerService");
 	      List<Computer> list = obj.getListByCompany(1);
@@ -21,6 +22,10 @@ public class Main {
 	      }
 	      
 	      context.registerShutdownHook();
+	      */
+		Object[] liste = new Object[1];
+		liste[0] = 1;
+		
 	}
 
 }
