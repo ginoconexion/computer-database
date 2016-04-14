@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.ServiceFactory;
+import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
 /**
  * Servlet implementation class ServletDelete
  */
 @WebServlet("/ServletDelete")
 public class ServletDelete extends HttpServlet {
+	/*
 	private static final long serialVersionUID = 1L;
 	
 	//private static Logger logger = LoggerFactory.getLogger("com.excilys.formation.computerdatabase");
@@ -26,12 +26,12 @@ public class ServletDelete extends HttpServlet {
 		ServiceFactory service = (ServiceFactory) getServletContext().getAttribute("service");
 		this.computerService = service.getComputerDaoServiceImpl();
 	}
-
+	*/
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		if (request.getParameter("selection") !=  null) {
 			try {
 				String[] idArray = request.getParameter("selection").split(",");
@@ -49,6 +49,7 @@ public class ServletDelete extends HttpServlet {
 		else {
 			response.sendRedirect("dashboard");
 		}
+		*/
 	}
 
 }

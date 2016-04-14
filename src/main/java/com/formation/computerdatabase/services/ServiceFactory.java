@@ -1,15 +1,15 @@
-package com.formation.computerdatabase.service;
+package com.formation.computerdatabase.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
 /**
  * A factory for creating Service objects.
  */
-@Component
+@Service
 public class ServiceFactory {
 	
 	/** The computer dao service impl. */

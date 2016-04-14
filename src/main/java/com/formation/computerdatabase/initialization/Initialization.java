@@ -1,16 +1,7 @@
 package com.formation.computerdatabase.initialization;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.formation.computerdatabase.service.ServiceFactory;
-
-public class Initialization implements ServletContextListener {
-
+public class Initialization {
+	/*
 	private ServiceFactory service;
 	
 	
@@ -27,4 +18,5 @@ public class Initialization implements ServletContextListener {
 	    ServiceFactory service = (ServiceFactory) context.getBean("serviceFactory");
 		servletContext.setAttribute("service", service);
 	}
+	*/
 }

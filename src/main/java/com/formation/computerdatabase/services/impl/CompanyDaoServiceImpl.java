@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.service.impl;
+package com.formation.computerdatabase.services.impl;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
-import com.formation.computerdatabase.service.CompanyDaoService;
-import com.formation.computerdatabase.service.ComputerDaoService;
+import com.formation.computerdatabase.services.CompanyDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
 
 
 /**
