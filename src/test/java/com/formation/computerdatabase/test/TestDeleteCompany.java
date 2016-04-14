@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.ServiceFactory;
+import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
 public class TestDeleteCompany {
 

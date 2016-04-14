@@ -16,10 +16,10 @@ import com.formation.computerdatabase.exception.DAONotFoundException;
 import com.formation.computerdatabase.exception.FormValidationException;
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.service.CompanyDaoService;
-import com.formation.computerdatabase.service.ComputerDaoService;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.CompanyDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
+import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 import com.formation.computerdatabase.servlets.ServletDashboard;
 import com.formation.computerdatabase.util.Regexp;
 
@@ -106,11 +106,11 @@ public class ComputerForm {
 	 * @param request the request
 	 * @param computer the computer
 	 */
-	public Computer hydrate(HttpServletRequest request) {
-		String name = processName(request, CHAMP_NAME);
-		LocalDate introduced = processIntroduced(request, CHAMP_INTRODUCED);
-		LocalDate discontinued = processDiscontinued(request, CHAMP_DISCONTINUED);
-		Company company = processCompanyId(request, CHAMP_COMPANY_ID);
+	public Computer hydrate(Map<String,String> requestParams) {
+		String name = processName(requestParams, CHAMP_NAME);
+		LocalDate introduced = processIntroduced(requestParams, CHAMP_INTRODUCED);
+		LocalDate discontinued = processDiscontinued(requestParams, CHAMP_DISCONTINUED);
+		Company company = processCompanyId(requestParams, CHAMP_COMPANY_ID);
 		Computer computer = new Computer.Builder(name).introduced(introduced).discontinued(discontinued).company(company).build();
 		processIntroducedAndDiscontinued(computer);
 		return computer;
@@ -124,8 +124,8 @@ public class ComputerForm {
 	 * @param computer the computer
 	 * @return the computer
 	 */
-	public Computer updateComputer(HttpServletRequest request, Computer computer) {
-		Computer c = hydrate(request);
+	public Computer updateComputer(Map<String, String> requestParams, Computer computer) {
+		Computer c = hydrate(requestParams);
 		c.setId(computer.getId());
 		try {
 			if (erreurs.isEmpty()) {
@@ -143,6 +143,9 @@ public class ComputerForm {
 		return computer;
 	}
 	
+	public void validate(Computer computer) {
+		
+	}
 	
 	
 	/**
@@ -151,8 +154,8 @@ public class ComputerForm {
 	 * @param request the request
 	 * @return the computer
 	 */
-	public Computer addComputer(HttpServletRequest request) {
-		Computer computer = hydrate(request);
+	public Computer addComputer(Computer computer) {
+		Computer computer = hydrate(requestParams);
 		try {
 			if (erreurs.isEmpty()) {
 				computerService.create(computer);
@@ -174,8 +177,8 @@ public class ComputerForm {
 	 * @param name the name
 	 * @param computer the computer
 	 */
-	private String processName(HttpServletRequest request, String champ) {
-		String name = getValeurChamp(request, champ);
+	private String processName(Map<String, String> requestParams, String champ) {
+		String name = getValeurChamp(requestParams, champ);
 		try {
 			validateName(name);
 		} catch (FormValidationException e) {
@@ -190,10 +193,10 @@ public class ComputerForm {
 	 * @param introduced the introduced
 	 * @param computer the computer
 	 */
-	private LocalDate processIntroduced(HttpServletRequest request, String champ) {
+	private LocalDate processIntroduced(Map<String, String> requestParams, String champ) {
 		LocalDate date = null;
 		try {
-			date = validateDate(getValeurChamp(request, champ));
+			date = validateDate(getValeurChamp(requestParams, champ));
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_INTRODUCED, e.getMessage());
 		}
@@ -206,10 +209,10 @@ public class ComputerForm {
 	 * @param discontinued the discontinued
 	 * @param computer the computer
 	 */
-	private LocalDate processDiscontinued(HttpServletRequest request, String champ) {
+	private LocalDate processDiscontinued(Map<String, String> requestParams, String champ) {
 		LocalDate date = null;
 		try {
-			date = validateDate(getValeurChamp(request, champ));
+			date = validateDate(getValeurChamp(requestParams, champ));
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_DISCONTINUED, e.getMessage());
 		}
@@ -229,10 +232,10 @@ public class ComputerForm {
 	 * @param champCompanyId the computer
 	 * @return 
 	 */
-	private Company processCompanyId(HttpServletRequest request, String champCompanyId) {
+	private Company processCompanyId(Map<String, String> requestParams, String champCompanyId) {
 		Company company = null;
 		try {
-			company = validateCompanyId(getValeurChamp(request, champCompanyId));
+			company = validateCompanyId(getValeurChamp(requestParams, champCompanyId));
 			
 		} catch (FormValidationException e) {
 			setErreur(CHAMP_COMPANY_ID, e.getMessage());
@@ -327,8 +330,8 @@ public class ComputerForm {
 	 * @param nomChamp the nom champ
 	 * @return the valeur champ
 	 */
-	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
-		String valeur = request.getParameter( nomChamp );
+	private static String getValeurChamp(Map<String, String> requestParams, String nomChamp) {
+		String valeur = requestParams.get( nomChamp );
 		if (valeur == null || valeur.trim().length() == 0){
 			return null;
 		}

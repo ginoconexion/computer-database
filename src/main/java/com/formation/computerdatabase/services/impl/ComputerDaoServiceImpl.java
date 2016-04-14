@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.service.impl;
+package com.formation.computerdatabase.services.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
-import com.formation.computerdatabase.service.ComputerDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
 
 @Service
 public class ComputerDaoServiceImpl implements ComputerDaoService {

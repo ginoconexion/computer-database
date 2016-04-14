@@ -6,7 +6,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.service.ComputerDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
 
 public class Main {
 

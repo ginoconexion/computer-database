@@ -15,15 +15,16 @@ import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.forms.ComputerForm;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.service.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.ServiceFactory;
+import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
 /**
  * Servlet implementation class ServletEdit
  */
 @WebServlet("/ServletEdit")
 public class ServletEdit extends HttpServlet {
+	/*
 	private static final long serialVersionUID = 1L;
 	//private static Logger logger = LogManager.getLogger("com.formation.computerdatabase.console");
 	private CompanyDaoServiceImpl companyService;
@@ -36,12 +37,12 @@ public class ServletEdit extends HttpServlet {
 		this.computerService = service.getComputerDaoServiceImpl();
 		this.liste = companyService.getAll();
 	}
-     
+     */
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		long id = Long.parseLong(request.getParameter("id"));
 		
 		Computer computer = computerService.getById(id);
@@ -55,13 +56,15 @@ public class ServletEdit extends HttpServlet {
 			request.setAttribute("companies", liste);
 			request.getRequestDispatcher("/views/addComputer.jsp").forward( request, response );
 		}
+		*/
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		try {
 			long id = Long.parseLong(request.getParameter("id"));
 			Computer computer = computerService.getById(id);
@@ -89,6 +92,7 @@ public class ServletEdit extends HttpServlet {
 			// log
 			request.getRequestDispatcher("/views/404.jsp").forward( request, response );
 		}
+		*/
 	}
 
 }

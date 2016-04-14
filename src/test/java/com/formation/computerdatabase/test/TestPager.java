@@ -5,8 +5,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.formation.computerdatabase.pagination.Pager;
-import com.formation.computerdatabase.service.ServiceFactory;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.services.ServiceFactory;
+import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
 
 public class TestPager {
 	

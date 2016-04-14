@@ -1,11 +1,5 @@
 package com.formation.computerdatabase.model;
 
-import java.time.LocalDate;
-
-import com.formation.computerdatabase.exception.DAOException;
-import com.formation.computerdatabase.model.Computer.Builder;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Company.
  */

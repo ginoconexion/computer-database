@@ -2,10 +2,14 @@ package com.formation.computerdatabase.model;
 
 import java.time.LocalDate;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 import com.formation.computerdatabase.exception.DAOException;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Computer.
  */
@@ -16,15 +20,21 @@ public class Computer {
 	private long id;
 	
 	/** The name. */
+	@NotNull
+	@Size(min=2, max=30)
 	private String name;
 	
 	/** The introduced. */
+	@Past
 	private LocalDate introduced;
 	
+	@Past
 	/** The discontinued. */
 	private LocalDate discontinued;
 	
 	/** The company. */
+	@NotNull
+	@Valid
 	private Company company;
 	
 	public Computer() {

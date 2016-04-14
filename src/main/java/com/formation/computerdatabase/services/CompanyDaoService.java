@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.service;
+package com.formation.computerdatabase.services;
 
 import java.util.List;
 
