@@ -63,12 +63,15 @@ public class ComputerMapper implements RowMapper<Computer> {
 	
 	public Computer map(ComputerDTO cDTO) {
 		Computer c = new Computer();
+		/*
  		c.setId(Long.parseLong(cDTO.getId()));
 		c.setIntroduced((cDTO.getIntroduced() == null) ? null : LocalDate.parse(cDTO.getIntroduced()));
 		c.setDiscontinued((cDTO.getDiscontinued() == null) ? null : LocalDate.parse(cDTO.getDiscontinued()));
 		c.setName(cDTO.getName());
 		c.setCompany(companyMapper.map(cDTO.getCompany()));
 		return c;
+		*/
+		return null;
 	}
 
 	@Override

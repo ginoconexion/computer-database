@@ -1,88 +1,84 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<c:import url="/views/templates/head.jsp"></c:import>
+<c:import url="templates/head.jsp"></c:import>
 </head>
 <body>
-    <c:import url="/views/templates/header.jsp"></c:import>
+    <c:import url="templates/header.jsp"></c:import>
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                    <h1><c:choose><c:when test="${ empty computer.id or computer.id == 0  }">Add</c:when><c:otherwise>Edit</c:otherwise></c:choose> Computer</h1>
-                    <form action="<c:choose><c:when test="${ empty computer.id or computer.id == 0 }">addComputer</c:when><c:otherwise>editComputer</c:otherwise></c:choose>" method="POST">
-                        <fieldset>
+                    <h1>Add Computer</h1>
+                    
+                    <sf:form method="post" action="#" modelAttribute="computerDTO">
+                    	 <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" name="computerName" id="computerName" placeholder="Computer name" value="${ computer.name }">
-                                <input type="hidden" name="id" value="${ computer.id }">
+                            	<sf:label path="name">Name</sf:label>
+                            	<sf:input path="name" class="form-control" id="name" placeholder="Computer name" />
                             </div>
-                            <c:if test="${ form.erreurs.containsKey('computerName') }">
-                            <div class="alert alert-danger">
-							  <strong>Error :</strong> ${ form.erreurs['computerName']}
-							</div>
-							</c:if>
+                             <div class="form-group">
+                             	<sf:label path="introduced">Introduced</sf:label>
+                             	<sf:input id="introduced" path="introduced" class="form-control datepicker" data-validation-format="yyyy-mm-dd" type="date" placeholder="Introduced date" />
+                            </div>
                             
                             <div class="form-group">
-                                <label for="introduced">Introduced date</label>
-                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd" type="date" class="form-control datepicker" name="introduced" id="introduced" placeholder="Introduced date" value="${ computer.introduced }">
+                            	<sf:label path="discontinued"></sf:label>
+                            	<sf:input id="discontinued" path="discontinued" class="form-control datepicker" data-validation-format="yyyy-mm-dd" type="date" placeholder="Discontinued date" />
                             </div>
-                            <c:if test="${ form.erreurs.containsKey('introduced') }">
-                            <div class="alert alert-danger">
-							  <strong>Error :</strong> ${ form.erreurs['introduced']}
-							</div>
-							</c:if>
                             
-                            <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
-                                <input data-validation="date" data-validation-optional="true" data-validation-format="yyyy-mm-dd"  data-validation-error-msg="Le format de la date n'est pas valide" type="date" class="form-control datepicker" name="discontinued" id="discontinued" placeholder="Discontinued date" value="${ computer.discontinued }">
+							<div class="form-group">
+								<sf:label path="companyId">Company</sf:label>
+								<sf:select path="companyId"  class="form-control">
+									<sf:option value="">Select a company</sf:option>
+									<sf:options itemValue="id" itemLabel="name" items="${ companiesDTO }" />
+								</sf:select>
                             </div>
-                            <c:if test="${ form.erreurs.containsKey('discontinued') }">
-                            <div class="alert alert-danger">
-							  <strong>Error :</strong> ${ form.erreurs['discontinued']}
-							</div>
-							</c:if>
                             
-                            <div class="form-group">
-                                <label for="companyId">Company</label>
-                                <select class="form-control" name="companyId" id="companyId" >
-                                	<option value="">Sélectionner une company</option>
-                                    <c:forEach var="company" items="${ companies }">
-                                    <option  <c:if test="${ company.id == computer.company.id }">selected="selected"</c:if> value="${ company.id }">${ company.name }</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <c:if test="${ form.erreurs.containsKey('companyId') }">
-                            <div class="alert alert-danger">
-							  <strong>Error :</strong> ${ form.erreurs['companyId']}
-							</div>
-							</c:if>
-                                              
+                             <div class="actions pull-right">
+	                            <input type="submit" class="btn btn-primary">
+	                            or
+	                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
+	                        </div>
+                            
                         </fieldset>
-                        <div class="actions pull-right">
-                            <input type="submit" value="Add" class="btn btn-primary">
-                            or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
-                        </div>
-                    </form>
+                    	
+                    	<!-- 
+                    	<table>
+			                <tr>
+			                    <td><sf:label path="name">Name</sf:label></td>
+			                    <td><sf:input path="name"/></td>
+			                </tr>
+			                <tr>
+			                    <td><input type="submit" value="Submit"/></td>
+			                </tr>
+			            </table>
+			             -->
+                    </sf:form>
                 </div>
             </div>
         </div>
     </section>
 </body>
-<c:import url="/views/templates/script.jsp"></c:import>
+<c:import url="templates/script.jsp"></c:import>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
 <script>
 $.validate({ });
 
-$(".datepicker").datepicker({
+/*
+$("#introduced").datepicker({
 	dateFormat: "yy-mm-dd",
 	maxDate: 0,
-}
-);
-
+});
+$("#discontinued").datepicker({
+	dateFormat: "yy-mm-dd",
+	maxDate: 0,
+});
+*/
 </script>
 </html>

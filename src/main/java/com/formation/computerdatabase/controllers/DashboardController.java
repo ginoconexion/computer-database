@@ -24,6 +24,7 @@ public class DashboardController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String dashboard(@RequestParam Map<String,String> requestParams, Model model) {
 		
+		System.out.println();
 		Pager<ComputerDTO> pager = PagerMapper.map(requestParams);
 		// on set la liste et le nombre d'entrées
 		computerService.updatePager(pager);

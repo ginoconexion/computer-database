@@ -155,6 +155,7 @@ public class ComputerForm {
 	 * @return the computer
 	 */
 	public Computer addComputer(Computer computer) {
+		/*
 		Computer computer = hydrate(requestParams);
 		try {
 			if (erreurs.isEmpty()) {
@@ -168,7 +169,8 @@ public class ComputerForm {
 			// a remplacer par un log
 			e.printStackTrace();
 		}
-		return computer;
+		*/
+		return null;
 	}
 	
 	/**

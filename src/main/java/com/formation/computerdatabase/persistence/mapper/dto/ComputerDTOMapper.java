@@ -17,6 +17,7 @@ public class ComputerDTOMapper {
 	 */
 	
 	public static ComputerDTO map(Computer computer) {
+		/*
 		ComputerDTO cDTO = new ComputerDTO();
 		cDTO.setId(Long.toString(computer.getId()));
 		cDTO.setName(computer.getName());
@@ -24,6 +25,8 @@ public class ComputerDTOMapper {
 		cDTO.setIntroduced((computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
 		cDTO.setCompany((computer.getCompany() == null ) ? null : CompanyDTOMapper.map(computer.getCompany()));
 		return cDTO;
+		*/
+		return null;
 	}
 	
 	public static List<ComputerDTO> mapList(List<Computer> listeComputer) {

@@ -1,28 +1,37 @@
 package com.formation.computerdatabase.model.dto;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 public class ComputerDTO {
 	
 	/** The id. */
+	@NumberFormat
 	private String id;
 	
 	/** The name. */
+	@NotNull
+	@Size(min=2, max=30, message="Le nom ne doit contenir au moins 2 charactères, et pas plus de 30")
 	private String name;
 	
 	/** The introduced. */
+	@DateTimeFormat
 	private String introduced;
 	
 	/** The discontinued. */
+	@DateTimeFormat
 	private String discontinued;
 	
 	/** The company. */
-	private CompanyDTO company;
+	@NotNull
+	@NumberFormat
+	private String companyId;
 	
+	/*
 	public ComputerDTO(Computer computer) {
 		this.id = Long.toString(computer.getId());
 		this.name = computer.getName();
@@ -33,7 +42,7 @@ public class ComputerDTO {
 
 	public ComputerDTO() {
 	}
-
+	*/
 	public String getId() {
 		return id;
 	}
@@ -58,12 +67,13 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 
-	public CompanyDTO getCompany() {
-		return company;
+
+	public String getCompanyId() {
+		return companyId;
 	}
 
-	public void setCompany(CompanyDTO companyDTO) {
-		this.company = companyDTO;
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getName() {
