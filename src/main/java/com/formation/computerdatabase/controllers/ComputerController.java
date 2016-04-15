@@ -1,27 +1,28 @@
 package com.formation.computerdatabase.controllers;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.formation.computerdatabase.model.Company;
-import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.persistence.forms.ComputerForm;
+import com.formation.computerdatabase.model.dto.CompanyDTO;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
+import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
 @Controller
-public class ComputerController {
+public class ComputerController extends WebMvcConfigurerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class.getSimpleName());
 	@Autowired
@@ -30,24 +31,39 @@ public class ComputerController {
 	private CompanyDaoServiceImpl companyService;
 	
 	@RequestMapping(value = "/computer/add", method = RequestMethod.GET)
-	public String addForm(Model model) {
-		model.addAttribute("computer", new Computer());
+	public String showComputerForm(ComputerDTO computerDTO, Model model) {
+		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
+		model.addAttribute("companiesDTO", companiesDTO);
 		return "addComputer";
 	}
 	
 	@RequestMapping(value="/computer/add", method=RequestMethod.POST)
-    public String greetingSubmit(@RequestParam Map<String,String> requestParams, @Validated @ModelAttribute Computer computer, Model model) {
+    public String addComputer(@Valid @ModelAttribute("computerDTO")ComputerDTO computerDTO, BindingResult bindingResult, Model model) {
         
-        
-		List<Company> companies = companyService.getAll();
-		ComputerForm form = new ComputerForm(computerService, companyService);
+		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
+		//System.out.println(computer);
+		model.addAttribute("companiesDTO", companiesDTO);
+		//model.addAttribute("computer", computer);
 		
-		form.validate(computer);
+		if (bindingResult.hasErrors()) {
+			System.out.println("form error");
+			return "addComputer";
+		}
 		
+		else {
+			//return "redirect:/dashboard";
+			System.out.println("form ok");
+			return "addComputer";
+		}
+		
+		//ComputerForm form = new ComputerForm(computerService, companyService);
+		//form.validate(computer);
+		
+		/*
 		computer = form.addComputer(computer);
 		model.addAttribute("form", form);
 		model.addAttribute("computer", computer);
-		model.addAttribute("companies", companies);
+		
 		
 		if (form.getErreurs().isEmpty()) {
 			return "dashboard"
@@ -59,5 +75,6 @@ public class ComputerController {
 		}
 		
         return "result";
+        */
     }
 }

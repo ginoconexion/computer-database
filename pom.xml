@@ -145,6 +145,13 @@
 			<artifactId>spring-tx</artifactId>
 			<version>4.2.5.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.2.4.Final</version>
+		</dependency>
+		
 	</dependencies>
 
 	<properties>

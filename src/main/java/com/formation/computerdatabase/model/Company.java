@@ -1,5 +1,7 @@
 package com.formation.computerdatabase.model;
 
+import javax.validation.constraints.Size;
+
 /**
  * The Class Company.
  */
@@ -8,7 +10,9 @@ public class Company {
 	/** The id. */
 	private long id;
 	
+	
 	/** The name. */
+	@Size(min=2, max=25)
 	private String name;
 	
 	public Company(String name) {

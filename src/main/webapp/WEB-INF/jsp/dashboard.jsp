@@ -1,15 +1,18 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap -->
-<c:import url="/views/templates/head.jsp"></c:import>
-</head>
+	<head>
+	<title>Computer Database</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+
+	<c:import url="templates/head.jsp"></c:import>
+	</head>
 <body>
-    <c:import url="/views/templates/header.jsp"></c:import>
+    <c:import url="templates/header.jsp"></c:import>
 
     <section id="main">
         <div class="container">
@@ -22,6 +25,7 @@
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
                         <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
                         <%-- on écrit le reste des paramètres dans l'url --%>
+						
 						<c:forEach items="${ pager.filter }" var="entry">
 							<c:if test="${ entry.key ne 'search' }">
 								<input type="hidden" value="${ entry.key }" name="${ entry.value }" />
@@ -30,7 +34,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="computer/add/">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -111,8 +115,6 @@
 		</div>
     </footer>
        <input type="checkbox" id="selectall" /> 
-		<c:import url="/views/templates/script.jsp"></c:import>
-		<script src="js/dashboard.js"></script>
-
+       <c:import url="templates/script.jsp"></c:import>
 </body>
 </html>
