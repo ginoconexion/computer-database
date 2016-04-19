@@ -3,7 +3,6 @@ package com.formation.computerdatabase.services;
 import java.util.List;
 
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 
 public interface ComputerDaoService {
@@ -14,6 +13,6 @@ public interface ComputerDaoService {
 	List<Computer> getListByCompany(long id);
 	void deleteList(List<Computer> list);
 	Computer getByName(String name);
-	void updatePager(Pager<ComputerDTO> pager);
+	void updatePager(Pager<Computer> pager);
 	Computer getById(long id); 
 }

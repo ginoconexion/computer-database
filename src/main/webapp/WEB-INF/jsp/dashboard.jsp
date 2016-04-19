@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -5,37 +6,39 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title>Computer Database</title>
+	<title><spring:message code="title"></spring:message></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
 
 	<c:import url="templates/head.jsp"></c:import>
 	</head>
-<body>
+	
+	<body>
     <c:import url="templates/header.jsp"></c:import>
 
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                ${ pager.count } Computers found
+                ${ pager.count } <spring:message code="computer.found"></spring:message>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="" method="GET" class="form-inline">
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
                         <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
-                        <%-- on écrit le reste des paramètres dans l'url --%>
+                        <%-- on Ã©crit le reste des paramÃ¨tres dans l'url --%>
 						
 						<c:forEach items="${ pager.filter }" var="entry">
 							<c:if test="${ entry.key ne 'search' }">
 								<input type="hidden" value="${ entry.key }" name="${ entry.value }" />
 							</c:if>
 						</c:forEach>
+						
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="computer/add/">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="computer/add/"><spring:message code="computer.add"></spring:message></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="computer.edit"></spring:message></a>
                 </div>
             </div>
         </div>
@@ -61,18 +64,18 @@
                         </th>
                         <th aria-sort="ascending">
                         	
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' >Computer name <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
                         </th>
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' >Introduced date <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' > <spring:message code="computer.introduced"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByDiscontinued"></mylib:link>' >Discontinued date <mylib:chevron filter="${ pager.filter }" parameter="orderByDiscontinued"></mylib:chevron></a>
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByDiscontinued"></mylib:link>' ><spring:message code="computer.discontinued"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByDiscontinued"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByCompany"></mylib:link>' >Company <mylib:chevron filter="${ pager.filter }" parameter="orderByCompany"></mylib:chevron></a>
+                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByCompany"></mylib:link>' > <spring:message code="computer.company"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByCompany"></mylib:chevron></a>
                         </th>
                     </tr>
                 </thead>
@@ -85,7 +88,7 @@
                             <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
-                            <a href="editComputer?id=${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
+                            <a href="${ pageContext.request.contextPath }/computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
                         </td>
                         <td>${ computer.introduced }</td>
                         <td>${ computer.discontinued }</td>
@@ -116,5 +119,7 @@
     </footer>
        <input type="checkbox" id="selectall" /> 
        <c:import url="templates/script.jsp"></c:import>
+       <spring:url value="/resources/js/dashboard.js" var="dashboardJS" />
+       <script src="${ dashboardJS }"></script>
 </body>
 </html>

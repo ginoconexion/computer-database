@@ -17,16 +17,13 @@ public class ComputerDTOMapper {
 	 */
 	
 	public static ComputerDTO map(Computer computer) {
-		/*
 		ComputerDTO cDTO = new ComputerDTO();
 		cDTO.setId(Long.toString(computer.getId()));
 		cDTO.setName(computer.getName());
 		cDTO.setDiscontinued((computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString());
 		cDTO.setIntroduced((computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
-		cDTO.setCompany((computer.getCompany() == null ) ? null : CompanyDTOMapper.map(computer.getCompany()));
+		cDTO.setCompanyId(computer.getCompany() == null ? null : Long.toString(computer.getCompany().getId()));
 		return cDTO;
-		*/
-		return null;
 	}
 	
 	public static List<ComputerDTO> mapList(List<Computer> listeComputer) {

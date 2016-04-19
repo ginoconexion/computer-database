@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.formation.computerdatabase.exception.DAOException;
 
 
@@ -189,11 +191,13 @@ public class Computer {
 		}
 
 		public Builder introduced(String introduced) {
-			try {
-				c.introduced = LocalDate.parse(introduced);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DAOException("Wrong date format was provided.", e);
+			if (!introduced.equals("")) {
+				try {
+					c.introduced = LocalDate.parse(introduced);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new DAOException("Wrong date format was provided.", e);
+				}
 			}
 			return this;
 		}
@@ -204,11 +208,13 @@ public class Computer {
 		}
 
 		public Builder discontinued(String discontinued) {
-			try {
-				c.discontinued = LocalDate.parse(discontinued);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DAOException("Wrong date format was provided.", e);
+			if (!discontinued.equals("")) {
+				try {
+					c.discontinued = LocalDate.parse(discontinued);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new DAOException("Wrong date format was provided.", e);
+				}
 			}
 			return this;
 		}

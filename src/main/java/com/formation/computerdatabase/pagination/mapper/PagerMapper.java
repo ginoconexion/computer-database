@@ -3,8 +3,6 @@ package com.formation.computerdatabase.pagination.mapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.formation.computerdatabase.pagination.Order;
 import com.formation.computerdatabase.pagination.Pager;
 
