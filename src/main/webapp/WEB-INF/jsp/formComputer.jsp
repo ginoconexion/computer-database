@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,40 +11,41 @@
 </head>
 <body>
 	<c:import url="templates/header.jsp"></c:import>
-	<c:choose>
-		<c:when test="${ not empty computerDTO.id }">
-			<c:set var="title" value="<spring:message code="button.edit" />"></c:set>
-		</c:when>
-		<c:otherwise>
-			<c:set var="title" value="Add"></c:set>
-		</c:otherwise>
-	</c:choose>
 	<section id="main">
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
-					<h1>${ title } Computer</h1>
+					<h1>
+						<c:choose>
+							<c:when test="${ not empty computerDTO.id }">
+								<spring:message code="computer.edit"></spring:message>
+							</c:when>
+							<c:otherwise>
+								<spring:message code="computer.add"></spring:message>
+							</c:otherwise>
+						</c:choose>
+					</h1>
 					<sf:form id="form" method="post" action="" modelAttribute="computerDTO">
 						<fieldset>
 							<sf:errors cssClass="alert alert-danger" element="div" />
 							<div class="form-group">
-								<sf:label path="name">Name</sf:label>
+								<sf:label path="name"><spring:message code="computer.name" /></sf:label>
+								<sf:hidden path="id" />
 								<sf:input path="name" class="form-control" id="name"
 									placeholder="Computer name" />
 								<sf:errors path="name" cssClass="alert alert-danger"
 									element="div" />
 							</div>
 							<div class="form-group">
-								<sf:label path="introduced">Introduced</sf:label>
+								<sf:label path="introduced"><spring:message code="computer.introduced" /></sf:label>
 								<sf:input id="introduced" path="introduced"
 									class="form-control datepicker" type="date"
 									placeholder="Introduced date" />
-								<sf:errors path="introduced" cssClass="alert alert-danger"
-									element="div"></sf:errors>
+								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="form-group">
-								<sf:label path="discontinued">Discontinued</sf:label>
+								<sf:label path="discontinued"><spring:message code="computer.discontinued" /></sf:label>
 								<sf:input id="discontinued" path="discontinued"
 									class="form-control datepicker" type="date"
 									placeholder="Discontinued date" />
@@ -53,7 +54,7 @@
 							</div>
 
 							<div class="form-group">
-								<sf:label path="companyId">Company</sf:label>
+								<sf:label path="companyId"><spring:message code="computer.company"/></sf:label>
 								<sf:select path="companyId" class="form-control">
 									<sf:option value="">Select a company</sf:option>
 									<sf:options itemValue="id" itemLabel="name"

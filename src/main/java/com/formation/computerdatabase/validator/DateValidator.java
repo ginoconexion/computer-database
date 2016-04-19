@@ -1,0 +1,22 @@
+package com.formation.computerdatabase.validator;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+import org.apache.commons.validator.GenericValidator;
+
+public class DateValidator implements ConstraintValidator<Date, String> {
+
+	@Override
+	public void initialize(Date arg0) {
+	}
+
+	@Override
+	public boolean isValid(String date, ConstraintValidatorContext ctx) {
+		// si la date n'est pas vide on test si elle correspond au pattern
+		if (!date.equals("") && !GenericValidator.isDate(date, "yyyy-MM-dd", true)) {
+			return false;
+		}
+		return true;
+	}
+}

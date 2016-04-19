@@ -3,10 +3,14 @@ package com.formation.computerdatabase.model.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.NumberFormat;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.formation.computerdatabase.validator.Date;
+import com.formation.computerdatabase.validator.DateAnteriority;
+
+
+@DateAnteriority
 public class ComputerDTO {
 	
 	/** The id. */
@@ -15,19 +19,21 @@ public class ComputerDTO {
 	
 	/** The name. */
 	@NotNull
-	@Size(min=2, max=30, message="Le nom ne doit contenir au moins 2 charactères, et pas plus de 30")
+	@Size(min=2, max=30)
 	private String name;
 	
 	/** The introduced. */
-	@DateTimeFormat
+	//@Pattern(regexp="^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message="Format non valide")
+	@Date
 	private String introduced;
 	
 	/** The discontinued. */
-	@DateTimeFormat
+	//@Pattern(regexp="^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message="Format non valide")
+	@Date
 	private String discontinued;
 	
 	/** The company. */
-	@NotNull
+	@NotEmpty
 	@NumberFormat
 	private String companyId;
 	
@@ -83,7 +89,12 @@ public class ComputerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	
-	
+	@Override
+	public String toString() {
+		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+				+ discontinued + ", companyId=" + companyId + "]";
+	}
 	
 }

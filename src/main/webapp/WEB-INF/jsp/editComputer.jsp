@@ -1,55 +1,27 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<c:import url="/views/templates/head.jsp"></c:import>
+<c:import url="templates/head.jsp"></c:import>
 </head>
 <body>
-   	<c:import url="/views/templates/header.jsp"></c:import>
-    
+    <c:import url="templates/header.jsp"></c:import>
     <section id="main">
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                    <div class="label label-default pull-right">
-                        id: 0
-                    </div>
-                    <h1>Edit Computer</h1>
-
-                    <form action="editComputer" method="POST">
-                        <input type="hidden" value="0"/>
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Computer name">
-                            </div>
-                            <div class="form-group">
-                                <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date">
-                            </div>
-                            <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date">
-                            </div>
-                            <div class="form-group">
-                                <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >
-                                    <option value="0">--</option>
-                                </select>
-                            </div>            
-                        </fieldset>
-                        <div class="actions pull-right">
-                            <input type="submit" value="Edit" class="btn btn-primary">
-                            or
-                            <a href="dashboard.html" class="btn btn-default">Cancel</a>
-                        </div>
-                    </form>
+                    <h1>Add Computer</h1>
+                    <c:import url="forms/computerForm.jsp"></c:import>
                 </div>
             </div>
         </div>
     </section>
 </body>
-
+<c:import url="templates/script.jsp"></c:import>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
+<script src="<c:url value="/resources/js/jquery.validate.min.js"></c:url>"></script>
+<script src='<c:url value="/resources/js/validator.js"></c:url>'></script>
 </html>

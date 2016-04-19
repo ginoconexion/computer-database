@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.formation.computerdatabase.model.Computer;
@@ -23,8 +22,9 @@ public class ComputerDaoImpl implements ComputerDao {
 	/** The Constant SELECT_LIMIT. */
 	private final static String SELECT = "SELECT * FROM computer ";
 	private final static String LIMIT = "LIMIT ?, ? ";
-	private final static String JOIN_ON_COMPANY = "LEFT JOIN company on computer.id = company.id ";
+	private final static String JOIN_ON_COMPANY = "LEFT JOIN company as company on computer.id = company.id ";
 	private final static String WHERE_NAME = " WHERE computer.name LIKE ?  OR company.name LIKE ? ";
+	private final static String WHERE_ID = " WHERE computer.id = ?";
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -36,8 +36,9 @@ public class ComputerDaoImpl implements ComputerDao {
 		
 		ArrayList<Object> params = new ArrayList<>();
 		StringBuilder sb = new StringBuilder(SELECT);
+		sb.append(JOIN_ON_COMPANY);
 		if (filter.containsKey(Order.SEARCH) || filter.containsKey(Order.BY_COMPANY)) {
-			sb.append(JOIN_ON_COMPANY).append(WHERE_NAME);
+			sb.append(WHERE_NAME);
 			//on set computer.name ou company.name
 			params.add("%" + (String) filter.get("search") + "%");
 			params.add("%" + (String) filter.get("search") + "%");
@@ -48,6 +49,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		sb.append(" ").append(LIMIT);
 		params.add(from);
 		params.add(nb);
+		
 		return jdbcTemplate.query(sb.toString(), params.toArray(), computerMapper);
 	}
 
@@ -71,15 +73,15 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	/** The Constant SELECT_BY_ID. */
-	private final static String SELECT_BY_ID = "SELECT * FROM computer WHERE id = ?";
+	private final static String SELECT_BY_ID = "SELECT * FROM computer ";
 	
 	@Override
 	public Computer getById(long id) {
-		return jdbcTemplate.queryForObject(SELECT_BY_ID, computerMapper, new Object[] {id});
+		return jdbcTemplate.queryForObject(SELECT_BY_ID + JOIN_ON_COMPANY + WHERE_ID, computerMapper, new Object[] {id});
 	}
 
 	/** The Constant INSERT. */
-	private final static String INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?)";
+	private final static String INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?) ";
 	
 	@Override
 	public void create(Computer computer) {
@@ -92,7 +94,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	}
 
 	/** The Constant UPDATE. */
-	private final static String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?";
+	private final static String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ? ";
 	
 	@Override
 	public void update(Computer computer) {
@@ -102,7 +104,10 @@ public class ComputerDaoImpl implements ComputerDao {
 		params[2] = (computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString();
 		params[3] = (computer.getCompany() == null) ? 0 : computer.getCompany().getId();
 		params[4] = computer.getId();
-		jdbcTemplate.update(UPDATE, params);
+		
+		System.out.println(params[3]);
+		System.out.println(jdbcTemplate.update(UPDATE, params));
+		
 	}
 
 	/** The Constant DELETE. */
@@ -114,7 +119,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	    return;
 	}
 
-	private final static String SELECT_BY_COMPANY_ID = "SELECT * FROM computer WHERE company_id = ?";
+	private final static String SELECT_BY_COMPANY_ID = "SELECT * FROM computer WHERE company_id = ? ";
 	@Override
 	public List<Computer> getListByCompany(long id) {
 		return jdbcTemplate.query(SELECT_BY_COMPANY_ID, computerMapper, new Object[]{id});
