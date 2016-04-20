@@ -2,7 +2,6 @@
  * 
  */
 
-/*
 $(document).ready(function() {
     jQuery.validator.addMethod("greaterThan", function(value, element, param) {
         if (value == null) return true;
@@ -29,7 +28,6 @@ $(document).ready(function() {
     jQuery.validator.addMethod("allSpace", function(value, element, param) {
     	return value.trim().length != 0;
     });
-
 
     $("#form").validate({
         rules: {
@@ -60,13 +58,13 @@ $(document).ready(function() {
             	allSpace: "Can't be all space"
             },
             introduced: {
-                isDate: "Must be yyyy-mm-dd",
-                notBefore70: "Can't be before 1970-01-01"
+                isDate: translation['isDate'],
+                notBefore70: translation['notBefore70'],
             },
             discontinued: {
-                isDate: "Must be yyyy-mm-dd",
-                greaterThan: "Discontinued date can't be before introduced date",
-                notBefore70: "Can't be before 1970-01-01"
+                isDate: translation['isDate'],
+                greaterThan: translation['greaterThanDiscontinued'],
+                notBefore70: translation['notBefore70'],
             }
         },
         errorPlacement: function(label, element) {
@@ -76,6 +74,7 @@ $(document).ready(function() {
         wrapper: 'div'
     });
 });
+
 
 /*
 $("#introduced").datepicker({

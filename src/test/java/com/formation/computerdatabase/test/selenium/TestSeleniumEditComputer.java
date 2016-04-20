@@ -57,8 +57,8 @@ public class TestSeleniumEditComputer {
 	
 	driver.findElement(By.xpath("//td[2]/a")).click();
     
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys(nom);
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys(nom);
     
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys(introduced);
@@ -82,8 +82,8 @@ public class TestSeleniumEditComputer {
     // on clique sur le premier lien
     driver.findElement(By.xpath("//td[2]/a")).click();
     
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys(nom);
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys(nom);
     
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys(introduced);
@@ -98,8 +98,8 @@ public class TestSeleniumEditComputer {
     // on clique sur le premier lien
     driver.findElement(By.xpath("//td[2]/a")).click();
     
-    //System.out.println(driver.findElement(By.id("computerName")).getText());
-    assertTrue(driver.findElement(By.id("computerName")).getAttribute("value").equals(nom));
+    //System.out.println(driver.findElement(By.id("name")).getText());
+    assertTrue(driver.findElement(By.id("name")).getAttribute("value").equals(nom));
     assertTrue(driver.findElement(By.id("introduced")).getAttribute("value").equals(introduced));
     assertTrue(driver.findElement(By.id("discontinued")).getAttribute("value").equals(discontinued));
     
