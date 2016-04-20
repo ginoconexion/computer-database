@@ -60,8 +60,8 @@ public class TestSeleniumAddComputer {
 	// add without introduced and discontinued
     driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("Test");
+    driver.findElement(By.id("computer")).clear();
+    driver.findElement(By.id("computer")).sendKeys("Test");
     new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Apple Inc.");
     driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
     
@@ -75,8 +75,8 @@ public class TestSeleniumAddComputer {
 	// add with valid parameters
     driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("Test");
+    driver.findElement(By.id("computer")).clear();
+    driver.findElement(By.id("computer")).sendKeys("Test");
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys("1992-03-29");
     driver.findElement(By.id("discontinued")).clear();
@@ -95,8 +95,8 @@ public class TestSeleniumAddComputer {
     driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("Test");
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("Test");
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys("wrong date");
     driver.findElement(By.id("discontinued")).clear();
@@ -129,8 +129,8 @@ public class TestSeleniumAddComputer {
     driver.get(baseUrl + "/dashboard");
     driver.findElement(By.id("addComputer")).click();
     
-    driver.findElement(By.id("computerName")).clear();
-    driver.findElement(By.id("computerName")).sendKeys("Test");
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("Test");
     driver.findElement(By.id("introduced")).clear();
     driver.findElement(By.id("introduced")).sendKeys("1992-03-29");
     driver.findElement(By.id("discontinued")).clear();

@@ -51,12 +51,7 @@ public class ComputerDaoServiceImpl implements ComputerDaoService {
 	@Override
 	public void updatePager(Pager<Computer> pager) {
 		pager.setCount(computerDaoImpl.getCount(pager.getFilter()));
-		
 		List<Computer> liste = computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter());
-		for (Computer computer : liste) {
-			System.out.println(computer);
-		}
-		
 		pager.setListe(computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter()));
 		pager.updateListe();
 	}

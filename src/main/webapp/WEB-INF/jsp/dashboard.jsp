@@ -25,7 +25,7 @@
                 <div class="pull-left">
                     <form id="searchForm" action="" method="GET" class="form-inline">
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
-                        <input type="submit" id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+                        <input type="submit" id="searchsubmit" value="<spring:message code="button.filter"></spring:message>" class="btn btn-primary" />
                         <%-- on écrit le reste des paramètres dans l'url --%>
 						
 						<c:forEach items="${ pager.filter }" var="entry">
@@ -33,17 +33,16 @@
 								<input type="hidden" value="${ entry.key }" name="${ entry.value }" />
 							</c:if>
 						</c:forEach>
-						
                     </form>
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="computer/add/"><spring:message code="computer.add"></spring:message></a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="computer.edit"></spring:message></a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="button.delete"></spring:message></a>
                 </div>
             </div>
         </div>
 
-        <form id="deleteForm" action="deleteComputer" method="POST">
+        <form id="deleteForm" action="computer/delete" method="POST">
             <input type="hidden" name="selection" value="">
         </form>
         
@@ -53,17 +52,13 @@
                     <tr>
                         <!-- Variable declarations for passing labels as parameters -->
                         <!-- Table header for Computer Name -->
-
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
-                                 -  <a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
-                                        <i class="fa fa-trash-o fa-lg"></i>
-                                    </a>
+                            	<a id="deleteSelected" style="cursor: pointer" onclick="$.fn.deleteSelected();" >-<span aria-hidden="true" class="glyphicon glyphicon-trash"></span></a>
                             </span>
                         </th>
                         <th aria-sort="ascending">
-                        	
                             <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
                         </th>
                         <th>
@@ -119,7 +114,7 @@
     </footer>
        <input type="checkbox" id="selectall" /> 
        <c:import url="templates/script.jsp"></c:import>
-       <spring:url value="/resources/js/dashboard.js" var="dashboardJS" />
-       <script src="${ dashboardJS }"></script>
+       <c:import url="templates/validation-messages.jsp"></c:import>
+       <script src="<spring:url value="/resources/js/dashboard.js" />"></script>
 </body>
 </html>

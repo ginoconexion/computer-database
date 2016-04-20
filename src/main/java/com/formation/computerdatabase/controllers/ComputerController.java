@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.formation.computerdatabase.model.dto.CompanyDTO;
@@ -35,12 +37,8 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 	
 	@RequestMapping(value = "/computer/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable Integer id, Model model) {
-		
 		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
-		
-		System.out.println(computerService.getById(id));
 		ComputerDTO computerDTO = ComputerDTOMapper.map(computerService.getById(id));
-		System.out.println(computerDTO);
 		model.addAttribute("companiesDTO", companiesDTO);
 		model.addAttribute("computerDTO", computerDTO);
 		return "formComputer";
@@ -49,19 +47,12 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/computer/edit/{id}", method = RequestMethod.POST)
 	public String edit(@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult, Model model) {
 		
-		System.out.println("post");
 		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
 		model.addAttribute("companiesDTO", companiesDTO);
-		System.out.println(computerDTO);
-		System.out.println(bindingResult);
 		if (bindingResult.hasErrors()) {
-			System.out.println("form error");
 			return "formComputer";
 		}
 		else {
-			System.out.println("form ok");
-			
-			System.out.println(ComputerMapper.map(computerDTO));
 			computerService.update(ComputerMapper.map(computerDTO));
 			return "redirect:/dashboard";
 		}
@@ -79,19 +70,33 @@ public class ComputerController extends WebMvcConfigurerAdapter {
         
 		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
 		model.addAttribute("companiesDTO", companiesDTO);
-		
 		if (bindingResult.hasErrors()) {
-			System.out.println(bindingResult.toString());
-			System.out.println("form error");
 			return "formComputer";
 		}
-		
 		else {
-			System.out.println("form ok");
-			System.out.println(ComputerMapper.map(computerDTO));
 			computerService.create(ComputerMapper.map(computerDTO));
-			//return "formComputer";
 			return "redirect:/dashboard";
 		}
     }
+	
+	@RequestMapping(value = "/computer/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam Map<String, String> param) {
+		
+		if (param.get("selection") != null) {
+			try {
+				for (String idParameter : param.get("selection").split(",")) {
+		            long id = Long.parseLong(idParameter);
+		            if (id > 0) {
+		                computerService.delete(id);
+		            }
+		        }
+			} catch (NumberFormatException e) {
+				LOGGER.info("attempt to delete computer(s), params : " +param.get("selection"));
+				return "500";
+			}
+		}
+		 
+		return "redirect:/dashboard";
+    }
+	
 }

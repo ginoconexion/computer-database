@@ -31,24 +31,19 @@
 							<div class="form-group">
 								<sf:label path="name"><spring:message code="computer.name" /></sf:label>
 								<sf:hidden path="id" />
-								<sf:input path="name" class="form-control" id="name"
-									placeholder="Computer name" />
+								<sf:input path="name" class="form-control" id="name" placeholder="Computer name" />
 								<sf:errors path="name" cssClass="alert alert-danger"
 									element="div" />
 							</div>
 							<div class="form-group">
 								<sf:label path="introduced"><spring:message code="computer.introduced" /></sf:label>
-								<sf:input id="introduced" path="introduced"
-									class="form-control datepicker" type="date"
-									placeholder="Introduced date" />
+								<sf:input id="introduced" path="introduced" class="form-control datepicker" type="date" placeholder="Introduced date" />
 								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="form-group">
 								<sf:label path="discontinued"><spring:message code="computer.discontinued" /></sf:label>
-								<sf:input id="discontinued" path="discontinued"
-									class="form-control datepicker" type="date"
-									placeholder="Discontinued date" />
+								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" type="date" placeholder="Discontinued date" />
 								<sf:errors path="discontinued" cssClass="alert alert-danger"
 									element="div" />
 							</div>
@@ -57,16 +52,14 @@
 								<sf:label path="companyId"><spring:message code="computer.company"/></sf:label>
 								<sf:select path="companyId" class="form-control">
 									<sf:option value="">Select a company</sf:option>
-									<sf:options itemValue="id" itemLabel="name"
-										items="${ companiesDTO }" />
+									<sf:options itemValue="id" itemLabel="name" items="${ companiesDTO }" />
 								</sf:select>
-								<sf:errors path="companyId" cssClass="alert alert-danger"
-									element="div"></sf:errors>
+								<sf:errors path="companyId" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="actions pull-right">
-								<input type="submit" class="btn btn-primary"> or <a
-									href="dashboard.html" class="btn btn-default">Cancel</a>
+								<input type="submit" value='<spring:message code="button.validate"></spring:message>' class="btn btn-primary"> or 
+								<a href="${ pageContext.request.contextPath }/dashboard" class="btn btn-default"><spring:message code="button.cancel"></spring:message></a>
 							</div>
 						</fieldset>
 					</sf:form>
@@ -76,9 +69,9 @@
 	</section>
 </body>
 <c:import url="templates/script.jsp"></c:import>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.8/jquery.form-validator.min.js"></script>
-<script
-	src="<c:url value="/resources/js/jquery.validate.min.js"></c:url>"></script>
+<script src="<c:url value="/resources/js/jquery.validate.min.js"></c:url>"></script>
+<c:import url="templates/validation-messages.jsp"></c:import>
 <script src='<c:url value="/resources/js/validator.js"></c:url>'></script>
+<script src='<c:url value="/resources/js/validator-messages.js"></c:url>'></script>
+
 </html>

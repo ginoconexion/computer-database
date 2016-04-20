@@ -57,7 +57,6 @@ public class TestSeleniumDeleteComputer {
   @Before
   public void setUp() throws Exception {
 	  baseUrl = "http://localhost:8080//computerdatabase";
-	  //baseUrl = "http://localhost:8080//computerdatabase";
 	  FirefoxProfile profile = new FirefoxProfile();
 
 	  driver = new FirefoxDriver(profile);
@@ -88,8 +87,8 @@ public class TestSeleniumDeleteComputer {
 	
 	// ajout d'un computer
 	driver.findElement(By.id("addComputer")).click();
-	driver.findElement(By.id("computerName")).clear();
-	driver.findElement(By.id("computerName")).sendKeys(nom);
+	driver.findElement(By.id("name")).clear();
+	driver.findElement(By.id("name")).sendKeys(nom);
 	driver.findElement(By.id("introduced")).clear();
 	driver.findElement(By.id("introduced")).sendKeys(introduced);
 	driver.findElement(By.id("discontinued")).clear();
@@ -99,8 +98,8 @@ public class TestSeleniumDeleteComputer {
 	
 	// ajout d'un autre computer
 	driver.findElement(By.id("addComputer")).click();
-	driver.findElement(By.id("computerName")).clear();
-	driver.findElement(By.id("computerName")).sendKeys(nom);
+	driver.findElement(By.id("name")).clear();
+	driver.findElement(By.id("name")).sendKeys(nom);
 	driver.findElement(By.id("introduced")).clear();
 	driver.findElement(By.id("introduced")).sendKeys(introduced);
 	driver.findElement(By.id("discontinued")).clear();
