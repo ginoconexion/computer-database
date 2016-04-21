@@ -5,7 +5,6 @@
 	<div class="container">
 		<a class="navbar-brand"
 			href="${ pageContext.request.contextPath }/dashboard"><spring:message code="title"></spring:message></a>
-
 		<div class="navbar-right">
 			<a href="?lang=fr"><img alt="fr" src="<spring:url value="/resources/flags/fr.png" />"></a>
 			<a href="?lang=en"><img alt="eng" src="<spring:url value="/resources/flags/gb.png" />"></a>

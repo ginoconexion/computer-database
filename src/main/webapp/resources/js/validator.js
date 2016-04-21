@@ -69,7 +69,6 @@ $(document).ready(function() {
         },
         messages: {
             name: {
-            	required: "Can't be empty",
             	allSpace: "Can't be all space"
             },
             introduced: {
