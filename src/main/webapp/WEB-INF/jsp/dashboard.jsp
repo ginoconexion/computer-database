@@ -24,10 +24,10 @@
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="" method="GET" class="form-inline">
-                        <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" value="${ pager.filter['search'] }" />
+                        <input type="search" id="searchbox" name="search" class="form-control" placeholder='<spring:message code="placeholder.search" />' value="${ pager.filter['search'] }" />
                         <input type="submit" id="searchsubmit" value="<spring:message code="button.filter"></spring:message>" class="btn btn-primary" />
+                        
                         <%-- on écrit le reste des paramètres dans l'url --%>
-						
 						<c:forEach items="${ pager.filter }" var="entry">
 							<c:if test="${ entry.key ne 'search' }">
 								<input type="hidden" value="${ entry.key }" name="${ entry.value }" />

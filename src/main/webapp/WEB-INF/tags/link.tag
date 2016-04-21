@@ -29,11 +29,16 @@
 		<c:out value="?${ parameter }=${ orderBy }" ></c:out>
 	</c:when>
 	
+	<c:when test="${ parameter == 'lang' }">
+		<c:out value="?page=${ pager.current }&${ parameter }=${ parameterValue }"></c:out>
+	</c:when>
+	
 	<%-- s'il s'agit d'un lien de pagination --%>
 	<c:otherwise>
 		<c:out value="?${ parameter }=${ parameterValue }"></c:out>
 	</c:otherwise>
 </c:choose>
+
 
 <%-- on écrit le reste des paramètres dans l'url --%>
 <c:forEach items="${filter}" var="entry">

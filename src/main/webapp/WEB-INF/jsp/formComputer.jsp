@@ -37,21 +37,23 @@
 							</div>
 							<div class="form-group">
 								<sf:label path="introduced"><spring:message code="computer.introduced" /></sf:label>
-								<sf:input id="introduced" path="introduced" class="form-control datepicker" placeholder="Introduced date" />
+								<spring:message code="placeholder.computer.introduced" var="introduced" />
+								<sf:input id="introduced" path="introduced" class="form-control datepicker" placeholder="${ introduced }" />
 								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="form-group">
 								<sf:label path="discontinued"><spring:message code="computer.discontinued" /></sf:label>
-								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" placeholder="Discontinued date" />
-								<sf:errors path="discontinued" cssClass="alert alert-danger"
-									element="div" />
+								<spring:message code="placeholder.computer.discontinued" var="discontinued" />
+								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" placeholder="${ discontinued }" />
+								<sf:errors path="discontinued" cssClass="alert alert-danger" element="div" />
 							</div>
 
 							<div class="form-group">
 								<sf:label path="companyId"><spring:message code="computer.company"/></sf:label>
 								<sf:select path="companyId" class="form-control">
-									<sf:option value="">Select a company</sf:option>
+									<spring:message code="placeholder.computer.company" var="company" />
+									<sf:option value="">${ company }</sf:option>
 									<sf:options itemValue="id" itemLabel="name" items="${ companiesDTO }" />
 								</sf:select>
 								<sf:errors path="companyId" cssClass="alert alert-danger" element="div"></sf:errors>

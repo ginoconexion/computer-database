@@ -9,7 +9,6 @@ import org.apache.commons.validator.GenericValidator;
 
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.util.DateFormatter;
-import com.formation.computerdatabase.util.Lang;
 
 public class DateAnteriorityValidator implements ConstraintValidator<DateAnteriority, ComputerDTO> {
 
