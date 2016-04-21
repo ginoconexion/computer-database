@@ -3,26 +3,41 @@
  */
 
 $(document).ready(function() {
+	
+	var regExEn = /^\d{4}-\d{2}-\d{2}$/;
+    var regExFr = /^\d{2}-\d{2}-\d{4}$/;
+	
     jQuery.validator.addMethod("greaterThan", function(value, element, param) {
         if (value == null) return true;
         if (value == "") return true;
         if ($(param).val() == "") return true;
-        return new Date(value) >= new Date($(param).val());
+        var value2 = $(param).val();
+        if (value.match(regExFr) != null) {
+        	var values = value.split("-");
+        	value = values[2] + "-" + values[1] + "-" + values[0];
+        	var values2 = value2.split("-");
+        	value2 = values2[2] + "-" + values2[1] + "-" + values2[0];
+        }
+        return new Date(value) >= new Date(value2);
     });
 
     jQuery.validator.addMethod("notBefore70", function(value, element, param) {
         if (value == null) return true;
         if (value == "") return true;
+        if (value.match(regExFr) != null) {
+        	var values = value.split("-");
+            value = values[2] + "-" + values[1] + "-" + values[0];
+        }
         return new Date(value) > new Date("1970-01-01");
     });
 
     jQuery.validator.addMethod("isDate", function(value, element, param) {
-        if (value == null) return true;
+        console.log(value);
+    	if (value == null) return true;
         if (value == "") return true;
-        if (value == "0000-00-00") return false;
-
-        var regEx = /^\d{4}-\d{2}-\d{2}$/;
-        return value.match(regEx) != null;
+        
+        console.log(value.match(regExFr));
+        return value.match(regExEn) != null || value.match(regExFr) != null;
     });
     
     jQuery.validator.addMethod("allSpace", function(value, element, param) {
@@ -73,7 +88,6 @@ $(document).ready(function() {
         wrapper: 'div'
     });
 });
-
 
 /*
 $("#introduced").datepicker({

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,6 +48,7 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 	@RequestMapping(value = "/computer/edit/{id}", method = RequestMethod.POST)
 	public String edit(@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult, Model model) {
 		
+		LocaleContextHolder.getLocale().toString();
 		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
 		model.addAttribute("companiesDTO", companiesDTO);
 		if (bindingResult.hasErrors()) {
