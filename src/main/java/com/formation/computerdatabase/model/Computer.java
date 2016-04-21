@@ -2,41 +2,41 @@ package com.formation.computerdatabase.model;
 
 import java.time.LocalDate;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.formation.computerdatabase.exception.DAOException;
-
 
 /**
  * The Class Computer.
  */
+
+@Entity
+@Table(name = "computer")
 public class Computer {
 	
 	
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	/** The name. */
-	@NotNull
-	@Size(min=2, max=30)
 	private String name;
 	
 	/** The introduced. */
-	@Past
 	private LocalDate introduced;
 	
-	@Past
 	/** The discontinued. */
 	private LocalDate discontinued;
 	
 	/** The company. */
-	@NotNull
-	@Valid
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
 	
 	public Computer() {

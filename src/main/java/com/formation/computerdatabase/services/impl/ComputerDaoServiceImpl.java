@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.computerdatabase.model.Computer;
-import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.services.ComputerDaoService;
 
 @Service
 public class ComputerDaoServiceImpl implements ComputerDaoService {
-	
 	/** The computer dao impl. */
 	@Autowired
 	private ComputerDaoImpl computerDaoImpl;

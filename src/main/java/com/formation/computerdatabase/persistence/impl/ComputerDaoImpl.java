@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,7 +31,6 @@ public class ComputerDaoImpl implements ComputerDao {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private ComputerMapper computerMapper;
-	
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		

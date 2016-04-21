@@ -1,20 +1,28 @@
 package com.formation.computerdatabase.model;
 
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * The Class Company.
  */
+
+@Entity
+@Table(name = "company")
 public class Company {
-	
+
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
-	
+
+
 	/** The name. */
-	@Size(min=2, max=25)
 	private String name;
-	
+
 	public Company(String name) {
 		this.name = name;
 	}
@@ -29,7 +37,7 @@ public class Company {
 	public long getId() {
 		return id;
 	}
-	
+
 	/**
 	 * Sets the id.
 	 *
@@ -38,7 +46,7 @@ public class Company {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -47,7 +55,7 @@ public class Company {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Sets the name.
 	 *
@@ -61,7 +69,7 @@ public class Company {
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,7 +96,7 @@ public class Company {
 			return false;
 		}
 	}
-	
+
 	public static class Builder {
 		private Company c;
 
@@ -110,7 +118,7 @@ public class Company {
 			return c;
 		}
 	}
-	
-	
-	
+
+
+
 }
