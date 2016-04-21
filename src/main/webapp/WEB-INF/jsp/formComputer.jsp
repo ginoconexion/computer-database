@@ -37,13 +37,13 @@
 							</div>
 							<div class="form-group">
 								<sf:label path="introduced"><spring:message code="computer.introduced" /></sf:label>
-								<sf:input id="introduced" path="introduced" class="form-control datepicker" type="date" placeholder="Introduced date" />
+								<sf:input id="introduced" path="introduced" class="form-control datepicker" placeholder="Introduced date" />
 								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="form-group">
 								<sf:label path="discontinued"><spring:message code="computer.discontinued" /></sf:label>
-								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" type="date" placeholder="Discontinued date" />
+								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" placeholder="Discontinued date" />
 								<sf:errors path="discontinued" cssClass="alert alert-danger"
 									element="div" />
 							</div>

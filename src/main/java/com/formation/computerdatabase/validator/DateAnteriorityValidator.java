@@ -8,6 +8,8 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.validator.GenericValidator;
 
 import com.formation.computerdatabase.model.dto.ComputerDTO;
+import com.formation.computerdatabase.util.DateFormatter;
+import com.formation.computerdatabase.util.Lang;
 
 public class DateAnteriorityValidator implements ConstraintValidator<DateAnteriority, ComputerDTO> {
 
@@ -19,7 +21,7 @@ public class DateAnteriorityValidator implements ConstraintValidator<DateAnterio
 	@Override
 	public boolean isValid(ComputerDTO cDTO, ConstraintValidatorContext ctx) {
 		
-		if (cDTO.getIntroduced() != null && GenericValidator.isDate(cDTO.getIntroduced(), "yyyy-MM-dd", true) && cDTO.getIntroduced() != null && GenericValidator.isDate(cDTO.getDiscontinued(), "yyyy-MM-dd", true)) {
+		if (cDTO.getIntroduced() != null && GenericValidator.isDate(cDTO.getIntroduced(), DateFormatter.getDatePattern(), true) && cDTO.getDiscontinued() != null && GenericValidator.isDate(cDTO.getDiscontinued(), DateFormatter.getDatePattern(), true)) {
 			LocalDate ldIntroduced = LocalDate.parse(cDTO.getIntroduced());
 			LocalDate ldDiscontinued = LocalDate.parse(cDTO.getDiscontinued());
 			return (ldIntroduced.isBefore(ldDiscontinued));
