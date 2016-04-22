@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.formation.computerdatabase.model.Company;
@@ -28,14 +27,7 @@ public class CompanyDaoImpl implements CompanyDao {
 		return jdbcTemplateObject.queryForObject(SELECT_COUNT, Integer.class);
 	}
 
-	/** The Constant SELECT_LIMIT. */
-	private final static String SELECT_LIMIT = "SELECT * FROM company LIMIT ?, ?";
-	
-	@Override
-	public List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter) {
-		List <Company> liste = jdbcTemplateObject.query(SELECT_LIMIT, new CompanyMapper());
-		return liste;
-	}
+
 	
 	/** The Constant SELECT_ALL. */
 	private final static String SELECT_ALL = "SELECT * FROM company";

@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.formation.computerdatabase.exception.DAOException;
+import com.formation.computerdatabase.util.DateFormatter;
 
 /**
  * The Class Computer.
@@ -193,7 +195,7 @@ public class Computer {
 		public Builder introduced(String introduced) {
 			if (!introduced.equals("")) {
 				try {
-					c.introduced = LocalDate.parse(introduced);
+					c.introduced = LocalDate.parse(introduced,  DateTimeFormatter.ofPattern(DateFormatter.getDatePattern()));
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new DAOException("Wrong date format was provided.", e);
@@ -210,7 +212,7 @@ public class Computer {
 		public Builder discontinued(String discontinued) {
 			if (!discontinued.equals("")) {
 				try {
-					c.discontinued = LocalDate.parse(discontinued);
+					c.discontinued = LocalDate.parse(discontinued,  DateTimeFormatter.ofPattern(DateFormatter.getDatePattern()));
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new DAOException("Wrong date format was provided.", e);

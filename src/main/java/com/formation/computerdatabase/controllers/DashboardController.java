@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.pagination.mapper.PagerMapper;
 import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
@@ -27,8 +28,7 @@ public class DashboardController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String dashboard(@RequestParam Map<String,String> requestParams, Model model) {
 		
-		System.out.println();
-		Pager<Computer> pager = PagerMapper.map(requestParams);
+		Pager<ComputerDTO> pager = PagerMapper.map(requestParams);
 		
 		// on set la liste et le nombre d'entrées
 		computerService.updatePager(pager);

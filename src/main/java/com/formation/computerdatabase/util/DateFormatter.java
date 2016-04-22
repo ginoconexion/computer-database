@@ -13,8 +13,7 @@ public class DateFormatter {
 	public final static LocalDate date1970 = LocalDate.parse("1970-01-01");
 	
 	public static String getDatePattern() {
-		System.out.println(LocaleContextHolder.getLocale().toString());
-		System.out.println(Lang.EN);
+		System.out.println(LocaleContextHolder.getLocale());
 		return LocaleContextHolder.getLocale().toString().equals(Lang.EN) ? DateFormatter.patternEN : DateFormatter.patternFR;
 	}
 }

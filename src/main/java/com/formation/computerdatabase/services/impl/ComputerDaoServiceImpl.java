@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
+import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
+import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.services.ComputerDaoService;
 
 @Service
@@ -46,10 +49,13 @@ public class ComputerDaoServiceImpl implements ComputerDaoService {
 	}
 
 	@Override
-	public void updatePager(Pager<Computer> pager) {
+	public void updatePager(Pager<ComputerDTO> pager) {
 		pager.setCount(computerDaoImpl.getCount(pager.getFilter()));
-		List<Computer> liste = computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter());
-		pager.setListe(computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter()));
+		List<ComputerDTO> liste = ComputerDTOMapper.mapList(computerDaoImpl.getFromTo(pager.getFrom(), pager.getOffset(), pager.getFilter()));
+		pager.setListe(liste);
 		pager.updateListe();
+	}
+	public ComputerDaoImpl getComputerDaoImpl() {
+		return computerDaoImpl;
 	}
 }

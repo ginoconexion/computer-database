@@ -9,8 +9,6 @@ import com.formation.computerdatabase.model.Company;
  */
 public interface CompanyDao extends Dao<Company> {
 	
-	List<Company> getFromTo(int from, int nb, HashMap<String, Object> filter);
-	
 	/**
 	 * Gets the all.
 	 * @return the all

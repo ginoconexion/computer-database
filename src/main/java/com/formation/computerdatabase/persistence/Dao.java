@@ -2,7 +2,7 @@ package com.formation.computerdatabase.persistence;
 
 import java.util.HashMap;
 import java.util.List;
-import javax.sql.DataSource;
+
 import com.formation.computerdatabase.exception.DAONotFoundException;
 
 /**
@@ -11,15 +11,6 @@ import com.formation.computerdatabase.exception.DAONotFoundException;
  * @param <T> the generic type
  */
 public interface Dao<T> {
-	
-	/**
-	 * Gets the from to.
-	 *
-	 * @param from the from
-	 * @param nb the nb
-	 * @return the from to
-	 */
-	List<T> getFromTo(int from, int nb, HashMap<String, Object> filter);
 	
 	/**
 	 * Gets the by id.

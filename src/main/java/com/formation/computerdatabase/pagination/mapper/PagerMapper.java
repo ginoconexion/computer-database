@@ -17,32 +17,17 @@ public class PagerMapper<T> {
 		Pager<T> pager = new Pager<>(NB_PAR_PAGE, PAGE, filter);
 		
 		if (requestParams.get(Order.PAGE) != null) {
-			try {
-				pager.setCurrent(Integer.parseInt(requestParams.get(Order.PAGE)));
-				
-			} catch (NumberFormatException e) {
-				// traitement
-				
-			}
+			pager.setCurrent(Integer.parseInt(requestParams.get(Order.PAGE)));
 		}
 		if (requestParams.get(Order.OFFSET) != null) {
-			try {
-				pager.setOffset(Integer.parseInt(requestParams.get(Order.OFFSET)));
-				
-			} catch (NumberFormatException e) {
-				// traitement
-			}
+			pager.setOffset(Integer.parseInt(requestParams.get(Order.OFFSET)));
 		}
 		if (requestParams.get(Order.SEARCH) !=  null ) {
-				// si l'utilisateur a entré une nouvelle recherche
-				if (requestParams.get(Order.SEARCH).equals(filter.get(Order.SEARCH)))
-					pager.setCurrent(1);
-				/*
-				filter.remove(Order.BY_NAME);
-				filter.remove(Order.BY_COMPANY);
-				filter.remove(Order.BY_DISCONTINUED);
-				filter.remove(Order.BY_INTRODUCED);*/
-				filter.put("search", requestParams.get(Order.SEARCH).toLowerCase());
+			// si l'utilisateur a entré une nouvelle recherche
+			if (requestParams.get(Order.SEARCH).equals(filter.get(Order.SEARCH))) {
+				pager.setCurrent(1);
+			}
+			filter.put("search", requestParams.get(Order.SEARCH).toLowerCase());
 		}
 		
 		if (requestParams.get(Order.BY_NAME) != null) {
@@ -61,7 +46,6 @@ public class PagerMapper<T> {
 			if (requestParams.get(Order.BY_COMPANY).equals(Order.ASC) || requestParams.get(Order.BY_COMPANY).equals(Order.DESC))
 				filter.put(Order.BY_COMPANY, requestParams.get(Order.BY_COMPANY));
 		}
-		
 		return pager;
 	}
 }

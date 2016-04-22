@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.validator;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -18,8 +19,10 @@ public class DateBefore1970Validator implements ConstraintValidator<DateBefore19
 
 	@Override
 	public boolean isValid(String date, ConstraintValidatorContext ctx) {
-		if (date != null && GenericValidator.isDate(date, DateFormatter.getDatePattern().toString(), true) && LocalDate.parse(date).isBefore(DateFormatter.date1970)) {
-			return false;
+		
+		if (date != null && GenericValidator.isDate(date, DateFormatter.getDatePattern(), true)) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormatter.getDatePattern());
+			return LocalDate.parse(date, formatter).isBefore(DateFormatter.date1970);
 		}
 		return true;
 	}

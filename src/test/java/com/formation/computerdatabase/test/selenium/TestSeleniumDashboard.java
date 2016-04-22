@@ -27,7 +27,6 @@ public class TestSeleniumDashboard {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    //baseUrl = "http://localhost:8080/computerdatabase/";
     baseUrl = "http://localhost:8080/computerdatabase/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
@@ -40,7 +39,7 @@ public class TestSeleniumDashboard {
   
   @Test
   public void testSearch() throws Exception {
-	  driver.get(baseUrl + "/dashboard");
+	  driver.get(baseUrl + "dashboard");
 	  driver.findElement(By.id("searchbox")).clear();
 	  driver.findElement(By.id("searchbox")).sendKeys("mac");
 	  driver.findElement(By.id("searchsubmit")).click();

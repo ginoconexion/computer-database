@@ -23,12 +23,10 @@ public class ComputerDTO {
 	private String name;
 	
 	/** The introduced. */
-	//@Pattern(regexp="^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message="Format non valide")
 	@Date
 	private String introduced;
 	
 	/** The discontinued. */
-	//@Pattern(regexp="^[0-9]{4}-[0-9]{2}-[0-9]{2}$", message="Format non valide")
 	@Date
 	private String discontinued;
 	
@@ -37,18 +35,8 @@ public class ComputerDTO {
 	@NumberFormat
 	private String companyId;
 	
-	/*
-	public ComputerDTO(Computer computer) {
-		this.id = Long.toString(computer.getId());
-		this.name = computer.getName();
-		this.introduced = (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString();
-		this.discontinued = (computer.getIntroduced() == null) ? null : computer.getDiscontinued().toString();
-		this.company = new CompanyDTO(computer.getCompany());
-	}
-
-	public ComputerDTO() {
-	}
-	*/
+	private String companyName;
+	
 	public String getId() {
 		return id;
 	}
@@ -89,12 +77,20 @@ public class ComputerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	@Override
 	public String toString() {
 		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
-				+ discontinued + ", companyId=" + companyId + "]";
+				+ discontinued + ", companyId=" + companyId + ", companyName=" + companyName + "]";
 	}
+	
 	
 }
