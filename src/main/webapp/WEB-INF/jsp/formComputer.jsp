@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
@@ -37,13 +38,15 @@
 							</div>
 							<div class="form-group">
 								<sf:label path="introduced"><spring:message code="computer.introduced" /></sf:label>
-								<sf:input id="introduced" path="introduced" class="form-control datepicker" placeholder="Introduced date" />
+								<c:set var="introduced"><mylib:date date="${ computerDTO.introduced }"></mylib:date></c:set>
+								<sf:input id="introduced" path="introduced" class="form-control datepicker" placeholder="Introduced date" value="${ introduced }" />
 								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
 
 							<div class="form-group">
 								<sf:label path="discontinued"><spring:message code="computer.discontinued" /></sf:label>
-								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" placeholder="Discontinued date" />
+								<c:set var="discontinued"><mylib:date date="${ computerDTO.discontinued }"></mylib:date></c:set>
+								<sf:input id="discontinued" path="discontinued" class="form-control datepicker" placeholder="Discontinued date" value="${ discontinued }" />
 								<sf:errors path="discontinued" cssClass="alert alert-danger"
 									element="div" />
 							</div>

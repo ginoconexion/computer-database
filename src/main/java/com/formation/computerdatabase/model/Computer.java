@@ -21,8 +21,6 @@ import com.formation.computerdatabase.util.DateFormatter;
 @Entity
 @Table(name = "computer")
 public class Computer {
-	
-	
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

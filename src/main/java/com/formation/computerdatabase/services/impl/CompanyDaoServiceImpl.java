@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.formation.computerdatabase.model.Company;
+import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.services.CompanyDaoService;
 import com.formation.computerdatabase.services.ComputerDaoService;
@@ -27,10 +28,6 @@ public class CompanyDaoServiceImpl implements CompanyDaoService {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-	/*
-	@Autowired
-	private TransactionTemplate transactionTemplate;
-	*/
 
 	@Override
 	public Company getById(long id) {
@@ -44,31 +41,8 @@ public class CompanyDaoServiceImpl implements CompanyDaoService {
 	@Override
 	@Transactional
 	public void delete(long id, ComputerDaoService computerService) {
-		/*
-		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-			@Override
-			protected void doInTransactionWithoutResult(TransactionStatus paramTransactionStatus) {
-				try {
-					List<Computer> liste = computerService.getListByCompany(id);
-					computerService.deleteList(liste);
-					companyDaoImpl.delete(id);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("Rollback transaction");
-					//use this to rollback exception in case of exception
-					paramTransactionStatus.setRollbackOnly();
-				}
-
-			}
-		});
-		*/
-
+		List<Computer> liste = computerService.getListByCompany(id);
+		computerService.deleteList(liste);
+		companyDaoImpl.delete(id);
 	}
-	/*
-	public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
-		this.transactionTemplate = transactionTemplate;
-	}
-	*/
 }

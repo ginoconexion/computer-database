@@ -83,7 +83,6 @@ public class TestSeleniumDeleteComputer {
 
 
 		HashMap<String, Object> filter = new HashMap<>();
-
 		String nom = "Test";
 		String introduced = "1992-03-29";
 		String discontinued = "1993-03-29";

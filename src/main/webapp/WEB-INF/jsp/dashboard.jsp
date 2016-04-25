@@ -85,8 +85,10 @@
                         <td>
                             <a href="${ pageContext.request.contextPath }/computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
                         </td>
-                        <td>${ computer.introduced }</td>
-                        <td>${ computer.discontinued }</td>
+                        <td>
+                        	<mylib:date date="${ computer.introduced }"></mylib:date>
+                        </td>
+                        <td><mylib:date date="${ computer.discontinued }"></mylib:date></td>
                         <td><c:out value="${ computer.companyName }"></c:out></td>
                     </tr>
                     </c:forEach>

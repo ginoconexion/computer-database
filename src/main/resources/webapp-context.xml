@@ -13,9 +13,10 @@
 
 	<context:component-scan base-package="com.formation.computerdatabase.persistence"></context:component-scan>
 	<context:component-scan base-package="com.formation.computerdatabase.services"></context:component-scan>
-	<context:component-scan base-package="com.formation.computerdatabase.controllers"></context:component-scan>
+	
 	<context:property-placeholder location="classpath:dao.properties" />
-
+	
+	<!-- 
 	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
@@ -25,13 +26,34 @@
 		<property name="partitionCount" value="${partitionCount}"></property>
 		<property name="maxConnectionsPerPartition" value="${maxConnectionsPerPartition}"></property>
 	</bean>
+	-->
+	
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"  destroy-method="close">
+        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"/>
+        <property name="maximumPoolSize" value="5" />
+        <property name="maxLifetime" value="30000" />
+        <property name="idleTimeout" value="30000" />
+        <property name="dataSourceProperties">
+	        <props>
+	            <prop key="url">${url}</prop>
+	            <prop key="user">${utilisateur}</prop>
+	            <prop key="password">${password}</prop>
+	             <prop key="prepStmtCacheSize">250</prop>
+	             <prop key="prepStmtCacheSqlLimit">2048</prop>
+	             <prop key="cachePrepStmts">true</prop>
+	             <prop key="useServerPrepStmts">true</prop>
+	        </props>
+        </property>
+    </bean>
+    
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	
+	<!-- 
+	<context:property-placeholder location="classpath:hibernate.properties" />
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
@@ -47,6 +69,25 @@
 			</props>
 		</property>
 	</bean>
+	-->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.formation.computerdatabase.model.Company</value>
+				<value>com.formation.computerdatabase.model.Computer</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.id.new_generator_mappings">false</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+	</bean>
+	
 	
 	<!--
 	<bean id="transactionManager"
@@ -57,34 +98,14 @@
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	-->
-	<!-- transaction spring <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
-		<property name="dataSource" ref="dataSource"></property> </bean> <bean id="txTemplate" 
-		class="org.springframework.transaction.support.TransactionTemplate"> <property 
-		name="transactionManager" ref="transactionManager"></property> </bean> -->
-
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames"
-			value="classpath:content/computerdatabase, classpath:ValidationMessages" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-
-	<!-- internationalisation -->
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="en" />
+	
+	<!--
+	<bean id="txTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager"></property>
 	</bean>
-
-	<mvc:interceptors>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-			<property name="paramName" value="lang" />
-		</bean>
-	</mvc:interceptors>
-
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/resources directory -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-
-	<bean id="myBeansValidator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"></bean>
-	<mvc:annotation-driven validator="myBeansValidator" />
+	-->
+	
 </beans>

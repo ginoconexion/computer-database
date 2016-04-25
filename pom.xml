@@ -81,12 +81,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${boneCPVersion}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.7.21</version>
@@ -174,6 +168,18 @@
 			<version>5.1.0.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.1.0.Final</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.4.5</version>
+		</dependency>
+		
 
 	</dependencies>
 
@@ -187,7 +193,6 @@
 		<javaxServletVersion>3.1.0</javaxServletVersion>
 		<tomcatplugin>2.2</tomcatplugin>
 		<mockitoVersion>1.9.5</mockitoVersion>
-		<boneCPVersion>0.8.0.RELEASE</boneCPVersion>
 		<guavaVersion>19.0</guavaVersion>
 		<commonsValidatorVersion>1.4.0</commonsValidatorVersion>
 		<logbackVersion>1.0.13</logbackVersion>

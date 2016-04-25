@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
 <%@ attribute name="pager" required="true" type="com.formation.computerdatabase.pagination.Pager"%>
 <%@ attribute name="parameter" required="true" type="java.lang.String"%>
 <%@ attribute name="parameterValue" required="true" type="java.lang.String"%>

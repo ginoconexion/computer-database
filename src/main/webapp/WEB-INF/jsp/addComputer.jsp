@@ -29,20 +29,14 @@
 							<sf:errors cssClass="alert alert-danger" element="div" />
 							<div class="form-group">
 								<sf:label path="name">Name</sf:label>
-								<sf:input path="name" class="form-control" id="name"
-									placeholder="Computer name" />
-								<sf:errors path="name" cssClass="alert alert-danger"
-									element="div" />
+								<sf:input path="name" class="form-control" id="name" placeholder="Computer name" />
+								<sf:errors path="name" cssClass="alert alert-danger" element="div" />
 							</div>
 							<div class="form-group">
 								<sf:label path="introduced">Introduced</sf:label>
-								<sf:input id="introduced" path="introduced"
-									class="form-control datepicker" type="date"
-									placeholder="Introduced date" />
-								<sf:errors path="introduced" cssClass="alert alert-danger"
-									element="div"></sf:errors>
+								<sf:input id="introduced" path="introduced" class="form-control datepicker" type="date" placeholder="Introduced date" />
+								<sf:errors path="introduced" cssClass="alert alert-danger" element="div"></sf:errors>
 							</div>
-
 							<div class="form-group">
 								<sf:label path="discontinued">Discontinued</sf:label>
 								<sf:input id="discontinued" path="discontinued"

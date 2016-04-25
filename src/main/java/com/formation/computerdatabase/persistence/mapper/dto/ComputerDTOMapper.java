@@ -1,12 +1,10 @@
 package com.formation.computerdatabase.persistence.mapper.dto;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
-import com.formation.computerdatabase.util.DateFormatter;
 
 
 public class ComputerDTOMapper {
@@ -22,8 +20,8 @@ public class ComputerDTOMapper {
 		ComputerDTO cDTO = new ComputerDTO();
 		cDTO.setId(Long.toString(computer.getId()));
 		cDTO.setName(computer.getName());
-		cDTO.setDiscontinued((computer.getDiscontinued() == null) ? null : computer.getDiscontinued().format(DateTimeFormatter.ofPattern(DateFormatter.getDatePattern())));
-		cDTO.setIntroduced((computer.getIntroduced() == null) ? null : computer.getIntroduced().format(DateTimeFormatter.ofPattern(DateFormatter.getDatePattern())));
+		cDTO.setDiscontinued((computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString());
+		cDTO.setIntroduced((computer.getIntroduced() == null) ? null : computer.getIntroduced().toString());
 		cDTO.setCompanyId(computer.getCompany() == null ? null : Long.toString(computer.getCompany().getId()));
 		cDTO.setCompanyName(computer.getCompany().getName() == null ? null : computer.getCompany().getName());
 		return cDTO;
