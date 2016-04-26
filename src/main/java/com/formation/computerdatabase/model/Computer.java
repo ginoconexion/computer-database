@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +22,7 @@ import com.formation.computerdatabase.util.DateFormatter;
 public class Computer {
 	/** The id. */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	/** The name. */
@@ -36,7 +35,7 @@ public class Computer {
 	private LocalDate discontinued;
 	
 	/** The company. */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Company company;
 	
 	public Computer() {

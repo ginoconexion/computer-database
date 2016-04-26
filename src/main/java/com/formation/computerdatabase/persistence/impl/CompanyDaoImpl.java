@@ -3,6 +3,9 @@ package com.formation.computerdatabase.persistence.impl;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,14 +23,14 @@ public class CompanyDaoImpl implements CompanyDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplateObject;
 	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	private final static String SELECT_COUNT = "SELECT COUNT(*) as nb_companies FROM company";
 	@Override
 	public int getCount(HashMap<String, Object> filter) {
 		return jdbcTemplateObject.queryForObject(SELECT_COUNT, Integer.class);
 	}
-
-
 	
 	/** The Constant SELECT_ALL. */
 	private final static String SELECT_ALL = "SELECT * FROM company";

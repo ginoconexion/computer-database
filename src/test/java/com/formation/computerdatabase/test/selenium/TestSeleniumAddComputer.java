@@ -27,7 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/webapp-context.xml")
+@ContextConfiguration(locations = { "classpath:webapp-context.xml" })
 public class TestSeleniumAddComputer {
 
 	private static WebDriver driver;

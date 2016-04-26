@@ -2,13 +2,13 @@ package com.formation.computerdatabase.services.impl;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
+import com.formation.computerdatabase.persistence.CompanyDao;
 import com.formation.computerdatabase.persistence.impl.CompanyDaoImpl;
 import com.formation.computerdatabase.services.CompanyDaoService;
 import com.formation.computerdatabase.services.ComputerDaoService;
@@ -22,12 +22,9 @@ public class CompanyDaoServiceImpl implements CompanyDaoService {
 
 	/** The company dao impl. */
 	@Autowired
-	private ComputerDaoServiceImpl computerService;
+	private ComputerDaoService computerService;
 	@Autowired
-	private CompanyDaoImpl companyDaoImpl;
-	
-	@Autowired
-	private SessionFactory sessionFactory;
+	private CompanyDao companyDaoImpl;
 
 	@Override
 	public Company getById(long id) {

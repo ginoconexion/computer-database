@@ -65,13 +65,20 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logbackVersion}</version>
-		</dependency>
-
+			</dependency>
+	
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>${commonsValidatorVersion}</version>
 		</dependency>
+	
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>3.0.1-b04</version>
+		</dependency>
+			
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -134,11 +141,11 @@
 			<version>4.2.5.RELEASE</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>4.2.5.RELEASE</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-tx</artifactId> -->
+<!-- 			<version>4.2.5.RELEASE</version> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -179,8 +186,6 @@
 			<artifactId>HikariCP</artifactId>
 			<version>2.4.5</version>
 		</dependency>
-		
-
 	</dependencies>
 
 	<properties>

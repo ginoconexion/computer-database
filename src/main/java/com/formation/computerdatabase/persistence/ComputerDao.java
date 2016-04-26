@@ -11,9 +11,8 @@ import com.formation.computerdatabase.model.Computer;
 public interface ComputerDao extends Dao<Computer> {
 	void create(Computer computer);
 	void update(Computer computer);
-	Computer getByName(String name);
 	List<Computer> getListByCompany(long id);
-	void delete(long id);
+	void delete(Computer computer);
 	void deleteList(List<Computer> list);
 	List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter);
 }

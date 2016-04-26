@@ -4,11 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.pagination.Order;
 import com.formation.computerdatabase.persistence.ComputerDao;
@@ -29,47 +41,77 @@ public class ComputerDaoImpl implements ComputerDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
 	@Autowired
 	private ComputerMapper computerMapper;
+	
+	@PersistenceContext
+	private EntityManager em;
+	
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		
-		ArrayList<Object> params = new ArrayList<>();
-		StringBuilder sb = new StringBuilder(SELECT);
-		sb.append(JOIN_ON_COMPANY);
-		if (filter.containsKey(Order.SEARCH) || filter.containsKey(Order.BY_COMPANY)) {
-			sb.append(WHERE_NAME);
-			//on set computer.name ou company.name
-			params.add("%" + (String) filter.get("search") + "%");
-			params.add("%" + (String) filter.get("search") + "%");
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Computer> query = builder.createQuery(Computer.class);
+	    Root<Computer> fromComputers = query.from(Computer.class);
+	    Join<Computer, Company> company = fromComputers.join("company", JoinType.LEFT);
+	    
+	    //List<Predicate> conditions = new ArrayList<>();
+	    query.select(fromComputers);
+	    
+	    if (filter.containsKey(Order.SEARCH) || filter.containsKey(Order.BY_COMPANY)) {
+	    	
+	    	query.where(
+					builder.or(
+							builder.like(fromComputers.get("name"), (String) "%" + filter.get("search") + "%"),
+							builder.like(company.get("name"), (String) "%" + filter.get("search") + "%")
+							)
+			);
+	    	
+	    	//conditions.add(builder.like(fromComputers.get("name"), (String) "%" + filter.get("search") + "%"));
+		    //conditions.add(builder.like(company.get("name"), (String) "%" + filter.get("search") + "%"));
 		}
-		
-		// on ajoute à la requete les éventuels filtre asc ou desc
-		Order.orderBy(filter, sb);
-		sb.append(" ").append(LIMIT);
-		params.add(from);
-		params.add(nb);
-		
-		return jdbcTemplate.query(sb.toString(), params.toArray(), computerMapper);
+	    
+	    /*
+	    TypedQuery<Computer> typedQuery = em.createQuery(query
+	    		.select(fromComputers)
+	    		.where(conditions.toArray(new Predicate[] {}))
+	    		)
+	    		.setFirstResult(from)
+	    		.setMaxResults(nb);
+	    
+	    return typedQuery.getResultList();
+	    */
+	    return em.createQuery(query).setFirstResult(from).setMaxResults(nb).getResultList();
 	}
 
 	private final static String SELECT_COUNT = "SELECT COUNT(*) as nb_computers FROM computer ";
 	
 	@Override
 	public int getCount(HashMap<String, Object> filter) {
-		String sql = SELECT_COUNT;
-		
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Long> query = builder.createQuery(Long.class);
+	    Root<Computer> fromComputers = query.from(Computer.class);
+	    Join<Computer, Company> company = fromComputers.join("company", JoinType.LEFT);
+	    
+	    query.select(builder.count(fromComputers));
+	    
 		if (filter.containsKey("search")) {
-			sql = sql + JOIN_ON_COMPANY + WHERE_NAME;
-			ArrayList<Object> params = new ArrayList<>();
-			
-			params.add("%" + (String) filter.get("search") + "%");
-			params.add("%" + (String) filter.get("search") + "%");
-			return jdbcTemplate.queryForObject(sql, params.toArray(), Integer.class);
+			query.where(
+					builder.or(
+							builder.like(fromComputers.get("name"), (String) "%" + filter.get("search") + "%"),
+							builder.like(company.get("name"), (String) "%" + filter.get("search") + "%")
+							)
+					);
+			/*
+			conditions.add(builder.like(fromComputers.get("name"), (String) "%" + filter.get("search") + "%"));
+		    conditions.add(builder.like(company.get("name"), (String) "%" + filter.get("search") + "%"));
+		    */
 		}
-		else {
-			return jdbcTemplate.queryForObject(sql, Integer.class);
-		}
+		
+		//query.where(conditions.toArray(new Predicate[] {}));
+		return (int) (long) em.createQuery(query).getSingleResult();
+
 	}
 
 	/** The Constant SELECT_BY_ID. */
@@ -77,46 +119,36 @@ public class ComputerDaoImpl implements ComputerDao {
 	
 	@Override
 	public Computer getById(long id) {
-		return jdbcTemplate.queryForObject(SELECT_BY_ID + JOIN_ON_COMPANY + WHERE_ID, computerMapper, new Object[] {id});
+		return (Computer) em.find(Computer.class, id);
 	}
 
 	/** The Constant INSERT. */
 	private final static String INSERT = "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?) ";
 	
 	@Override
+	@Transactional
 	public void create(Computer computer) {
-		Object[] params = new Object[4];
-		params[0] = computer.getName();
-		params[1] = (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString();
-		params[2] = (computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString();
-		params[3] = (computer.getCompany() == null) ? 0 : computer.getCompany().getId();
-		jdbcTemplate.update(INSERT, params);
+		em.persist(computer);
+		em.flush();
+		em.refresh(computer);
 	}
 
 	/** The Constant UPDATE. */
 	private final static String UPDATE = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ? ";
 	
 	@Override
+	@Transactional
 	public void update(Computer computer) {
-		Object[] params = new Object[5];
-		params[0] = computer.getName();
-		params[1] = (computer.getIntroduced() == null) ? null : computer.getIntroduced().toString();
-		params[2] = (computer.getDiscontinued() == null) ? null : computer.getDiscontinued().toString();
-		params[3] = (computer.getCompany() == null) ? 0 : computer.getCompany().getId();
-		params[4] = computer.getId();
-		
-		System.out.println(params[3]);
-		System.out.println(jdbcTemplate.update(UPDATE, params));
-		
+		em.merge(computer);
+		em.flush();
 	}
 
 	/** The Constant DELETE. */
 	private final static String DELETE = "DELETE FROM computer WHERE id = ?";
 	
-	public void delete(long id) {
-		jdbcTemplate.update(DELETE, id);
-	    // logger msg
-	    return;
+	public void delete(Computer computer) {
+		em.remove(computer);
+		em.flush();
 	}
 
 	private final static String SELECT_BY_COMPANY_ID = "SELECT * FROM computer WHERE company_id = ? ";
@@ -131,11 +163,4 @@ public class ComputerDaoImpl implements ComputerDao {
 			jdbcTemplate.update(DELETE, computer.getId());
 		}
 	}
-
-	@Override
-	public Computer getByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

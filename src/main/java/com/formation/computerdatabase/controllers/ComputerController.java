@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.CompanyDTO;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.CompanyDTOMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
+import com.formation.computerdatabase.services.CompanyDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
 import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
 import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 
@@ -32,9 +35,9 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class.getSimpleName());
 	@Autowired
-	private ComputerDaoServiceImpl computerService;
+	private ComputerDaoService computerService;
 	@Autowired
-	private CompanyDaoServiceImpl companyService;
+	private CompanyDaoService companyService;
 	
 	@RequestMapping(value = "/computer/edit/{id}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable Integer id, Model model) {
@@ -88,9 +91,9 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 			try {
 				for (String idParameter : param.get("selection").split(",")) {
 		            long id = Long.parseLong(idParameter);
-		            if (id > 0) {
-		                computerService.delete(id);
-		            }
+		            Computer computer = computerService.getById(id);
+		            if (computer != null)
+		            	computerService.delete(computer);
 		        }
 			} catch (NumberFormatException e) {
 				LOGGER.info("attempt to delete computer(s), params : " +param.get("selection"));

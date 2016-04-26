@@ -1,17 +1,13 @@
 package com.formation.computerdatabase.test.selenium;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
@@ -23,20 +19,19 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.formation.computerdatabase.model.Company;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
 import com.formation.computerdatabase.pagination.mapper.PagerMapper;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.formation.computerdatabase.services.ServiceFactory;
-import com.formation.computerdatabase.services.impl.CompanyDaoServiceImpl;
-import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
+import com.formation.computerdatabase.services.CompanyDaoService;
+import com.formation.computerdatabase.services.ComputerDaoService;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:webapp-context.xml" })
 public class TestSeleniumDeleteComputer {
 
 	private static WebDriver driver;
@@ -44,10 +39,14 @@ public class TestSeleniumDeleteComputer {
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	private static ClassPathXmlApplicationContext context;
-	private static CompanyDaoServiceImpl companyService;
-	private static ComputerDaoServiceImpl computerService;
-	private static ComputerDaoImpl computerDao;
+	@Autowired
+	private CompanyDaoService companyService;
+	@Autowired
+	private ComputerDaoService computerService;
+	@Autowired
+	private ComputerDaoImpl computerDao;
 
+	/*
 	@BeforeClass
 	public static void init() {
 		context = new ClassPathXmlApplicationContext("webapp-context.xml");
@@ -60,7 +59,8 @@ public class TestSeleniumDeleteComputer {
 	public static void close() {
 		context.close();
 	}
-
+	*/
+	
 	@Before
 	public void before() {
 

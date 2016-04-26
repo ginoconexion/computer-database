@@ -10,10 +10,9 @@ public interface ComputerDaoService {
 	
 	void create(Computer computer);
 	void update(Computer computer);
-	void delete(long id);
+	void delete(Computer computer);
 	List<Computer> getListByCompany(long id);
 	void deleteList(List<Computer> list);
-	Computer getByName(String name);
 	void updatePager(Pager<ComputerDTO> pager);
 	Computer getById(long id); 
 }

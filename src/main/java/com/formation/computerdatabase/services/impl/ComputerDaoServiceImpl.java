@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.formation.computerdatabase.model.Computer;
 import com.formation.computerdatabase.model.dto.ComputerDTO;
 import com.formation.computerdatabase.pagination.Pager;
+import com.formation.computerdatabase.persistence.ComputerDao;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
-import com.formation.computerdatabase.persistence.mapper.ComputerMapper;
 import com.formation.computerdatabase.persistence.mapper.dto.ComputerDTOMapper;
 import com.formation.computerdatabase.services.ComputerDaoService;
 
@@ -17,7 +17,7 @@ import com.formation.computerdatabase.services.ComputerDaoService;
 public class ComputerDaoServiceImpl implements ComputerDaoService {
 	/** The computer dao impl. */
 	@Autowired
-	private ComputerDaoImpl computerDaoImpl;
+	private ComputerDao computerDaoImpl;
 	
 	@Override
 	public Computer getById(long id)  {
@@ -32,12 +32,8 @@ public class ComputerDaoServiceImpl implements ComputerDaoService {
 		computerDaoImpl.update(computer);
 	}
 	@Override
-	public void delete(long id) {
-		computerDaoImpl.delete(id);
-	}
-	@Override
-	public Computer getByName(String name) {
-		return computerDaoImpl.getByName(name);
+	public void delete(Computer computer) {
+		computerDaoImpl.delete(computer);
 	}
 	@Override
 	public List<Computer> getListByCompany(long id) {
@@ -55,7 +51,7 @@ public class ComputerDaoServiceImpl implements ComputerDaoService {
 		pager.setListe(liste);
 		pager.updateListe();
 	}
-	public ComputerDaoImpl getComputerDaoImpl() {
+	public ComputerDao getComputerDaoImpl() {
 		return computerDaoImpl;
 	}
 }

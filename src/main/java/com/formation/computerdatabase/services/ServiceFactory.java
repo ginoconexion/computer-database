@@ -13,11 +13,11 @@ import com.formation.computerdatabase.services.impl.ComputerDaoServiceImpl;
 public class ServiceFactory {
 	
 	/** The computer dao service impl. */
-	@Autowired
+	//@Autowired
 	ComputerDaoServiceImpl computerDaoServiceImpl;
 	
 	/** The company dao service impl. */
-	@Autowired
+	//@Autowired
 	CompanyDaoServiceImpl companyDaoServiceImpl;
 
 	/**
