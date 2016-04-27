@@ -3,7 +3,7 @@ package com.formation.computerdatabase.pagination.mapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.formation.computerdatabase.pagination.Order;
+import com.formation.computerdatabase.pagination.OrderBy;
 import com.formation.computerdatabase.pagination.Pager;
 
 public class PagerMapper<T> {
@@ -16,35 +16,35 @@ public class PagerMapper<T> {
 		HashMap<String, Object> filter = new HashMap<>();
 		Pager<T> pager = new Pager<>(NB_PAR_PAGE, PAGE, filter);
 		
-		if (requestParams.get(Order.PAGE) != null) {
-			pager.setCurrent(Integer.parseInt(requestParams.get(Order.PAGE)));
+		if (requestParams.get(OrderBy.PAGE) != null) {
+			pager.setCurrent(Integer.parseInt(requestParams.get(OrderBy.PAGE)));
 		}
-		if (requestParams.get(Order.OFFSET) != null) {
-			pager.setOffset(Integer.parseInt(requestParams.get(Order.OFFSET)));
+		if (requestParams.get(OrderBy.OFFSET) != null) {
+			pager.setOffset(Integer.parseInt(requestParams.get(OrderBy.OFFSET)));
 		}
-		if (requestParams.get(Order.SEARCH) !=  null ) {
+		if (requestParams.get(OrderBy.SEARCH) !=  null ) {
 			// si l'utilisateur a entré une nouvelle recherche
-			if (requestParams.get(Order.SEARCH).equals(filter.get(Order.SEARCH))) {
+			if (requestParams.get(OrderBy.SEARCH).equals(filter.get(OrderBy.SEARCH))) {
 				pager.setCurrent(1);
 			}
-			filter.put("search", requestParams.get(Order.SEARCH).toLowerCase());
+			filter.put("search", requestParams.get(OrderBy.SEARCH).toLowerCase());
 		}
 		
-		if (requestParams.get(Order.BY_NAME) != null) {
-			if (requestParams.get(Order.BY_NAME).equals(Order.ASC) || requestParams.get(Order.BY_NAME).equals(Order.DESC))
-				filter.put(Order.BY_NAME, requestParams.get(Order.BY_NAME));
+		if (requestParams.get(OrderBy.BY_NAME) != null) {
+			if (requestParams.get(OrderBy.BY_NAME).equals(OrderBy.ASC) || requestParams.get(OrderBy.BY_NAME).equals(OrderBy.DESC))
+				filter.put(OrderBy.BY_NAME, requestParams.get(OrderBy.BY_NAME));
 		}
-		if (requestParams.get(Order.BY_INTRODUCED) != null) {
-			if (requestParams.get(Order.BY_INTRODUCED).equals(Order.ASC) || requestParams.get(Order.BY_INTRODUCED).equals(Order.DESC))
-				filter.put(Order.BY_INTRODUCED, requestParams.get(Order.BY_INTRODUCED));
+		if (requestParams.get(OrderBy.BY_INTRODUCED) != null) {
+			if (requestParams.get(OrderBy.BY_INTRODUCED).equals(OrderBy.ASC) || requestParams.get(OrderBy.BY_INTRODUCED).equals(OrderBy.DESC))
+				filter.put(OrderBy.BY_INTRODUCED, requestParams.get(OrderBy.BY_INTRODUCED));
 		}
-		if (requestParams.get(Order.BY_DISCONTINUED) != null) {
-			if (requestParams.get(Order.BY_DISCONTINUED).equals(Order.ASC) || requestParams.get(Order.BY_DISCONTINUED).equals(Order.DESC))
-				filter.put(Order.BY_DISCONTINUED, requestParams.get(Order.BY_DISCONTINUED));
+		if (requestParams.get(OrderBy.BY_DISCONTINUED) != null) {
+			if (requestParams.get(OrderBy.BY_DISCONTINUED).equals(OrderBy.ASC) || requestParams.get(OrderBy.BY_DISCONTINUED).equals(OrderBy.DESC))
+				filter.put(OrderBy.BY_DISCONTINUED, requestParams.get(OrderBy.BY_DISCONTINUED));
 		}
-		if (requestParams.get(Order.BY_COMPANY) != null) {
-			if (requestParams.get(Order.BY_COMPANY).equals(Order.ASC) || requestParams.get(Order.BY_COMPANY).equals(Order.DESC))
-				filter.put(Order.BY_COMPANY, requestParams.get(Order.BY_COMPANY));
+		if (requestParams.get(OrderBy.BY_COMPANY) != null) {
+			if (requestParams.get(OrderBy.BY_COMPANY).equals(OrderBy.ASC) || requestParams.get(OrderBy.BY_COMPANY).equals(OrderBy.DESC))
+				filter.put(OrderBy.BY_COMPANY, requestParams.get(OrderBy.BY_COMPANY));
 		}
 		return pager;
 	}

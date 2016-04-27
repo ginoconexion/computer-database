@@ -15,7 +15,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.formation.computerdatabase.pagination.Order;
+import com.formation.computerdatabase.pagination.OrderBy;
 
 
 public class TestSeleniumDashboard {
@@ -51,16 +51,16 @@ public class TestSeleniumDashboard {
   public void testFiltre() throws Exception {
 	  driver.get(baseUrl + "/dashboard");
 	  driver.findElement(By.xpath("//th[2]/a")).click();
-	  assertTrue(driver.findElement(By.xpath("//th[2]/a")).getAttribute("href").contains(Order.BY_NAME + "=desc"));
+	  assertTrue(driver.findElement(By.xpath("//th[2]/a")).getAttribute("href").contains(OrderBy.BY_NAME + "=desc"));
 	  
 	  driver.findElement(By.xpath("//th[3]/a")).click();
-	  assertTrue(driver.findElement(By.xpath("//th[3]/a")).getAttribute("href").contains(Order.BY_INTRODUCED + "=desc"));
+	  assertTrue(driver.findElement(By.xpath("//th[3]/a")).getAttribute("href").contains(OrderBy.BY_INTRODUCED + "=desc"));
 	  
 	  driver.findElement(By.xpath("//th[4]/a")).click();
-	  assertTrue(driver.findElement(By.xpath("//th[4]/a")).getAttribute("href").contains(Order.BY_DISCONTINUED + "=desc"));
+	  assertTrue(driver.findElement(By.xpath("//th[4]/a")).getAttribute("href").contains(OrderBy.BY_DISCONTINUED + "=desc"));
 	  
 	  driver.findElement(By.xpath("//th[5]/a")).click();
-	  assertTrue(driver.findElement(By.xpath("//th[5]/a")).getAttribute("href").contains(Order.BY_COMPANY + "=desc"));
+	  assertTrue(driver.findElement(By.xpath("//th[5]/a")).getAttribute("href").contains(OrderBy.BY_COMPANY + "=desc"));
   }
 
   @After

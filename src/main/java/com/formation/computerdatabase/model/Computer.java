@@ -3,10 +3,12 @@ package com.formation.computerdatabase.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,20 +28,25 @@ public class Computer {
 	private long id;
 	
 	/** The name. */
+	@Column(name = "name")
 	private String name;
 	
 	/** The introduced. */
+	@Column(name = "introduced")
 	private LocalDate introduced;
 	
 	/** The discontinued. */
+	@Column(name = "discontinued")
 	private LocalDate discontinued;
 	
 	/** The company. */
 	@ManyToOne
+	@JoinColumn(name="company_id")
 	private Company company;
 	
 	public Computer() {
 	}
+	
 	public Computer(String name) {
 		this.name = name;
 	}

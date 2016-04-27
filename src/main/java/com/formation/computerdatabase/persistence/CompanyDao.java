@@ -1,5 +1,4 @@
 package com.formation.computerdatabase.persistence;
-import java.util.HashMap;
 import java.util.List;
 
 import com.formation.computerdatabase.model.Company;
@@ -15,5 +14,5 @@ public interface CompanyDao extends Dao<Company> {
 	 */
 	List<Company> getAll();
 	Company getById(long id);
-	void delete(long id);
+	void delete(Company company);
 }

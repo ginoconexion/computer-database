@@ -40,6 +40,7 @@ public class CompanyDaoServiceImpl implements CompanyDaoService {
 	public void delete(long id, ComputerDaoService computerService) {
 		List<Computer> liste = computerService.getListByCompany(id);
 		computerService.deleteList(liste);
-		companyDaoImpl.delete(id);
+		Company company = companyDaoImpl.getById(id);
+		companyDaoImpl.delete(company);
 	}
 }
