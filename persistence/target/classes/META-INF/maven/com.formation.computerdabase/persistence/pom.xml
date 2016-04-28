@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.formation.computerdabase</groupId>
+		<artifactId>computer-db</artifactId>
+		<version>${computerdb-version}</version>
+	</parent>
+
+	<!-- extended pom -->
+	<artifactId>persistence</artifactId>
+	<packaging>jar</packaging>
+	<name>persistence</name>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikariCP-version}</version>
+		</dependency>
+
+		
+		<!-- persistence dependencies -->
+		<dependency>
+			<groupId>com.formation.computerdabase</groupId>
+			<artifactId>binding</artifactId>
+			<version>${computerdb-version}</version>
+		</dependency>
+		<!--  -->
+
+
+		<!-- core dependencies -->
+		<!-- 
+		<dependency>
+			<groupId>com.formation.computerdabase</groupId>
+			<artifactId>core</artifactId>
+			<version>${computerdb-version}</version>
+		</dependency>
+		-->
+		<!-- end core dependencies -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-beans</artifactId> -->
+<!-- 			<version>${spring-version}</version> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-orm</artifactId> -->
+<!-- 			<version>${spring-version}</version> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-context</artifactId> -->
+<!-- 			<version>${spring-version}</version> -->
+<!-- 		</dependency> -->
+
+	</dependencies>
+</project>
