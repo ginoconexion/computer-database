@@ -1,6 +1,7 @@
 package com.formation.computerdatabase.core.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.formation.computerdatabase.core.model.util.DateFormatter;
 
 
 /**
@@ -195,7 +198,7 @@ public class Computer {
 
 		public Builder introduced(String introduced) {
 			if (!introduced.equals("")) {
-				c.introduced = LocalDate.parse(introduced);
+				c.introduced = LocalDate.parse(introduced, DateTimeFormatter.ofPattern(DateFormatter.getDatePattern()));
 			}
 			return this;
 		}
@@ -207,7 +210,7 @@ public class Computer {
 
 		public Builder discontinued(String discontinued) {
 			if (!discontinued.equals("")) {
-				c.discontinued = LocalDate.parse(discontinued);
+				c.discontinued = LocalDate.parse(discontinued, DateTimeFormatter.ofPattern(DateFormatter.getDatePattern()));
 			}
 			return this;
 		}

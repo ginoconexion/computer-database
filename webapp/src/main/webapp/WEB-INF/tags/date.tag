@@ -10,6 +10,7 @@
 	<c:set var="pattern" value="dd-MM-yyyy"></c:set>
 </c:if>
 
+
 <fmt:formatDate value="${ parsedDate }" var="formattedDate" pattern="${ pattern }"/>
 
 <c:out value="${ formattedDate }"></c:out>

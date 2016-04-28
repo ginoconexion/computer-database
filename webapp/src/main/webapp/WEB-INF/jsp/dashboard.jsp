@@ -87,7 +87,9 @@
                         <td>
                         	<mylib:date date="${ computer.introduced }"></mylib:date>
                         </td>
-                        <td><mylib:date date="${ computer.discontinued }"></mylib:date></td>
+                        <td>
+                        	<mylib:date date="${ computer.discontinued }"></mylib:date>
+                        </td>
                         <td><c:out value="${ computer.companyName }"></c:out></td>
                     </tr>
                     </c:forEach>
