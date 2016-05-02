@@ -14,5 +14,5 @@ public interface ComputerDaoService {
 	List<Computer> getListByCompany(long id);
 	void deleteList(List<Computer> list);
 	void updatePager(Pager<ComputerDTO> pager);
-	Computer getById(long id); 
+	Computer getById(long id);
 }

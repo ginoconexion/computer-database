@@ -15,5 +15,8 @@
 	">
 	
 	<import resource="classpath:persistence-context.xml" />
+	
+	<bean id="userDetailsService" class="com.formation.computerdatabase.service.impl.MyUserDetailsService"></bean>
+	
 	<context:component-scan base-package="com.formation.computerdatabase.service"></context:component-scan>
 </beans>

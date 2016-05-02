@@ -13,6 +13,7 @@
 		<computerdb-version>0.7.0-SNAPSHOT</computerdb-version>
 
 		<spring-version>4.2.5.RELEASE</spring-version>
+		<spring-security-version>4.0.4.RELEASE</spring-security-version>
 		<hibernate-version>5.1.0.Final</hibernate-version>
 		<javax-validation-api>1.1.0.Final</javax-validation-api>
 		<jUnit-version>4.12</jUnit-version>
@@ -27,7 +28,7 @@
 		<jstlVersion>1.2</jstlVersion>
 		<slf4jVersion>1.7.19</slf4jVersion>
 		<servletVersion>3.0.1</servletVersion>
-		
+
 		<javaxServletVersion>3.1.0</javaxServletVersion>
 		<tomcatplugin>2.2</tomcatplugin>
 		<mockitoVersion>1.9.5</mockitoVersion>
@@ -40,13 +41,13 @@
 
 	<!-- common dependencies -->
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -57,7 +58,7 @@
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.1-b04</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -74,7 +75,7 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logbackVersion}</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
@@ -126,6 +127,25 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring-version}</version>
+		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring-security-version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security-version}</version>
 		</dependency>
 
 	</dependencies>

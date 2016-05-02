@@ -25,7 +25,6 @@
 								<spring:message code="computer.add"></spring:message>
 							</c:otherwise>
 						</c:choose>
-						${ pageContext.response.locale }
 					</h1>
 					<sf:form id="form" method="post" action="" modelAttribute="computerDTO">
 						<fieldset>
