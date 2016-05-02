@@ -1,6 +1,9 @@
 package com.formation.computerdatabase.webapp.selenium;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +22,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,8 +40,7 @@ public class AddComputerTestSelenium {
 	private static String baseUrl;
 	private boolean acceptNextAlert = true;
 	private static StringBuffer verificationErrors = new StringBuffer();
-
-
+	
 	@BeforeClass
 	public static void init() {
 		baseUrl = "http://localhost:8080/webapp/";
@@ -52,6 +61,19 @@ public class AddComputerTestSelenium {
 		}
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.get(baseUrl);
+		
+		driver.get(baseUrl + "login");
+	    driver.findElement(By.name("username")).clear();
+	    driver.findElement(By.name("username")).sendKeys("pgmatz");
+	    driver.findElement(By.name("password")).clear();
+	    driver.findElement(By.name("password")).sendKeys("test");
+	    driver.findElement(By.name("submit")).click();
+	    
+	    try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -85,11 +107,21 @@ public class AddComputerTestSelenium {
 		// on s'attends à deux erreurs
 		assertTrue(driver.getCurrentUrl().equals(baseUrl + "dashboard"));
 	}
+	
+	@Test
+	public void addValidWithContinuedAndDiscontinuedButNotAuthenticated() throws Exception {
+		// add with valid parameters
+		driver.get(baseUrl + "logout");
+		driver.get(baseUrl + "computer/add"); 
+		assertTrue(driver.getCurrentUrl().equals(baseUrl + "/login?error"));
+	}
+	
 	@Ignore
 	@Test
 	public void addWithWrongIntroducedAndDiscontinued() throws Exception {
 		// add with wrong parameters introduced discontinued
 		driver.get(baseUrl + "/dashboard");
+		
 		driver.findElement(By.id("addComputer")).click();
 
 		driver.findElement(By.id("name")).clear();

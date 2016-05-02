@@ -11,8 +11,9 @@
 		<intercept-url pattern="dashboard" access="hasAnyRole('ROLE_ANONYMOUS')" method="GET" />
 		<intercept-url pattern="/computer/add" access="hasRole('ROLE_ADMIN')" method="GET" />
 		<intercept-url pattern="/computer/add" access="hasRole('ROLE_ADMIN')" method="POST" />
-		<intercept-url pattern="/computer/edit" access="hasRole('ROLE_ADMIN')" method="GET" />
-		<intercept-url pattern="/computer/edit" access="hasRole('ROLE_ADMIN')" method="POST" />
+		<intercept-url pattern="/computer/delete" access="hasRole('ROLE_ADMIN')" method="POST" />
+		<intercept-url pattern="/computer/edit/*" access="hasRole('ROLE_ADMIN')" method="GET" />
+		<intercept-url pattern="/computer/edit/*" access="hasRole('ROLE_ADMIN')" method="POST" />
 
 		<form-login login-page="/login" 
 			default-target-url="/dashboard"

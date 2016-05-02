@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mylib"  %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,10 +35,13 @@
 						</c:forEach>
                     </form>
                 </div>
+                
+                <security:authorize access="isAuthenticated()"> 
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="computer/add/"><spring:message code="computer.add"></spring:message></a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="button.delete"></spring:message></a>
                 </div>
+                </security:authorize>
             </div>
         </div>
 

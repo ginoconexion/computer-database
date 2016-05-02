@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -21,34 +22,50 @@ import org.openqa.selenium.support.ui.Select;
 
 
 public class EditComputerTestSelenium {
-	private WebDriver driver;
-	  private String baseUrl;
+	private static WebDriver driver;
+	  private static String baseUrl;
 	  private boolean acceptNextAlert = true;
 	  private StringBuffer verificationErrors = new StringBuffer();
 
+	  @BeforeClass
+		public static void init() {
+			baseUrl = "http://localhost:8080/webapp/";
+			FirefoxProfile profile = new FirefoxProfile();
+			File noscript = new File(AddComputerTestSelenium.class.getClassLoader().getResource("noscript.xpi").getFile());
+			try {
+				profile.addExtension(noscript);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			driver = new FirefoxDriver(profile);
+
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			driver.get(baseUrl);
+			
+			driver.get(baseUrl + "login");
+		    driver.findElement(By.name("username")).clear();
+		    driver.findElement(By.name("username")).sendKeys("pgmatz");
+		    driver.findElement(By.name("password")).clear();
+		    driver.findElement(By.name("password")).sendKeys("test");
+		    driver.findElement(By.name("submit")).click();
+		    
+		    try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	  
+	  
 	  @Before
 	  public void setUp() throws Exception {
-		  baseUrl = "http://localhost:8080//computerdatabase";
-		  //baseUrl = "http://localhost:8080//computerdatabase";
-		  FirefoxProfile profile = new FirefoxProfile();
-		  File noscript = new File(EditComputerTestSelenium.class.getClassLoader().getResource("noscript.xpi").getFile());
-		  //File noscript = new File("/home/excilys/noscript.xpi");
-		  try {
-			profile.addExtension(noscript);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		  
-		driver = new FirefoxDriver(profile);
-		  
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		driver.get(baseUrl);
-		
 		// initialisation de l'objet
 		driver.get(baseUrl + "/dashboard");
 		String nom = "MacBook Pro 15.7";
@@ -107,6 +124,14 @@ public class EditComputerTestSelenium {
 	    System.out.println(driver.findElement(By.id("companyId")).getAttribute("value"));
 	    assertTrue(Integer.parseInt(driver.findElement(By.id("companyId")).getAttribute("value")) == idCompany1 );
 	  }
+	  
+	  @Test
+		public void addValidWithContinuedAndDiscontinuedButNotAuthenticated() throws Exception {
+			// add with valid parameters
+			driver.get(baseUrl + "logout");
+			driver.get(baseUrl + "computer/edit/1"); 
+			assertTrue(driver.getCurrentUrl().equals(baseUrl + "/login?error"));
+		}
 
 	  @After
 	  public void tearDown() throws Exception {

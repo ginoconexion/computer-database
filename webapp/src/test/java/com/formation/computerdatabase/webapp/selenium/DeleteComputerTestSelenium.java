@@ -3,11 +3,14 @@ package com.formation.computerdatabase.webapp.selenium;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Alert;
@@ -45,41 +48,43 @@ public class DeleteComputerTestSelenium {
 	@Autowired
 	private ComputerDaoImpl computerDao;
 
-	/*
 	@BeforeClass
 	public static void init() {
-		context = new ClassPathXmlApplicationContext("webapp-context.xml");
-		ServiceFactory service = (ServiceFactory) context.getBean("serviceFactory");
-		companyService = service.getCompanyDaoServiceImpl();
-		computerService = service.getComputerDaoServiceImpl();
-		computerDao = computerService.getComputerDaoImpl();
-	}
-	@AfterClass
-	public static void close() {
-		context.close();
-	}
-	*/
-	
-	@Before
-	public void before() {
-
-		baseUrl = "http://localhost:8080/computerdatabase";
+		baseUrl = "http://localhost:8080/webapp/";
 		FirefoxProfile profile = new FirefoxProfile();
+		File noscript = new File(AddComputerTestSelenium.class.getClassLoader().getResource("noscript.xpi").getFile());
+		try {
+			profile.addExtension(noscript);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		driver = new FirefoxDriver(profile);
 
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.get(baseUrl);
+		
+		driver.get(baseUrl + "login");
+	    driver.findElement(By.name("username")).clear();
+	    driver.findElement(By.name("username")).sendKeys("pgmatz");
+	    driver.findElement(By.name("password")).clear();
+	    driver.findElement(By.name("password")).sendKeys("test");
+	    driver.findElement(By.name("submit")).click();
+	    
+	    try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void add2ComputersAndDelete() throws Exception {
-
 
 		HashMap<String, Object> filter = new HashMap<>();
 		String nom = "Test";
