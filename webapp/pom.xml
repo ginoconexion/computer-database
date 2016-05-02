@@ -15,6 +15,12 @@
 	<name>webapp</name>
 
 	<dependencies>
+		<!-- dependences externes -->
+		<dependency>
+			<groupId>com.formation.computerdabase</groupId>
+			<artifactId>service</artifactId>
+			<version>${computerdb-version}</version>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -25,9 +31,9 @@
 
 		<!-- dependences externes -->
 		<dependency>
-			<groupId>com.formation.computerdabase</groupId>
-			<artifactId>service</artifactId>
-			<version>${computerdb-version}</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
 		</dependency>
 
 	</dependencies>

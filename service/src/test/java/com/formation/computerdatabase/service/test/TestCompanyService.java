@@ -10,16 +10,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.formation.computerdatabase.core.model.Company;
-import com.formation.computerdatabase.service.impl.CompanyDaoServiceImpl;
+import com.formation.computerdatabase.service.CompanyDaoService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/webapp-context.xml")
+@ContextConfiguration(locations = { "classpath:service-context.xml" })
 public class TestCompanyService {
 	
-	
 	@Autowired
-	private CompanyDaoServiceImpl companyDaoServiceImpl;
+	private CompanyDaoService companyDaoServiceImpl;
 	
 	@Test
 	public void testGetById() {
@@ -27,7 +26,6 @@ public class TestCompanyService {
 		assertEquals(1,  company.getId());
 	}
 	
-	@Test(expected=EmptyResultDataAccessException.class)
 	public void testGetByIdNull() {
 		Company company = companyDaoServiceImpl.getById(600);
 		assertEquals(null, company);

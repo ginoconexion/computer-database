@@ -34,7 +34,7 @@ public class AddComputerTestSelenium {
 
 	@BeforeClass
 	public static void init() {
-		baseUrl = "http://localhost:8080/computerdatabase/";
+		baseUrl = "http://localhost:8080/webapp/";
 		FirefoxProfile profile = new FirefoxProfile();
 		File noscript = new File(AddComputerTestSelenium.class.getClassLoader().getResource("noscript.xpi").getFile());
 		try {
@@ -103,7 +103,7 @@ public class AddComputerTestSelenium {
 
 		// on s'attends à deux erreurs
 		assertEquals(2, driver.findElements(By.cssSelector("div.alert.alert-danger")).size());
-		assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/dashboard"));
+		assertFalse(driver.getCurrentUrl().equals(baseUrl + "/webapp/dashboard"));
 	}
 	@Test
 	public void addWithNoParameters() throws Exception {
@@ -133,7 +133,7 @@ public class AddComputerTestSelenium {
 
 		// on s'attends à deux erreurs
 		assertEquals(1, driver.findElements(By.cssSelector("div.alert.alert-danger")).size());
-		assertFalse(driver.getCurrentUrl().equals(baseUrl + "/computerdatabase/dashboard"));
+		assertFalse(driver.getCurrentUrl().equals(baseUrl + "/webapp/dashboard"));
 	}
 
 	@AfterClass

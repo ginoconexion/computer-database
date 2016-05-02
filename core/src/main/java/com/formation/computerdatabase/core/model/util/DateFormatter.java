@@ -1,8 +1,9 @@
-package com.formation.computerdatabase.binding.formatter;
+package com.formation.computerdatabase.core.model.util;
 
 import java.time.LocalDate;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+
 
 public class DateFormatter {
 	public final static String patternEN = "yyyy-MM-dd";
@@ -14,6 +15,7 @@ public class DateFormatter {
 	public static String getDatePattern() {
 		System.out.println("context holder " + LocaleContextHolder.getLocale().toString());
 		System.out.println(EN);
+		
 		return LocaleContextHolder.getLocale().toString().equals(FR) ? DateFormatter.patternFR : DateFormatter.patternEN;
 	}
 }
