@@ -23,19 +23,6 @@
 			<scope>test</scope>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework</groupId> -->
-<!-- 			<artifactId>spring-web</artifactId> -->
-<!-- 			<version>${spring-version}</version> -->
-<!-- 		</dependency> -->
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework</groupId> -->
-<!-- 			<artifactId>spring-webmvc</artifactId> -->
-<!-- 			<version>${spring-version}</version> -->
-<!-- 		</dependency> -->
-		
-		
 		<!-- dependences externes -->
 		<dependency>
 			<groupId>com.formation.computerdabase</groupId>
@@ -43,13 +30,5 @@
 			<version>${computerdb-version}</version>
 		</dependency>
 
-		<!-- dependences internes -->
-		<!-- <dependency> <groupId>com.formation.computerdabase</groupId> <artifactId>service</artifactId> 
-			<version>${projectVersion}</version> </dependency> <dependency> <groupId>javax.servlet</groupId> 
-			<artifactId>javax.servlet-api</artifactId> <version>${servletVersion}</version> 
-			<scope>provided</scope> </dependency> <dependency> <groupId>jstl</groupId> 
-			<artifactId>jstl</artifactId> <version>${jstlVersion}</version> </dependency> 
-			<dependency> <groupId>org.seleniumhq.selenium</groupId> <artifactId>selenium-java</artifactId> 
-			<version>${seleniumVersion}</version> <scope>test</scope> </dependency> -->
 	</dependencies>
 </project>
