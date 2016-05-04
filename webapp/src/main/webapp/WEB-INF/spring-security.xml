@@ -6,6 +6,8 @@
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
 
+	<beans:bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>
+	 
 	<!-- enable use-expressions -->
 	<http use-expressions="true">
 		<intercept-url pattern="dashboard" access="hasAnyRole('ROLE_ANONYMOUS')" method="GET" />
@@ -31,7 +33,7 @@
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService">
-			<password-encoder hash="plaintext" />
+			<password-encoder hash="bcrypt" />
 		</authentication-provider>
 	</authentication-manager>
 	

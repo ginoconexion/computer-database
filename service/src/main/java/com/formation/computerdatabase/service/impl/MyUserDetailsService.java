@@ -35,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	}
 
 	private User buildUserForAuthentication(com.formation.computerdatabase.core.model.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(), user.isEnable(), true, true, true, authorities);
+		return new User(user.getUsername(), user.getPassword(), authorities);
 	}
 
 	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {

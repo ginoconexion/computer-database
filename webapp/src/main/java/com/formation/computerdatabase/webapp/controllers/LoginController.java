@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,15 +32,14 @@ public class LoginController {
    */
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(@RequestParam Map<String,String> requestParams, Model model) {
-
+	  
+	  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	  String hashedPassword = passwordEncoder.encode("test");
+	  System.out.println(hashedPassword);
+	  
     if (requestParams.get("error") != null) {
     	model.addAttribute("error", true);
     }
-    /*
-    if (logout != null) {
-      model.addObject("msg", true);
-    }
-    */
     return "login";
   }
 

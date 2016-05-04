@@ -10,7 +10,7 @@
 
 	<properties>
 		<!-- version du projet -->
-		<computerdb-version>0.7.0-SNAPSHOT</computerdb-version>
+		<computerdb-version>0.8.0-SNAPSHOT</computerdb-version>
 
 		<spring-version>4.2.5.RELEASE</spring-version>
 		<spring-security-version>4.0.4.RELEASE</spring-security-version>

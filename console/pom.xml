@@ -3,21 +3,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-
-
+	
 	<parent>
 		<groupId>com.formation.computerdabase</groupId>
 		<artifactId>computer-db</artifactId>
 		<version>${computerdb-version}</version>
 	</parent>
-
 	<!-- extended pom -->
 	<artifactId>console</artifactId>
 	<packaging>jar</packaging>
 	<name>console</name>
 
 	<dependencies>
-		
+		<!-- dependences externes -->
+		<dependency>
+			<groupId>com.formation.computerdabase</groupId>
+			<artifactId>service</artifactId>
+			<version>${computerdb-version}</version>
+		</dependency>
 
 	</dependencies>
 </project>
