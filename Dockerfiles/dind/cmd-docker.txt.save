@@ -1,3 +1,0 @@
-# cmd permettant de run dind: docker in docker
-
-docker run --privileged --net=d-net --name=dind -d docker:dind
