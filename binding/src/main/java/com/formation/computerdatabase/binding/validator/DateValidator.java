@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.validator.GenericValidator;
 
-import com.formation.computerdatabase.binding.formatter.DateFormatter;
+import com.formation.computerdatabase.core.model.util.DateFormatter;
 
 
 public class DateValidator implements ConstraintValidator<Date, String> {

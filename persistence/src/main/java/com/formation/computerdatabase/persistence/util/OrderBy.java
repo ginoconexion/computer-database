@@ -30,6 +30,12 @@ public class OrderBy {
 		if (filter.containsKey(BY_INTRODUCED) || filter.containsKey(BY_DISCONTINUED) || filter.containsKey(BY_COMPANY) || filter.containsKey(BY_NAME)) {
 			List<Order> orders = new ArrayList<>();
 			
+			if (filter.containsKey(BY_NAME)) {
+				if (filter.get(BY_NAME).equals(ASC))
+					orders.add(builder.asc(computer.get("name")));
+				else
+					orders.add(builder.desc(computer.get("name")));
+			}
 			if (filter.containsKey(BY_INTRODUCED)) {
 				if (filter.get(BY_INTRODUCED).equals(ASC))
 					orders.add(builder.asc(computer.get("introduced")));
@@ -48,12 +54,7 @@ public class OrderBy {
 				else 
 					orders.add(builder.desc(company.get("name")));
 			}
-			if (filter.containsKey(BY_NAME)) {
-				if (filter.get(BY_NAME).equals(ASC))
-					orders.add(builder.asc(computer.get("name")));
-				else
-					orders.add(builder.desc(company.get("name")));
-			}
+			
 			query.orderBy(orders);
 		}
 	}
