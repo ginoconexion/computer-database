@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.formation.computerdabase</groupId>
+		<artifactId>computer-db</artifactId>
+		<version>${computerdb-version}</version>
+	</parent>
+
+	<!-- extended pom -->
+	<artifactId>service</artifactId>
+	<packaging>jar</packaging>
+	<name>service</name>
+
+	<dependencies>
+	
+		<!-- dependence junit to test daos -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${jUnit-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- persistence dependencies -->
+		<dependency>
+			<groupId>com.formation.computerdabase</groupId>
+			<artifactId>persistence</artifactId>
+			<version>${computerdb-version}</version>
+		</dependency>
+		<!-- end -->
+
+	</dependencies>
+</project>
