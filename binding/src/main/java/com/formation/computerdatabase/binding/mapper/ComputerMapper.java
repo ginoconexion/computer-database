@@ -54,7 +54,7 @@ public class ComputerMapper {
 	*/
 	public static Computer map(ComputerDTO cDTO) {
 		return new Computer.Builder(cDTO.getName())
-				.id(cDTO.getId().equals("") ? 0 : Long.parseLong(cDTO.getId()))
+				.id( "".equals(cDTO.getId()) ? 0 : Long.parseLong(cDTO.getId()))
 				.introduced(cDTO.getIntroduced())
 				.discontinued(cDTO.getDiscontinued())
 				.company(new Company.Builder("")

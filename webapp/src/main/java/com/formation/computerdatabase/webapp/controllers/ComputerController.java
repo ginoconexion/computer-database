@@ -74,10 +74,13 @@ public class ComputerController extends WebMvcConfigurerAdapter {
         
 		List<CompanyDTO> companiesDTO = CompanyDTOMapper.mapList(companyService.getAll());
 		model.addAttribute("companiesDTO", companiesDTO);
+		
+		computerDTO.setId("");
 		if (bindingResult.hasErrors()) {
 			return "formComputer";
 		}
 		else {
+			
 			computerService.create(ComputerMapper.map(computerDTO));
 			return "redirect:/dashboard";
 		}

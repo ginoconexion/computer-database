@@ -19,7 +19,7 @@ public class ComputerDTO {
 	
 	/** The name. */
 	@NotNull
-	@Size(min=2, max=30)
+	@Size(min=2, max=150)
 	private String name;
 	
 	/** The introduced. */

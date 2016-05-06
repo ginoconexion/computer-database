@@ -46,7 +46,8 @@
         </div>
 
         <form id="deleteForm" action="computer/delete" method="POST">
-            <input type="hidden" name="selection" value="">
+            <input type="hidden" id="selection" name="selection" value="">
+            <input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}" />
         </form>
         
         <div class="container" style="margin-top: 10px;">
@@ -62,18 +63,18 @@
                             </span>
                         </th>
                         <th aria-sort="ascending">
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
+                            <a id="${ computer.name }_name" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
                         </th>
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' > <spring:message code="computer.introduced"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
+                            <a id="introduced" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' > <spring:message code="computer.introduced"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByDiscontinued"></mylib:link>' ><spring:message code="computer.discontinued"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByDiscontinued"></mylib:chevron></a>
+                            <a id="discontinued"  href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByDiscontinued"></mylib:link>' ><spring:message code="computer.discontinued"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByDiscontinued"></mylib:chevron></a>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <a href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByCompany"></mylib:link>' > <spring:message code="computer.company"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByCompany"></mylib:chevron></a>
+                            <a id="computerId" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByCompany"></mylib:link>' > <spring:message code="computer.company"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByCompany"></mylib:chevron></a>
                         </th>
                     </tr>
                 </thead>
@@ -83,10 +84,10 @@
                     <c:forEach var="computer" items="${ pager.liste }">
                     <tr>
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="${ computer.id }">
+                            <input id="${ computer.name}_id" type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
-                            <a href="${ pageContext.request.contextPath }/computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
+                            <a id="${ computer.name }_name" href="${ pageContext.request.contextPath }/computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
                         </td>
                         <td>
                         	<mylib:date date="${ computer.introduced }"></mylib:date>

@@ -28,17 +28,17 @@
 							
 							<div class="form-group">
 								<label for="username"><spring:message code="user.username"></spring:message></label>
-		      					<input type='text' name='username' class="form-control">
+		      					<input id="username" type='text' name='username' class="form-control">
 		      				</div>
 		      				
 		      				<div class="form-group">
 		      					<label for="password"><spring:message code="user.password"></spring:message></label>
-		      					<input type="password" name="password" class="form-control">
+		      					<input id="password" type="password" name="password" class="form-control">
 		      				</div>
 		      				
 		      				<div class="actions pull-right">
 						        <button type="reset" class="btn btn-default"><spring:message code="button.cancel"></spring:message></button>
-						        <input name="submit" type="submit" value='<spring:message code="login.title"></spring:message>' class="btn btn-primary" />
+						        <input id="submit" name="submit" type="submit" value='<spring:message code="login.title"></spring:message>' class="btn btn-primary" />
 						        <input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}" />
 						    </div>
 						</fieldset>
