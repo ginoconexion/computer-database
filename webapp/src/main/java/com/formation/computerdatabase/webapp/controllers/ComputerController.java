@@ -98,7 +98,7 @@ public class ComputerController extends WebMvcConfigurerAdapter {
 		            	computerService.delete(computer);
 		        }
 			} catch (NumberFormatException e) {
-				LOGGER.info("attempt to delete computer(s), params : " +param.get("selection"));
+				//LOGGER.info("attempt to delete computer(s), params : " +param.get("selection"));
 				return "500";
 			}
 		}

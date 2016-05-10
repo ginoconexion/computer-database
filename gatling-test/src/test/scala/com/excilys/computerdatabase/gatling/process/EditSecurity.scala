@@ -25,7 +25,7 @@ object EditSecurity {
       )
     )
     .exec(http("Edit Post")
-      .post("http://localhost:8080/webapp/" + config.getString("application.urls.editPost").get + "/${computer_id}" )
+      .post(config.getString("application.urls.editPost").get + "/${computer_id}" )
       .formParam(config.getString("application.urls.form.edit.id").get, "${computer_id}")
       .formParam(config.getString("application.urls.form.edit.name").get, "${addComputerName}_edited")
       .formParam(config.getString("application.urls.form.edit.introduced").get, "${addComputerIntroduced}")

@@ -13,8 +13,6 @@ public class DateFormatter {
 	public final static String FR = "fr";
 	
 	public static String getDatePattern() {
-		System.out.println("context holder " + LocaleContextHolder.getLocale().toString());
-		System.out.println(EN);
 		
 		return LocaleContextHolder.getLocale().toString().equals(FR) ? DateFormatter.patternFR : DateFormatter.patternEN;
 	}

@@ -12,14 +12,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.formation.computerdatabase.core.model.util.DateFormatter;
 
 
 /**
  * The Class Computer.
- */
+ */	
 
 @Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="computers")
 @Table(name = "computer")
 public class Computer {
 	/** The id. */

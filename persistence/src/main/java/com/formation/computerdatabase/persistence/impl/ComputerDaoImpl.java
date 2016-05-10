@@ -13,6 +13,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class ComputerDaoImpl implements ComputerDao {
 	@PersistenceContext
 	private EntityManager em;
 	
+	//@Cacheable("computers")
 	@Override
 	public List<Computer> getFromTo(int from, int nb, HashMap<String, Object> filter) {
 		
@@ -74,6 +76,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		return toIntExact(em.createQuery(query).getSingleResult());
 	}
 
+	//@Cacheable("computers")
 	@Override
 	public Computer getById(long id) {
 		return (Computer) em.find(Computer.class, id);
@@ -97,6 +100,7 @@ public class ComputerDaoImpl implements ComputerDao {
 		em.flush();
 	}
 
+	//@Cacheable("computers")
 	@Override
 	public List<Computer> getListByCompany(long id) {
 		

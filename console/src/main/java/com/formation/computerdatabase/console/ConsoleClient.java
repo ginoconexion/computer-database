@@ -5,21 +5,24 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
 
 import com.formation.computerdatabase.binding.dto.ComputerDTO;
+import com.formation.computerdatabase.binding.mapper.ComputerDTOMapper;
 import com.formation.computerdatabase.core.model.Company;
 import com.formation.computerdatabase.core.model.Computer;
 import com.formation.computerdatabase.service.CompanyDaoService;
 import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.util.Pager;
 
-@Component
 public class ConsoleClient {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleClient.class);
@@ -29,9 +32,7 @@ public class ConsoleClient {
 	private final static Pattern PATTERN_ID = Pattern.compile("[0-9]+");
 	private static Scanner scanner = new Scanner(System.in);
 	
-	@Autowired
 	private ComputerDaoService computerDaoService;
-	@Autowired
 	private CompanyDaoService companyDaoService;
 	
 	
@@ -184,8 +185,21 @@ public class ConsoleClient {
 	
 	public void createComputer() {
 		System.out.println("Creation d'un nouvel ordinateur");
+		
+		Client client = ClientBuilder.newClient();
+		
+		
+		
 		Computer computer = new Computer();
 		hydrateComputer(computer);
+		ComputerDTO computerDTO = ComputerDTOMapper.map(computer);
+		
+		ComputerDTO persisted = client.target("http://localhost:8080/webapp/rest/computer/add")
+				.request()
+				.post(Entity.entity(computerDTO, MediaType.APPLICATION_JSON),
+						ComputerDTO.class);
+		
+		
 		computerDaoService.create(computer);
 		LOGGER.info("Création ordinateur : " + computer);
 	}

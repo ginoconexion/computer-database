@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class CompanyDaoImpl implements CompanyDao  {
 		return toIntExact(em.createQuery(query).getSingleResult());
 	}
 	
+	//@Cacheable("companies")
 	@Override
 	public List<Company> getAll() {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -46,6 +48,7 @@ public class CompanyDaoImpl implements CompanyDao  {
 
 	/** The Constant SELECT_BY_ID. */
 	
+	//@Cacheable("companies")
 	@Override
 	public Company getById(long id) {
 		return (Company) em.find(Company.class, id);

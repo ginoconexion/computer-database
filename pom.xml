@@ -119,10 +119,17 @@
 			<version>${spring-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
+			<groupId>org.springframework</groupId> 
 			<artifactId>spring-test</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
 
 		<!-- Spring Security -->
 		<dependency>
@@ -148,7 +155,6 @@
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.1-b04</version>
 		</dependency>
-
 
 	</dependencies>
 

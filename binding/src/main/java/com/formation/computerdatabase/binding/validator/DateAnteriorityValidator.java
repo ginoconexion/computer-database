@@ -23,8 +23,6 @@ public class DateAnteriorityValidator implements ConstraintValidator<DateAnterio
 		
 		if (cDTO.getIntroduced() != null && GenericValidator.isDate(cDTO.getIntroduced(), DateFormatter.getDatePattern(), true) && cDTO.getDiscontinued() != null && GenericValidator.isDate(cDTO.getDiscontinued(), DateFormatter.getDatePattern(), true)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormatter.getDatePattern());
-			System.out.println(cDTO.getIntroduced());
-			System.out.println(DateFormatter.getDatePattern());
 			LocalDate ldIntroduced = LocalDate.parse(cDTO.getIntroduced(), formatter);
 			LocalDate ldDiscontinued = LocalDate.parse(cDTO.getDiscontinued(), formatter);
 			return (ldIntroduced.isBefore(ldDiscontinued));

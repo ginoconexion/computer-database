@@ -63,7 +63,7 @@
                             </span>
                         </th>
                         <th aria-sort="ascending">
-                            <a id="${ computer.name }_name" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
+                            <a id="name" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByName"></mylib:link>' ><spring:message code="computer.name" ></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByName"></mylib:chevron></a>
                         </th>
                         <th>
                             <a id="introduced" href='<mylib:link pager="${ pager }" type="orderBy" parameterValue="" parameter="orderByIntroduced"></mylib:link>' > <spring:message code="computer.introduced"></spring:message> <mylib:chevron filter="${ pager.filter }" parameter="orderByIntroduced"></mylib:chevron></a>
@@ -87,7 +87,7 @@
                             <input id="${ computer.name}_id" type="checkbox" name="cb" class="cb" value="${ computer.id }">
                         </td>
                         <td>
-                            <a id="${ computer.name }_name" href="${ pageContext.request.contextPath }/computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
+                            <a id="${ computer.name }_name" href="computer/edit/${ computer.id }" onclick=""><c:out value="${ computer.name }" ></c:out></a>
                         </td>
                         <td>
                         	<mylib:date date="${ computer.introduced }"></mylib:date>

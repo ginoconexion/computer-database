@@ -33,10 +33,6 @@ public class LoginController {
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(@RequestParam Map<String,String> requestParams, Model model) {
 	  
-	  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	  String hashedPassword = passwordEncoder.encode("test");
-	  System.out.println(hashedPassword);
-	  
     if (requestParams.get("error") != null) {
     	model.addAttribute("error", true);
     }

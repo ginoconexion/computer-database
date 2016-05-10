@@ -30,14 +30,13 @@
 			<version>${hikariCP-version}</version>
 		</dependency>
 
-		
 		<!-- persistence dependencies -->
 		<dependency>
 			<groupId>com.formation.computerdabase</groupId>
 			<artifactId>binding</artifactId>
 			<version>${computerdb-version}</version>
 		</dependency>
-		<!--  -->
+		<!-- -->
 
 	</dependencies>
 </project>
