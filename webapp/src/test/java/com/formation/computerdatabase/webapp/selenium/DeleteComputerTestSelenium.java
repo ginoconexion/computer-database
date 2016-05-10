@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +29,8 @@ import com.formation.computerdatabase.binding.dto.ComputerDTO;
 import com.formation.computerdatabase.persistence.impl.ComputerDaoImpl;
 import com.formation.computerdatabase.service.CompanyDaoService;
 import com.formation.computerdatabase.service.ComputerDaoService;
+import com.formation.computerdatabase.service.mapper.PagerMapper;
 import com.formation.computerdatabase.service.util.Pager;
-import com.formation.computerdatabase.webapp.mapper.PagerMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:webapp-context.xml" })

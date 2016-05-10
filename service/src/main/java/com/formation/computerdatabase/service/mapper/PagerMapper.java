@@ -1,4 +1,4 @@
-package com.formation.computerdatabase.webapp.mapper;
+package com.formation.computerdatabase.service.mapper;
 
 import java.util.HashMap;
 import java.util.Map;

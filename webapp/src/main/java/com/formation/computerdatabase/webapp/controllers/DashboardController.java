@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.formation.computerdatabase.binding.dto.ComputerDTO;
 import com.formation.computerdatabase.service.ComputerDaoService;
+import com.formation.computerdatabase.service.mapper.PagerMapper;
 import com.formation.computerdatabase.service.util.Pager;
-import com.formation.computerdatabase.webapp.mapper.PagerMapper;
 
 @Controller
 @RequestMapping("/dashboard")

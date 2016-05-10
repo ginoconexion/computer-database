@@ -8,15 +8,14 @@ import java.util.regex.Pattern;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.formation.computerdatabase.binding.dto.ComputerDTO;
-import com.formation.computerdatabase.binding.mapper.ComputerDTOMapper;
 import com.formation.computerdatabase.core.model.Company;
 import com.formation.computerdatabase.core.model.Computer;
 import com.formation.computerdatabase.service.CompanyDaoService;
@@ -31,6 +30,9 @@ public class ConsoleClient {
 	private final static Pattern PATTERN_DATE = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
 	private final static Pattern PATTERN_ID = Pattern.compile("[0-9]+");
 	private static Scanner scanner = new Scanner(System.in);
+	
+	private static final Client CLIENT = ClientBuilder.newBuilder().build();
+	private static final String URL = "http://localhost:8080/rest/";
 	
 	private ComputerDaoService computerDaoService;
 	private CompanyDaoService companyDaoService;
@@ -151,60 +153,57 @@ public class ConsoleClient {
 		} while (PATTERN_ID.matcher(choix).find());
 	}
 	
-	private void hydrateComputer(Computer computer) {
+	private void hydrateComputer(ComputerDTO computerDTO) {
 		
 		System.out.println("Entrer le nom du computer :");
-		computer.setName(scanner.nextLine());
+		String name = "";
+		do {
+			name = scanner.nextLine();
+		} while (!"".equals(name));
+		computerDTO.setName(name);
+		
+		computerDTO.setName(scanner.nextLine());
 		
 		String introduced = null;
-
 		System.out.println("Entrez la date introduced au format dd-mm-YYYY");
 		do {
 			introduced = scanner.nextLine();
 		} while (!PATTERN_DATE.matcher(introduced).find());
-		//computer.setIntroduced(LocalDate.);
+		computerDTO.setIntroduced(introduced);
 
 		System.out.println("Entrez la date discontinued au format dd-mm-YYYY");
-		String continued = null;
-
+		String discontinued = null;
 		do {
-			continued = scanner.next().trim();
-		} while (!PATTERN_DATE.matcher(continued).find());
-		//computer.setDiscontinued(continued);
+			discontinued = scanner.next().trim();
+		} while (!PATTERN_DATE.matcher(discontinued).find());
+		computerDTO.setDiscontinued(discontinued);
 
 		System.out.println("Entrez l'id de la company");
-		String companyIdString = null;
-		long companyId;
-
+		String companyId = null;
 		do {
-			companyIdString = scanner.next();
-		} while (!PATTERN_ID.matcher(companyIdString).find());
-		companyId = Long.parseLong(companyIdString);
-		computer.setCompany(companyDaoService.getById(companyId));
+			companyId = scanner.next();
+		} while (!PATTERN_ID.matcher(companyId).find());
+		computerDTO.setCompanyId(companyId);
 	}
 	
 	public void createComputer() {
 		System.out.println("Creation d'un nouvel ordinateur");
 		
-		Client client = ClientBuilder.newClient();
+		ComputerDTO computerDTO = new ComputerDTO();
+		computerDTO.setName("test");
+		computerDTO.setIntroduced("");
+		computerDTO.setDiscontinued("");
+		computerDTO.setCompanyId("1");
+		//hydrateComputer(computerDTO);
 		
-		
-		
-		Computer computer = new Computer();
-		hydrateComputer(computer);
-		ComputerDTO computerDTO = ComputerDTOMapper.map(computer);
-		
-		ComputerDTO persisted = client.target("http://localhost:8080/webapp/rest/computer/add")
-				.request()
-				.post(Entity.entity(computerDTO, MediaType.APPLICATION_JSON),
-						ComputerDTO.class);
-		
-		
-		computerDaoService.create(computer);
-		LOGGER.info("Création ordinateur : " + computer);
+		WebTarget target = CLIENT.target(URL + "computer/add");
+		Response response = target.request().post(Entity.entity(computerDTO, "application/json"));
+		ComputerDTO comp = response.readEntity(ComputerDTO.class);
+		response.close();
 	}
 
 	public void updateComputer() {
+		/*
 		System.out.println("Mise à jour d'un ordinateur, entrez l'id de l'ordinateur que vous souhaitez modifier : ");
 		String computerIdString = null;
 		do {
@@ -221,6 +220,7 @@ public class ConsoleClient {
 		hydrateComputer(computer);
 		computerDaoService.update(computer);
 		LOGGER.info("Mise à jour computer : " + computer);
+		*/
 	}
 
 	public void deleteComputer(long id) {
@@ -245,8 +245,12 @@ public class ConsoleClient {
 	}
 	
 	public static void main(String[] args) {
+		/*
 		ApplicationContext context = new ClassPathXmlApplicationContext("console-context.xml");
 		ConsoleClient consoleClient = (ConsoleClient) context.getBean("console");
 		consoleClient.printMenu();
+		*/
+		ConsoleClient console = new ConsoleClient();
+		console.printMenu();
 	}
 }
