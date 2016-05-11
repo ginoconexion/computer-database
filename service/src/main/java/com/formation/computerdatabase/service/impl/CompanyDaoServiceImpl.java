@@ -35,7 +35,7 @@ public class CompanyDaoServiceImpl implements CompanyDaoService {
 
 	@Override
 	@Transactional
-	public void delete(long id, ComputerDaoService computerService) {
+	public void delete(long id) {
 		List<Computer> liste = computerService.getListByCompany(id);
 		computerService.deleteList(liste);
 		Company company = companyDaoImpl.getById(id);

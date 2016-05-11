@@ -109,14 +109,14 @@ public class ComputerDaoImpl implements ComputerDao {
 	    Root<Computer> fromComputers = query.from(Computer.class);
 	    
 	    query.select(fromComputers);
-	    query.where(builder.equal(fromComputers.get("company_id"), id));
+	    query.where(builder.equal(fromComputers.get("company"), id));
 	    return em.createQuery(query).getResultList();
 	}
 
 	@Override
 	public void deleteList(List<Computer> list) {
 		for (Computer computer : list) {
-			em.remove(computer);
+			em.remove(em.merge(computer));
 		}
 		em.flush();
 	}

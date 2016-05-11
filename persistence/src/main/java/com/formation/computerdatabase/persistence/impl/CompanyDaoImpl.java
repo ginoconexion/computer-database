@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +55,7 @@ public class CompanyDaoImpl implements CompanyDao  {
 	
 	@Override
 	public void delete(Company company) {
-		em.remove(company);
+		em.remove(em.merge(company));
 		em.flush();
 	}
 }

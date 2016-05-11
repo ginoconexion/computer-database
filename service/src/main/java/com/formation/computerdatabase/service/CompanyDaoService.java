@@ -6,6 +6,6 @@ import com.formation.computerdatabase.core.model.Company;
 
 public interface CompanyDaoService {
 		List<Company> getAll();
-		void delete(long id, ComputerDaoService computerService);
+		void delete(long id);
 		Company getById(long id);
 }

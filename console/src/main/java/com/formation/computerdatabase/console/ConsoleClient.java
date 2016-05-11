@@ -1,5 +1,6 @@
 package com.formation.computerdatabase.console;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -9,47 +10,62 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.message.internal.MessageBodyProviderNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.formation.computerdatabase.binding.dto.CompanyDTO;
 import com.formation.computerdatabase.binding.dto.ComputerDTO;
-import com.formation.computerdatabase.core.model.Company;
-import com.formation.computerdatabase.core.model.Computer;
-import com.formation.computerdatabase.service.CompanyDaoService;
-import com.formation.computerdatabase.service.ComputerDaoService;
 import com.formation.computerdatabase.service.util.Pager;
 
 public class ConsoleClient {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleClient.class);
 	private final static int OFFSET = 10;
-	private final static Pattern PATTERN_CHOIX = Pattern.compile("^[a-f]{1}$");
-	private final static Pattern PATTERN_DATE = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+	private final static Pattern PATTERN_CHOIX = Pattern.compile("^[a-g]{1}$");
+	private final static Pattern PATTERN_DATE = Pattern.compile("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
 	private final static Pattern PATTERN_ID = Pattern.compile("[0-9]+");
 	private static Scanner scanner = new Scanner(System.in);
 	
 	private static final Client CLIENT = ClientBuilder.newBuilder().build();
 	private static final String URL = "http://localhost:8080/rest/";
 	
-	private ComputerDaoService computerDaoService;
-	private CompanyDaoService companyDaoService;
-	
-	
-	public void printDeleteCompanyById() {
-		
+	public void deleteCompany() {
 		System.out.println("Supprimer une company : ");
 		System.out.println("Entrer l'id de la company :");
-		String choix = null;
-
+		
+		String idString = null;
 		do {
-			choix = scanner.next();
-			long id = Long.parseLong(choix);
-			companyDaoService.delete(id, computerDaoService);
-		} while (PATTERN_ID.matcher(choix).find());
+			idString = scanner.next();
+		} while (!PATTERN_ID.matcher(idString).find());
+		long id = Long.parseLong(idString);
+		
+		WebTarget target = CLIENT.target(URL + "company/delete/" + id);
+		Response response = target.request().get();
+		System.out.println(response);
+		response.close();
 	}
+	
+	public void deleteComputer() {
+		System.out.println("Suppression d'un ordinateur, entrez l'id de l'ordinateur que vous souhaitez modifier : ");
+		String computerId = null;
+		do {
+			computerId = scanner.next().trim();
+		} while (!PATTERN_ID.matcher(computerId).find());
+		long id = Long.parseLong(computerId);
+		
+		WebTarget target = CLIENT.target(URL + "computer/delete/" + id);
+		Response response = target.request().get();
+		response.close();
+		System.out.println(response);
+		LOGGER.info("Suppression du computer d'id : " + id);
+		printMenu();
+	}
+	
 	
 	public void printMenu() {
 		
@@ -61,6 +77,7 @@ public class ConsoleClient {
 		System.out.println("d : créer un computer");
 		System.out.println("e : mettre à jour un computer via son id");
 		System.out.println("f : supprimer un computer via son id");
+		System.out.println("g : supprimer une company via son id");
 		System.out.println("---- Fin Menu");
 
 		// creation d'un scanner pour lire les entrée en ligne de commande
@@ -89,23 +106,30 @@ public class ConsoleClient {
 			updateComputer();
 			break;
 		case "f":
-			deleteComputer(1);
+			deleteComputer();
+			break;
+		case "g":
+			deleteCompany();
 			break;
 		}
 	}
 
 	public void printAllComputers(Pager<ComputerDTO> pager) {
 		
-		LOGGER.info("Affichage de tous les ordinateurs");
+		System.out.println("Affichage de tous les ordinateurs");
 		
 		if (pager == null) {
 			pager = new Pager<>(OFFSET, 1, new HashMap<>());
 		}
-		computerDaoService.updatePager(pager);
-		List<ComputerDTO> liste = pager.getListe();
 		
-		for (ComputerDTO computerDTO : liste) {
-			System.out.println(computerDTO.toString());
+		WebTarget target = CLIENT.target(URL + "computer/list?page=" + pager.getCurrent());
+		Response response = target.request().get();
+		List<ComputerDTO> computersDTO = response.readEntity(new GenericType<List<ComputerDTO>>() {});
+		System.out.println(response);
+		response.close();
+		    
+		for (ComputerDTO computerDTO : computersDTO) {
+			System.out.println(computerDTO);
 		}
 		
 		System.out.println("Page suivante : n | Page précédente : p Quitter : q ");
@@ -134,9 +158,14 @@ public class ConsoleClient {
 		do {
 			choix = scanner.next();
 			long id = Long.parseLong(choix);
-			Computer computer = null;
+			ComputerDTO computerDTO = null;
 			try {
-				computer = computerDaoService.getById(id);
+				WebTarget target = CLIENT.target(URL + "computer/" + id);
+				Response response = target.request().get();
+				computerDTO = response.readEntity(ComputerDTO.class);
+				System.out.println(response);
+				response.close();
+				
 			} catch (Exception e) {
 				// recréer DAOException
 				e.printStackTrace();
@@ -144,12 +173,11 @@ public class ConsoleClient {
 				LOGGER.error(message);
 			}
 			
-			if (computer == null) {
+			if (computerDTO == null) {
 				String message = "Le computer choisi n'existe pas";
 				System.err.println(message);
-				//throw new DAOException(message);
 			}
-			System.out.println("----------- " + computer.toString());
+			System.out.println("----------- " + computerDTO);
 		} while (PATTERN_ID.matcher(choix).find());
 	}
 	
@@ -165,13 +193,13 @@ public class ConsoleClient {
 		computerDTO.setName(scanner.nextLine());
 		
 		String introduced = null;
-		System.out.println("Entrez la date introduced au format dd-mm-YYYY");
+		System.out.println("Entrez la date introduced au format YYYY-mm-dd");
 		do {
 			introduced = scanner.nextLine();
 		} while (!PATTERN_DATE.matcher(introduced).find());
 		computerDTO.setIntroduced(introduced);
 
-		System.out.println("Entrez la date discontinued au format dd-mm-YYYY");
+		System.out.println("Entrez la date discontinued au format YYYY-mm-dd");
 		String discontinued = null;
 		do {
 			discontinued = scanner.next().trim();
@@ -190,67 +218,70 @@ public class ConsoleClient {
 		System.out.println("Creation d'un nouvel ordinateur");
 		
 		ComputerDTO computerDTO = new ComputerDTO();
-		computerDTO.setName("test");
-		computerDTO.setIntroduced("");
-		computerDTO.setDiscontinued("");
-		computerDTO.setCompanyId("1");
-		//hydrateComputer(computerDTO);
+		computerDTO.setId("");
+		hydrateComputer(computerDTO);
+		
+		System.out.println(computerDTO);
 		
 		WebTarget target = CLIENT.target(URL + "computer/add");
 		Response response = target.request().post(Entity.entity(computerDTO, "application/json"));
 		ComputerDTO comp = response.readEntity(ComputerDTO.class);
 		response.close();
+		
+		printMenu();
 	}
 
 	public void updateComputer() {
-		/*
+		
 		System.out.println("Mise à jour d'un ordinateur, entrez l'id de l'ordinateur que vous souhaitez modifier : ");
-		String computerIdString = null;
+		String computerId = null;
 		do {
-			computerIdString = scanner.next().trim();
-		} while (!PATTERN_ID.matcher(computerIdString).find());
-		long computerId = Long.parseLong(computerIdString);
-		Computer computer = null;
-		try {
-			computer = computerDaoService.getById(computerId);
-		} catch (Exception e) {
-			// Exception DAONotFoundException
-			e.printStackTrace();
-		}
-		hydrateComputer(computer);
-		computerDaoService.update(computer);
-		LOGGER.info("Mise à jour computer : " + computer);
-		*/
+			computerId = scanner.next().trim();
+		} while (!PATTERN_ID.matcher(computerId).find());
+		long id = Long.parseLong(computerId);
+		
+		WebTarget target = CLIENT.target(URL + "computer/" + id);
+		Response response = target.request().get();
+		ComputerDTO computerDTO = response.readEntity(ComputerDTO.class);
+		System.out.println(computerDTO);
+		System.out.println(response);
+			
+		hydrateComputer(computerDTO);
+		
+		target = CLIENT.target(URL + "computer/edit");
+		response = target.request().post(Entity.entity(computerDTO, "application/json"));
+		System.out.println(response);
+		
+		ComputerDTO comp = response.readEntity(ComputerDTO.class);
+		response.close();
+		
+		LOGGER.info("Mise à jour computer : " + computerDTO);
 	}
 
-	public void deleteComputer(long id) {
-		System.out.println("Supression de l'ordinateur d'id " + id);
-		computerDaoService.delete(computerDaoService.getById(id));
-		LOGGER.info("Suppression du computer d'id : " + id);
-	}
+	
 
 	public void printAllCompanies() {
 		
-		List<Company> liste = companyDaoService.getAll();
+		WebTarget target = CLIENT.target(URL + "company/list");
+		Response response = target.request().get();
+		List<CompanyDTO> companiesDTO = response.readEntity(new GenericType<List<CompanyDTO>>() {});
+		response.close();
 		
 		System.out.println("----------- Liste des company -----------");
-		
-		for (Company company : liste) {
-			company.toString();
+		for (CompanyDTO company : companiesDTO) {
+			System.out.println(company);
 		}
-		
 		System.out.println("---------------------------------------------");
-		
 		printMenu();
 	}
 	
 	public static void main(String[] args) {
-		/*
-		ApplicationContext context = new ClassPathXmlApplicationContext("console-context.xml");
-		ConsoleClient consoleClient = (ConsoleClient) context.getBean("console");
-		consoleClient.printMenu();
-		*/
 		ConsoleClient console = new ConsoleClient();
 		console.printMenu();
+	}
+	
+	@ExceptionHandler(MessageBodyProviderNotFoundException.class)
+	public void messageBodyNotFoundException() {
+		
 	}
 }
